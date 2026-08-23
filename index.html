@@ -1,243 +1,690 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaTwin 3D | Localhost Mode</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AquaTwin 3D | Luxury Villa Digital Twin</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
-    
-    <style>
-        body { 
-            margin: 0; overflow: hidden; font-family: 'Cairo', sans-serif;
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            color: #f8fafc;
-        }
-        #dashboard {
-            position: absolute; top: 25px; right: 25px; width: 310px;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 20px; padding: 22px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            z-index: 10;
-        }
-        .header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 12px; margin-bottom: 18px;
-        }
-        .header h2 { margin: 0; font-size: 1.3rem; font-weight: 700; background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .status-dot {
-            width: 12px; height: 12px; border-radius: 50%; background-color: #ef4444;
-            box-shadow: 0 0 10px #ef4444; transition: 0.3s;
-        }
-        .status-dot.connected { background-color: #10b981; box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite; }
-        .card {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px; padding: 12px 15px; margin-bottom: 12px;
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .card-icon { font-size: 1.6rem; margin-left: 12px; }
-        .card-info { flex-grow: 1; }
-        .card-title { font-size: 0.85rem; color: #94a3b8; margin: 0; }
-        .card-value { font-size: 1.15rem; font-weight: 700; margin: 3px 0 0 0; color: #fff; transition: color 0.3s; }
-        .alert-danger .card-value { color: #ef4444 !important; }
-        .alert-success .card-value { color: #10b981 !important; }
-        .alert-info .card-value { color: #38bdf8 !important; }
-        .btn-reset {
-            width: 100%; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white; border: none; padding: 12px; border-radius: 12px;
-            font-family: 'Cairo', sans-serif; font-size: 0.95rem; font-weight: 700;
-            cursor: pointer; transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            margin-top: 5px;
-        }
-        .btn-reset:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5); }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-        #hint {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255,255,255,0.1);
-            padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; color: #94a3b8; pointer-events: none;
-        }
-    </style>
-</head>
-<body>
 
-<div id="dashboard">
-    <div class="header">
-        <h2>AquaTwin 3D 🏠</h2>
-        <div id="connection-dot" class="status-dot" title="حالة الاتصال"></div>
-    </div>
-    <div class="card">
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: "Cairo", sans-serif;
+        background: #0f172a;
+        color: #f8fafc;
+        user-select: none;
+      }
+
+      /* Dashboard UI */
+      #dashboard {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 320px;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 24px;
+        padding: 22px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        z-index: 10;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 14px;
+        margin-bottom: 18px;
+      }
+
+      .header h2 {
+        margin: 0;
+        font-size: 1.35rem;
+        font-weight: 900;
+        background: linear-gradient(90deg, #38bdf8, #818cf8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #ef4444;
+        box-shadow: 0 0 12px #ef4444;
+        transition: all 0.4s ease;
+      }
+      .status-dot.connected {
+        background-color: #10b981;
+        box-shadow: 0 0 12px #10b981;
+        animation: pulse 2s infinite;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: all 0.3s ease;
+      }
+
+      .card-icon {
+        font-size: 1.8rem;
+        margin-left: 12px;
+      }
+      .card-info {
+        flex-grow: 1;
+      }
+      .card-title {
+        font-size: 0.82rem;
+        color: #94a3b8;
+        margin: 0;
+        font-weight: 600;
+      }
+      .card-value {
+        font-size: 1.15rem;
+        font-weight: 800;
+        margin: 2px 0 0 0;
+        color: #fff;
+        transition: color 0.3s;
+      }
+
+      .alert-danger .card-value {
+        color: #f87171 !important;
+      }
+      .alert-success .card-value {
+        color: #34d399 !important;
+      }
+      .alert-info .card-value {
+        color: #38bdf8 !important;
+      }
+
+      .btn-reset {
+        width: 100%;
+        background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 14px;
+        font-family: "Cairo", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 800;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        box-shadow: 0 6px 20px rgba(225, 29, 72, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .btn-reset:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(225, 29, 72, 0.5);
+      }
+      .btn-reset:active {
+        transform: translateY(0);
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+        70% {
+          transform: scale(1);
+          box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+        }
+        100% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        }
+      }
+
+      #hint {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 8px 22px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        color: #cbd5e1;
+        pointer-events: none;
+        backdrop-filter: blur(10px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="dashboard">
+      <div class="header">
+        <h2>AquaTwin 3D 🏡</h2>
+        <div
+          id="connection-dot"
+          class="status-dot"
+          title="حالة الاتصال بالسيرفر"
+        ></div>
+      </div>
+
+      <div class="card">
         <div class="card-icon">💧</div>
         <div class="card-info">
-            <p class="card-title">خزان السطح</p>
-            <p id="val-level" class="card-value alert-info">0%</p>
+          <p class="card-title">خزان السطح الرئيسي</p>
+          <p id="val-level" class="card-value alert-info">0%</p>
         </div>
-    </div>
-    <div class="card" id="card-pump">
+      </div>
+
+      <div class="card" id="card-pump">
         <div class="card-icon">⚙️</div>
         <div class="card-info">
-            <p class="card-title">مضخة المياه (الأرضية)</p>
-            <p id="val-pump" class="card-value">متوقفة</p>
+          <p class="card-title">مضخة المياه (الأرضية)</p>
+          <p id="val-pump" class="card-value">متوقفة</p>
         </div>
-    </div>
-    <div class="card" id="card-flow">
+      </div>
+
+      <div class="card" id="card-flow">
         <div class="card-icon">🚰</div>
         <div class="card-info">
-            <p class="card-title">خط البلدية (السلطة)</p>
-            <p id="val-flow" class="card-value alert-danger">مقطوعة</p>
+          <p class="card-title">خط البلدية (السلطة)</p>
+          <p id="val-flow" class="card-value alert-danger">مقطوعة</p>
         </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetTank()">
+        🔄 تفريغ الخزان (Reset)
+      </button>
     </div>
-    <button class="btn-reset" onclick="resetTank()">🔄 تفريغ الخزان (Reset)</button>
-</div>
 
-<div id="hint">🖱️ التشغيل المحلي (Localhost) - اسحب بالماوس للتدوير</div>
+    <div id="hint">
+      🖱️ اسحب للتدوير حول الفيلا | العجلة للتقريب | التوأم الرقمي الحي
+    </div>
 
-<script>
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0f172a, 0.025);
+    <script>
+      // --- 1. إعداد المشهد ثلاثي الأبعاد ---
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0f172a);
+      scene.fog = new THREE.FogExp2(0x0f172a, 0.018);
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(-16, 12, 22);
+      const camera = new THREE.PerspectiveCamera(
+        40,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000,
+      );
+      camera.position.set(-22, 16, 26);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    document.body.appendChild(renderer.domElement);
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.1;
+      document.body.appendChild(renderer.domElement);
 
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.maxPolarAngle = Math.PI / 2 - 0.05; 
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.maxPolarAngle = Math.PI / 2 - 0.02;
+      controls.target.set(0, 4, 0);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-    const dirLight = new THREE.DirectionalLight(0xfff7ed, 1.2);
-    dirLight.position.set(15, 25, 15);
-    dirLight.castShadow = true;
-    scene.add(dirLight);
+      // --- 2. الإضاءة المحيطية والشمسية ---
+      const ambientLight = new THREE.HemisphereLight(0xbae6fd, 0x1e293b, 0.6);
+      scene.add(ambientLight);
 
-    const lawn = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.9 }));
-    lawn.rotation.x = -Math.PI / 2;
-    lawn.receiveShadow = true;
-    scene.add(lawn);
+      const sunLight = new THREE.DirectionalLight(0xfff7ed, 1.4);
+      sunLight.position.set(18, 30, 18);
+      sunLight.castShadow = true;
+      sunLight.shadow.mapSize.width = 2048;
+      sunLight.shadow.mapSize.height = 2048;
+      sunLight.shadow.camera.near = 0.5;
+      sunLight.shadow.camera.far = 80;
+      sunLight.shadow.camera.left = -20;
+      sunLight.shadow.camera.right = 20;
+      sunLight.shadow.camera.top = 20;
+      sunLight.shadow.camera.bottom = -20;
+      scene.add(sunLight);
 
-    const houseGroup = new THREE.Group();
-    const houseBody = new THREE.Mesh(new THREE.BoxGeometry(10, 5, 8), new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5 }));
-    houseBody.position.set(0, 2.5, 0);
-    houseBody.castShadow = true;
-    houseGroup.add(houseBody);
-    scene.add(houseGroup);
+      // إضاءة دافئة مدخل الفيلا
+      const porchLight = new THREE.PointLight(0xfcb316, 1.5, 8);
+      porchLight.position.set(0, 3.2, 4.8);
+      scene.add(porchLight);
 
-    const tankGroup = new THREE.Group();
-    const tankMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 3.5, 32), new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, transparent: true }));
-    tankMesh.position.y = 1.75;
-    tankGroup.add(tankMesh);
+      // --- 3. خامات والمواد (Materials) ---
+      const grassMat = new THREE.MeshStandardMaterial({
+        color: 0x166534,
+        roughness: 0.95,
+      });
+      const paveMat = new THREE.MeshStandardMaterial({
+        color: 0x475569,
+        roughness: 0.6,
+      });
+      const wallMat = new THREE.MeshStandardMaterial({
+        color: 0xf8fafc,
+        roughness: 0.3,
+      });
+      const darkWall = new THREE.MeshStandardMaterial({
+        color: 0x1e293b,
+        roughness: 0.4,
+      });
+      const woodMat = new THREE.MeshStandardMaterial({
+        color: 0xb45309,
+        roughness: 0.7,
+      });
+      const glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0x38bdf8,
+        transmission: 0.9,
+        opacity: 1,
+        transparent: true,
+        roughness: 0.1,
+      });
+      const chromeMat = new THREE.MeshStandardMaterial({
+        color: 0xd1d5db,
+        metalness: 0.9,
+        roughness: 0.1,
+      });
+      const copperMat = new THREE.MeshStandardMaterial({
+        color: 0xb91c1c,
+        metalness: 0.8,
+        roughness: 0.3,
+      });
 
-    const waterMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.45, 3.4, 32), new THREE.MeshStandardMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.85 }));
-    waterMesh.position.y = 0.1;
-    waterMesh.geometry.translate(0, 1.7, 0);
-    waterMesh.scale.y = 0.001;
-    tankGroup.add(waterMesh);
-    tankGroup.position.set(2.5, 5.5, -1.5);
-    scene.add(tankGroup);
+      // --- 4. بناء الأرضية والحديقة ---
+      const ground = new THREE.Mesh(new THREE.PlaneGeometry(50, 50), grassMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.receiveShadow = true;
+      scene.add(ground);
 
-    const pumpGroup = new THREE.Group();
-    const motor = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 1.2, 16), new THREE.MeshStandardMaterial({ color: 0x334155 }));
-    motor.rotation.z = Math.PI / 2;
-    pumpGroup.add(motor);
-    const pumpHead = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), new THREE.MeshStandardMaterial({ color: 0x2563eb }));
-    pumpHead.position.x = 0.6;
-    pumpGroup.add(pumpHead);
-    pumpGroup.position.set(-6, 0.4, 0);
-    scene.add(pumpGroup);
+      // ممر الحديقة والسيارات
+      const driveway = new THREE.Mesh(new THREE.PlaneGeometry(6, 18), paveMat);
+      driveway.rotation.x = -Math.PI / 2;
+      driveway.position.set(0, 0.02, 10);
+      driveway.receiveShadow = true;
+      scene.add(driveway);
 
-    let targetWaterLevel = 0.001;
-    let isPumpRunning = false;
+      // رصيف دائري حول المنزل
+      const patio = new THREE.Mesh(
+        new THREE.BoxGeometry(16, 0.15, 14),
+        paveMat,
+      );
+      patio.position.set(0, 0.07, 0);
+      patio.receiveShadow = true;
+      scene.add(patio);
 
-    function animate() {
+      // --- 5. بناء الفيلا الفاخرة (Modern Villa) ---
+      const villaGroup = new THREE.Group();
+
+      // الطابق الأرضي
+      const gFloor = new THREE.Mesh(new THREE.BoxGeometry(12, 4, 10), wallMat);
+      gFloor.position.set(0, 2, 0);
+      gFloor.castShadow = true;
+      gFloor.receiveShadow = true;
+      villaGroup.add(gFloor);
+
+      // ديكور خشب للمدخل
+      const woodAccent = new THREE.Mesh(
+        new THREE.BoxGeometry(4.2, 3.8, 0.2),
+        woodMat,
+      );
+      woodAccent.position.set(0, 2, 5.05);
+      villaGroup.add(woodAccent);
+
+      // الباب الرئيسي
+      const door = new THREE.Mesh(
+        new THREE.BoxGeometry(1.6, 2.8, 0.1),
+        darkWall,
+      );
+      door.position.set(0, 1.4, 5.15);
+      villaGroup.add(door);
+
+      // الطابق الثاني (مودرن بارز)
+      const fFloor = new THREE.Mesh(
+        new THREE.BoxGeometry(10, 3.5, 9),
+        darkWall,
+      );
+      fFloor.position.set(-0.8, 5.75, -0.5);
+      fFloor.castShadow = true;
+      fFloor.receiveShadow = true;
+      villaGroup.add(fFloor);
+
+      // واجهات زجاجية
+      const windowLarge = new THREE.Mesh(
+        new THREE.BoxGeometry(3.5, 2.2, 0.1),
+        glassMat,
+      );
+      windowLarge.position.set(-2, 6, 4.05);
+      villaGroup.add(windowLarge);
+
+      const windowG1 = new THREE.Mesh(
+        new THREE.BoxGeometry(2.5, 2.2, 0.1),
+        glassMat,
+      );
+      windowG1.position.set(-3.8, 2.2, 5.05);
+      villaGroup.add(windowG1);
+
+      const windowG2 = new THREE.Mesh(
+        new THREE.BoxGeometry(2.5, 2.2, 0.1),
+        glassMat,
+      );
+      windowG2.position.set(3.8, 2.2, 5.05);
+      villaGroup.add(windowG2);
+
+      // حافة السطح
+      const parapet = new THREE.Mesh(
+        new THREE.BoxGeometry(12.4, 0.6, 10.4),
+        wallMat,
+      );
+      parapet.position.set(0, 7.8, 0);
+      parapet.castShadow = true;
+      villaGroup.add(parapet);
+
+      scene.add(villaGroup);
+
+      // --- 6. الخزان وقاعدته المعدنية (Elevated Roof Tank) ---
+      const tankGroup = new THREE.Group();
+
+      // قاعدة/حامل معدني للخزان
+      const standMat = new THREE.MeshStandardMaterial({
+        color: 0x334155,
+        metalness: 0.8,
+      });
+      for (let i = 0; i < 4; i++) {
+        const leg = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.08, 0.08, 1.2),
+          standMat,
+        );
+        const x = (i < 2 ? 1 : -1) * 1.1;
+        const z = (i % 2 === 0 ? 1 : -1) * 1.1;
+        leg.position.set(x, 0.6, z);
+        tankGroup.add(leg);
+      }
+      const standPlate = new THREE.Mesh(
+        new THREE.BoxGeometry(2.5, 0.1, 2.5),
+        standMat,
+      );
+      standPlate.position.y = 1.25;
+      tankGroup.add(standPlate);
+
+      // جسم الخزان الشفاف
+      const tankGeo = new THREE.CylinderGeometry(1.4, 1.4, 3.2, 32);
+      const tankMatMesh = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        transmission: 0.92,
+        roughness: 0.05,
+        opacity: 1,
+        transparent: true,
+      });
+      const tankOuter = new THREE.Mesh(tankGeo, tankMatMesh);
+      tankOuter.position.y = 2.9;
+      tankOuter.castShadow = true;
+      tankGroup.add(tankOuter);
+
+      // أغطية الخزان
+      const tankCapMat = new THREE.MeshStandardMaterial({
+        color: 0x0f172a,
+        roughness: 0.5,
+      });
+      const topCap = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.45, 1.45, 0.15, 32),
+        tankCapMat,
+      );
+      topCap.position.y = 4.55;
+      tankGroup.add(topCap);
+
+      // شبكة المياه داخل الخزان
+      const waterGeo = new THREE.CylinderGeometry(1.35, 1.35, 3.1, 32);
+      const waterMat = new THREE.MeshStandardMaterial({
+        color: 0x0284c7,
+        transparent: true,
+        opacity: 0.8,
+        roughness: 0.1,
+      });
+      const waterMesh = new THREE.Mesh(waterGeo, waterMat);
+      waterMesh.position.y = 1.35;
+      waterMesh.geometry.translate(0, 1.55, 0);
+      waterMesh.scale.y = 0.001; // يبدأ من 0%
+      tankGroup.add(waterMesh);
+
+      tankGroup.position.set(3.5, 8.1, -2.5);
+      scene.add(tankGroup);
+
+      // --- 7. الماتور الأرضي والأنابيب الاحترافية (Pump & Piping Infrastructure) ---
+      const pumpGroup = new THREE.Group();
+
+      // قاعدة خرسانية للماتور
+      const pumpPad = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 0.2, 1.6),
+        paveMat,
+      );
+      pumpPad.position.y = 0.1;
+      pumpGroup.add(pumpPad);
+
+      // موتور المياه (Body + Cooling Fins)
+      const motorBody = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.45, 0.45, 1.2, 16),
+        darkWall,
+      );
+      motorBody.rotation.z = Math.PI / 2;
+      motorBody.position.set(0, 0.65, 0);
+      pumpGroup.add(motorBody);
+
+      // رأس المضخة الأزرق
+      const pumpHeadMat = new THREE.MeshStandardMaterial({
+        color: 0x2563eb,
+        roughness: 0.3,
+      });
+      const pumpHead = new THREE.Mesh(
+        new THREE.BoxGeometry(0.85, 0.85, 0.85),
+        pumpHeadMat,
+      );
+      pumpHead.position.set(0.7, 0.65, 0);
+      pumpGroup.add(pumpHead);
+
+      // ساعة ضغط صغيرة فوق المضخة
+      const gauge = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.12, 0.12, 0.1),
+        chromeMat,
+      );
+      gauge.position.set(0.7, 1.15, 0);
+      pumpGroup.add(gauge);
+
+      pumpGroup.position.set(-7, 0, 1);
+      scene.add(pumpGroup);
+
+      // --- شبكة الأنابيب المعدنية المتصلة بالكامل ---
+      const pipeGroup = new THREE.Group();
+
+      function createPipeSegment(radius, length, x, y, z, rotX = 0, rotZ = 0) {
+        const p = new THREE.Mesh(
+          new THREE.CylinderGeometry(radius, radius, length, 16),
+          chromeMat,
+        );
+        p.position.set(x, y, z);
+        p.rotation.x = rotX;
+        p.rotation.z = rotZ;
+        p.castShadow = true;
+        return p;
+      }
+
+      function createElbow(x, y, z) {
+        const e = new THREE.Mesh(
+          new THREE.SphereGeometry(0.12, 16, 16),
+          copperMat,
+        );
+        e.position.set(x, y, z);
+        return e;
+      }
+
+      // 1. تم حذف الماسورة الأفقية الممتدة على العشب
+      // خط التغذية الآن يخرج مباشرة من تحت الأرض (أسفل الماتور) بشكل أنيق
+      pipeGroup.add(createPipeSegment(0.08, 0.6, -7, 0.3, 1, 0, 0));
+
+      // 2. خط الخروج من المضخة عمودياً ومباشرة للأعلى (خارج جدار الفيلا)
+      pipeGroup.add(createPipeSegment(0.08, 10.45, -6.3, 6.225, 1, 0, 0));
+      pipeGroup.add(createElbow(-6.3, 11.45, 1));
+
+      // 3. أنبوب أعلى السطح باتجاه الخزان
+      pipeGroup.add(
+        createPipeSegment(0.08, 9.8, -1.4, 11.45, 1, 0, Math.PI / 2),
+      );
+      pipeGroup.add(createElbow(3.5, 11.45, 1));
+
+      // 4. الانعطاف نحو الخزان في محور Z
+      pipeGroup.add(
+        createPipeSegment(0.08, 3.5, 3.5, 11.45, -0.75, Math.PI / 2, 0),
+      );
+      pipeGroup.add(createElbow(3.5, 11.45, -2.5));
+
+      // 5. أنبوب التغذية نازل داخل الخزان
+      pipeGroup.add(createPipeSegment(0.08, 1.2, 3.5, 10.85, -2.5, 0, 0));
+
+      scene.add(pipeGroup);
+
+      // --- 8. عنصر البيئة: أشجار وسور مجاور ---
+      function addTree(x, z) {
+        const t = new THREE.Group();
+        const trunk = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.2, 0.3, 2.2),
+          woodMat,
+        );
+        trunk.position.y = 1.1;
+        trunk.castShadow = true;
+        t.add(trunk);
+
+        const leaves = new THREE.Mesh(
+          new THREE.DodecahedronGeometry(1.6),
+          grassMat,
+        );
+        leaves.position.y = 2.8;
+        leaves.castShadow = true;
+        t.add(leaves);
+
+        t.position.set(x, 0, z);
+        scene.add(t);
+      }
+
+      addTree(-12, 8);
+      addTree(12, 6);
+      addTree(-12, -8);
+      addTree(12, -8);
+
+      // --- 9. منطق التحريك والتفاعل (Animation Loop) ---
+      let targetWaterLevel = 0.001;
+      let isPumpRunning = false;
+
+      function animate() {
         requestAnimationFrame(animate);
         controls.update();
-        waterMesh.scale.y = THREE.MathUtils.lerp(waterMesh.scale.y, targetWaterLevel, 0.05);
+
+        // تنعيم حركة صعود ونزول المياه
+        waterMesh.scale.y = THREE.MathUtils.lerp(
+          waterMesh.scale.y,
+          targetWaterLevel,
+          0.04,
+        );
+
+        // اهتزاز الموتور أثناء التشغيل
         if (isPumpRunning) {
-            pumpGroup.position.y = 0.4 + Math.sin(Date.now() * 0.05) * 0.02;
-            waterMesh.rotation.y += 0.01;
+          pumpGroup.position.y = Math.sin(Date.now() * 0.08) * 0.02;
+          waterMesh.rotation.y += 0.008;
         } else {
-            pumpGroup.position.y = 0.4;
+          pumpGroup.position.y = 0;
         }
+
         renderer.render(scene, camera);
-    }
-    animate();
+      }
+      animate();
 
-    // الاتصال المحلي (يمكن استخدام بورت ws العادي 8000 أو wss 8084)
-    const client = new Paho.MQTT.Client("broker.emqx.io", Number(8084), "/mqtt", "LocalClient_" + Math.random().toString(16).substr(2, 8));
+      // ضبط أبعاد الشاشة عند تكبير/تصغير المتصفح
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
 
-    const dot = document.getElementById('connection-dot');
-    const lblLevel = document.getElementById('val-level');
-    const lblPump = document.getElementById('val-pump');
-    const lblFlow = document.getElementById('val-flow');
-    const cardPump = document.getElementById('card-pump');
-    const cardFlow = document.getElementById('card-flow');
+      // --- 10. الاتصال عبر MQTT (Localhost & Remote Compatible) ---
+      const client = new Paho.MQTT.Client(
+        "broker.emqx.io",
+        Number(8084),
+        "/mqtt",
+        "AquaTwin3D_Local_" + Math.random().toString(16).substr(2, 8),
+      );
 
-    client.onMessageArrived = function (message) {
+      const dot = document.getElementById("connection-dot");
+      const lblLevel = document.getElementById("val-level");
+      const lblPump = document.getElementById("val-pump");
+      const lblFlow = document.getElementById("val-flow");
+      const cardPump = document.getElementById("card-pump");
+      const cardFlow = document.getElementById("card-flow");
+
+      client.onMessageArrived = function (message) {
         const data = JSON.parse(message.payloadString);
-        
+
+        // 1. نسبة المياه
         targetWaterLevel = Math.max(data.level / 100, 0.001);
         lblLevel.innerText = data.level + "%";
 
-        isPumpRunning = (data.pump == 1);
-        if(isPumpRunning) {
-            pumpHead.material.color.setHex(0x10b981);
-            lblPump.innerText = "تعمل وتضخ للسطح ⚡";
-            lblPump.className = "card-value alert-success";
-            cardPump.style.borderColor = "rgba(16, 185, 129, 0.3)";
+        // 2. حالة المضخة
+        isPumpRunning = data.pump == 1 || data.pump === true;
+        if (isPumpRunning) {
+          pumpHead.material.color.setHex(0x10b981);
+          lblPump.innerText = "تعمل وتضخ للسطح ⚡";
+          lblPump.className = "card-value alert-success";
+          cardPump.style.borderColor = "rgba(16, 185, 129, 0.4)";
         } else {
-            pumpHead.material.color.setHex(0x2563eb);
-            lblPump.innerText = "متوقفة ⚪";
-            lblPump.className = "card-value";
-            cardPump.style.borderColor = "rgba(255, 255, 255, 0.08)";
+          pumpHead.material.color.setHex(0x2563eb);
+          lblPump.innerText = "متوقفة ⚪";
+          lblPump.className = "card-value";
+          cardPump.style.borderColor = "rgba(255, 255, 255, 0.08)";
         }
 
-        if(data.flow == 1) {
-            lblFlow.innerText = "متوفرة ✅";
-            lblFlow.className = "card-value alert-info";
-            cardFlow.style.borderColor = "rgba(56, 189, 248, 0.3)";
+        // 3. حالة خط مياه السلطة (البلدية)
+        const isFlowActive = data.flow == 1 || data.flow === true;
+        if (isFlowActive) {
+          lblFlow.innerText = "متوفرة ✅";
+          lblFlow.className = "card-value alert-info";
+          cardFlow.style.borderColor = "rgba(56, 189, 248, 0.4)";
         } else {
-            lblFlow.innerText = "مقطوعة ❌";
-            lblFlow.className = "card-value alert-danger";
-            cardFlow.style.borderColor = "rgba(239, 68, 68, 0.3)";
+          lblFlow.innerText = "مقطوعة ❌";
+          lblFlow.className = "card-value alert-danger";
+          cardFlow.style.borderColor = "rgba(239, 68, 68, 0.4)";
         }
-    };
+      };
 
-    client.connect({
+      client.connect({
         useSSL: true,
         onSuccess: function () {
-            dot.classList.add('connected');
-            client.subscribe("jordan_tank_3d_demo_2026/status");
+          dot.classList.add("connected");
+          client.subscribe("jordan_tank_3d_demo_2026/status");
         },
         onFailure: function (err) {
-            console.log("MQTT Error: ", err);
-        }
-    });
+          console.log("MQTT Connection Failed: ", err);
+        },
+      });
 
-    function resetTank() {
-        if(client.isConnected()) {
-            const message = new Paho.MQTT.Message("RESET");
-            message.destinationName = "jordan_tank_3d_demo_2026/cmd";
-            client.send(message);
+      function resetTank() {
+        if (client.isConnected()) {
+          const message = new Paho.MQTT.Message("RESET");
+          message.destinationName = "jordan_tank_3d_demo_2026/cmd";
+          client.send(message);
         }
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>
