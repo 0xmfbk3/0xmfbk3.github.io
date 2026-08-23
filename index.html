@@ -119,7 +119,6 @@
 <div id="hint">🖱️ اسحب بالماوس للتدوير حول الفيلا | استخدم العجلة للتكبير</div>
 
 <script>
-    // --- 1. المشهد والجيل الأجدد للـ 3D ---
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x0f172a, 0.025);
 
@@ -136,9 +135,8 @@
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.maxPolarAngle = Math.PI / 2 - 0.05; // منع النزول تحت الأرض
+    controls.maxPolarAngle = Math.PI / 2 - 0.05; 
 
-    // الإضاءة
     scene.add(new THREE.AmbientLight(0xffffff, 0.6));
     const dirLight = new THREE.DirectionalLight(0xfff7ed, 1.2);
     dirLight.position.set(15, 25, 15);
@@ -147,9 +145,6 @@
     dirLight.shadow.mapSize.height = 2048;
     scene.add(dirLight);
 
-    // --- 2. بناء أرضية الحديقة والمنزل ---
-    
-    // أرضية العشب
     const lawnGeo = new THREE.PlaneGeometry(30, 30);
     const lawnMat = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.9 });
     const lawn = new THREE.Mesh(lawnGeo, lawnMat);
@@ -157,7 +152,6 @@
     lawn.receiveShadow = true;
     scene.add(lawn);
 
-    // ممر مشاة وسور الحديقة
     const pathGeo = new THREE.PlaneGeometry(4, 12);
     const pathMat = new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.8 });
     const path = new THREE.Mesh(pathGeo, pathMat);
@@ -166,10 +160,8 @@
     path.receiveShadow = true;
     scene.add(path);
 
-    // --- 3. بناء الفيلا (The Villa) ---
     const houseGroup = new THREE.Group();
 
-    // جسم المنزل الرئيسي
     const houseBodyGeo = new THREE.BoxGeometry(10, 5, 8);
     const houseBodyMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5 });
     const houseBody = new THREE.Mesh(houseBodyGeo, houseBodyMat);
@@ -178,7 +170,6 @@
     houseBody.receiveShadow = true;
     houseGroup.add(houseBody);
 
-    // حافة السقف (Parapet / Balcony Rim)
     const roofRimGeo = new THREE.BoxGeometry(10.4, 0.6, 8.4);
     const roofRimMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.4 });
     const roofRim = new THREE.Mesh(roofRimGeo, roofRimMat);
@@ -186,29 +177,24 @@
     roofRim.castShadow = true;
     houseGroup.add(roofRim);
 
-    // باب الفيلا الرئيسي
     const doorGeo = new THREE.BoxGeometry(1.6, 2.8, 0.1);
     const doorMat = new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.3 });
     const door = new THREE.Mesh(doorGeo, doorMat);
     door.position.set(0, 1.4, 4.01);
     houseGroup.add(door);
 
-    // نوافذ زجاجية
     const windowMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.8, roughness: 0.1, opacity: 0.8, transparent: true });
     
-    // نافذة يسار
     const win1 = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 0.1), windowMat);
     win1.position.set(-3, 3, 4.01);
     houseGroup.add(win1);
 
-    // نافذة يمين
     const win2 = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 0.1), windowMat);
     win2.position.set(3, 3, 4.01);
     houseGroup.add(win2);
 
     scene.add(houseGroup);
 
-    // --- 4. أشجار الحديقة (Trees) ---
     function createTree(x, z) {
         const treeGroup = new THREE.Group();
         const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 2), new THREE.MeshStandardMaterial({ color: 0x451a03 }));
@@ -230,10 +216,8 @@
     createTree(-11, -5);
     createTree(11, -5);
 
-    // --- 5. خزان مياه السطح (Roof Water Tank) ---
     const tankGroup = new THREE.Group();
 
-    // جسم الخزان الشفاف
     const tankGeo = new THREE.CylinderGeometry(1.5, 1.5, 3.5, 32);
     const tankMat = new THREE.MeshPhysicalMaterial({
         color: 0xffffff, transmission: 0.9, opacity: 1, metalness: 0.1, roughness: 0.1, transparent: true
@@ -243,13 +227,11 @@
     tankMesh.castShadow = true;
     tankGroup.add(tankMesh);
 
-    // أغطية الخزان
     const capGeo = new THREE.CylinderGeometry(1.55, 1.55, 0.15, 32);
     const capMat = new THREE.MeshStandardMaterial({ color: 0x0f172a });
     const topCap = new THREE.Mesh(capGeo, capMat); topCap.position.y = 3.55; tankGroup.add(topCap);
     const bottomCap = new THREE.Mesh(capGeo, capMat); bottomCap.position.y = 0.05; tankGroup.add(bottomCap);
 
-    // المياه داخل الخزان
     const waterGeo = new THREE.CylinderGeometry(1.45, 1.45, 3.4, 32);
     const waterMat = new THREE.MeshStandardMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.85, roughness: 0.1 });
     const waterMesh = new THREE.Mesh(waterGeo, waterMat);
@@ -258,13 +240,9 @@
     waterMesh.scale.y = 0.001;
     tankGroup.add(waterMesh);
 
-    // وضع الخزان فوق سطح المنزل
     tankGroup.position.set(2.5, 5.5, -1.5);
     scene.add(tankGroup);
-
-    // --- 6. المضخة والأنابيب المتصلة من الأرض إلى السطح ---
     
-    // المضخة الأرضية بجانب البيت
     const pumpGroup = new THREE.Group();
     const motor = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 1.2, 16), new THREE.MeshStandardMaterial({ color: 0x334155 }));
     motor.rotation.z = Math.PI / 2;
@@ -277,27 +255,22 @@
     pumpGroup.position.set(-6, 0.4, 0);
     scene.add(pumpGroup);
 
-    // الأنابيب (Pipes network)
     const pipeMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8, roughness: 0.2 });
 
-    // 1. أنبوب عمودي صاعد على جدار المنزل إلى السطح
     const pipeV = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 8.8, 16), pipeMat);
     pipeV.position.set(-5.3, 4.4, 0);
     scene.add(pipeV);
 
-    // 2. أنبوب أفقي يقطع السطح باتجاه الخزان
     const pipeH = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 8, 16), pipeMat);
     pipeH.rotation.z = Math.PI / 2;
     pipeH.position.set(-1.3, 8.8, -1.5);
     scene.add(pipeH);
 
-    // 3. أنبوب نازل داخل الخزان
     const pipeDown = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 1.2, 16), pipeMat);
     pipeDown.position.set(2.5, 8.4, -1.5);
     scene.add(pipeDown);
 
 
-    // --- 7. حركة المحاكاة والتفاعل ---
     let targetWaterLevel = 0.001;
     let isPumpRunning = false;
 
@@ -318,8 +291,8 @@
     }
     animate();
 
-    // --- 8. الربط الحي عبر MQTT ---
-    const client = new Paho.MQTT.Client("broker.hivemq.com", 8000, "AquaTwin3D_" + Math.random().toString(16).substr(2, 8));
+    // --- هنا تم تعديل الاتصال ليكون مشفراً ويدعم GitHub Pages 100% ---
+    const client = new Paho.MQTT.Client("broker.emqx.io", Number(8084), "/mqtt", "AquaTwin3D_" + Math.random().toString(16).substr(2, 8));
 
     const dot = document.getElementById('connection-dot');
     const lblLevel = document.getElementById('val-level');
@@ -359,9 +332,13 @@
     };
 
     client.connect({
+        useSSL: true, // ضروري جداً ليعمل على GitHub
         onSuccess: function () {
             dot.classList.add('connected');
             client.subscribe("jordan_tank_3d_demo_2026/status");
+        },
+        onFailure: function (err) {
+            console.log("MQTT Connect Error: ", err);
         }
     });
 
