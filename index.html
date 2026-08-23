@@ -292,7 +292,7 @@
     animate();
 
     // --- هنا تم تعديل الاتصال ليكون مشفراً ويدعم GitHub Pages 100% ---
-    const client = new Paho.MQTT.Client("broker.emqx.io", Number(8084), "/mqtt", "AquaTwin3D_" + Math.random().toString(16).substr(2, 8));
+const client = new Paho.MQTT.Client("broker.hivemq.com", Number(8000), "/mqtt", "AquaTwin3D_" + Math.random().toString(16).substr(2, 8));
 
     const dot = document.getElementById('connection-dot');
     const lblLevel = document.getElementById('val-level');
