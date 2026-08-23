@@ -1,525 +1,243 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AquaTwin 3D | Smart Villa Water Twin (SVWT)</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap"
-      rel="stylesheet"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaTwin 3D | Localhost Mode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
-
+    
     <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        font-family: "Cairo", sans-serif;
-        background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-        color: #f8fafc;
-      }
-
-      #dashboard {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        width: 310px;
-        background: rgba(15, 23, 42, 0.75);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 20px;
-        padding: 22px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-        z-index: 10;
-      }
-
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 12px;
-        margin-bottom: 18px;
-      }
-
-      .header h2 {
-        margin: 0;
-        font-size: 1.3rem;
-        font-weight: 700;
-        background: linear-gradient(90deg, #38bdf8, #818cf8);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .status-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: #ef4444;
-        box-shadow: 0 0 10px #ef4444;
-        transition: 0.3s;
-      }
-      .status-dot.connected {
-        background-color: #10b981;
-        box-shadow: 0 0 10px #10b981;
-        animation: pulse 2s infinite;
-      }
-
-      .card {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        padding: 12px 15px;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .card-icon {
-        font-size: 1.6rem;
-        margin-left: 12px;
-      }
-      .card-info {
-        flex-grow: 1;
-      }
-      .card-title {
-        font-size: 0.85rem;
-        color: #94a3b8;
-        margin: 0;
-      }
-      .card-value {
-        font-size: 1.15rem;
-        font-weight: 700;
-        margin: 3px 0 0 0;
-        color: #fff;
-        transition: color 0.3s;
-      }
-
-      .alert-danger .card-value {
-        color: #ef4444 !important;
-      }
-      .alert-success .card-value {
-        color: #10b981 !important;
-      }
-      .alert-info .card-value {
-        color: #38bdf8 !important;
-      }
-
-      .btn-reset {
-        width: 100%;
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
-        border: none;
-        padding: 12px;
-        border-radius: 12px;
-        font-family: "Cairo", sans-serif;
-        font-size: 0.95rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 5px;
-      }
-      .btn-reset:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
-      }
-      .btn-reset:active {
-        transform: translateY(0);
-      }
-
-      @keyframes pulse {
-        0% {
-          transform: scale(0.95);
-          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        body { 
+            margin: 0; overflow: hidden; font-family: 'Cairo', sans-serif;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            color: #f8fafc;
         }
-        70% {
-          transform: scale(1);
-          box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+        #dashboard {
+            position: absolute; top: 25px; right: 25px; width: 310px;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px; padding: 22px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            z-index: 10;
         }
-        100% {
-          transform: scale(0.95);
-          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px; margin-bottom: 18px;
         }
-      }
-
-      #hint {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(15, 23, 42, 0.75);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 8px 20px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        color: #94a3b8;
-        pointer-events: none;
-      }
+        .header h2 { margin: 0; font-size: 1.3rem; font-weight: 700; background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .status-dot {
+            width: 12px; height: 12px; border-radius: 50%; background-color: #ef4444;
+            box-shadow: 0 0 10px #ef4444; transition: 0.3s;
+        }
+        .status-dot.connected { background-color: #10b981; box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite; }
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px; padding: 12px 15px; margin-bottom: 12px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .card-icon { font-size: 1.6rem; margin-left: 12px; }
+        .card-info { flex-grow: 1; }
+        .card-title { font-size: 0.85rem; color: #94a3b8; margin: 0; }
+        .card-value { font-size: 1.15rem; font-weight: 700; margin: 3px 0 0 0; color: #fff; transition: color 0.3s; }
+        .alert-danger .card-value { color: #ef4444 !important; }
+        .alert-success .card-value { color: #10b981 !important; }
+        .alert-info .card-value { color: #38bdf8 !important; }
+        .btn-reset {
+            width: 100%; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white; border: none; padding: 12px; border-radius: 12px;
+            font-family: 'Cairo', sans-serif; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-top: 5px;
+        }
+        .btn-reset:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5); }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        #hint {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; color: #94a3b8; pointer-events: none;
+        }
     </style>
-  </head>
-  <body>
-    <div id="dashboard">
-      <div class="header">
+</head>
+<body>
+
+<div id="dashboard">
+    <div class="header">
         <h2>AquaTwin 3D 🏠</h2>
         <div id="connection-dot" class="status-dot" title="حالة الاتصال"></div>
-      </div>
-
-      <div class="card">
+    </div>
+    <div class="card">
         <div class="card-icon">💧</div>
         <div class="card-info">
-          <p class="card-title">خزان السطح</p>
-          <p id="val-level" class="card-value alert-info">0%</p>
+            <p class="card-title">خزان السطح</p>
+            <p id="val-level" class="card-value alert-info">0%</p>
         </div>
-      </div>
-
-      <div class="card" id="card-pump">
+    </div>
+    <div class="card" id="card-pump">
         <div class="card-icon">⚙️</div>
         <div class="card-info">
-          <p class="card-title">مضخة المياه (الأرضية)</p>
-          <p id="val-pump" class="card-value">متوقفة</p>
+            <p class="card-title">مضخة المياه (الأرضية)</p>
+            <p id="val-pump" class="card-value">متوقفة</p>
         </div>
-      </div>
-
-      <div class="card" id="card-flow">
+    </div>
+    <div class="card" id="card-flow">
         <div class="card-icon">🚰</div>
         <div class="card-info">
-          <p class="card-title">خط البلدية (السلطة)</p>
-          <p id="val-flow" class="card-value alert-danger">مقطوعة</p>
+            <p class="card-title">خط البلدية (السلطة)</p>
+            <p id="val-flow" class="card-value alert-danger">مقطوعة</p>
         </div>
-      </div>
-
-      <button class="btn-reset" onclick="resetTank()">
-        🔄 تفريغ الخزان (Reset)
-      </button>
     </div>
+    <button class="btn-reset" onclick="resetTank()">🔄 تفريغ الخزان (Reset)</button>
+</div>
 
-    <div id="hint">
-      🖱️ اسحب بالماوس للتدوير حول الفيلا | استخدم العجلة للتكبير
-    </div>
+<div id="hint">🖱️ التشغيل المحلي (Localhost) - اسحب بالماوس للتدوير</div>
 
-    <script>
-      const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x0f172a, 0.025);
+<script>
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0f172a, 0.025);
 
-      const camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000,
-      );
-      camera.position.set(-16, 12, 22);
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(-16, 12, 22);
 
-      const renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true,
-      });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      document.body.appendChild(renderer.domElement);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.body.appendChild(renderer.domElement);
 
-      const controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.05;
-      controls.maxPolarAngle = Math.PI / 2 - 0.05;
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2 - 0.05; 
 
-      scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-      const dirLight = new THREE.DirectionalLight(0xfff7ed, 1.2);
-      dirLight.position.set(15, 25, 15);
-      dirLight.castShadow = true;
-      dirLight.shadow.mapSize.width = 2048;
-      dirLight.shadow.mapSize.height = 2048;
-      scene.add(dirLight);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const dirLight = new THREE.DirectionalLight(0xfff7ed, 1.2);
+    dirLight.position.set(15, 25, 15);
+    dirLight.castShadow = true;
+    scene.add(dirLight);
 
-      const lawnGeo = new THREE.PlaneGeometry(30, 30);
-      const lawnMat = new THREE.MeshStandardMaterial({
-        color: 0x15803d,
-        roughness: 0.9,
-      });
-      const lawn = new THREE.Mesh(lawnGeo, lawnMat);
-      lawn.rotation.x = -Math.PI / 2;
-      lawn.receiveShadow = true;
-      scene.add(lawn);
+    const lawn = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.9 }));
+    lawn.rotation.x = -Math.PI / 2;
+    lawn.receiveShadow = true;
+    scene.add(lawn);
 
-      const pathGeo = new THREE.PlaneGeometry(4, 12);
-      const pathMat = new THREE.MeshStandardMaterial({
-        color: 0x64748b,
-        roughness: 0.8,
-      });
-      const path = new THREE.Mesh(pathGeo, pathMat);
-      path.rotation.x = -Math.PI / 2;
-      path.position.set(0, 0.01, 8);
-      path.receiveShadow = true;
-      scene.add(path);
+    const houseGroup = new THREE.Group();
+    const houseBody = new THREE.Mesh(new THREE.BoxGeometry(10, 5, 8), new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5 }));
+    houseBody.position.set(0, 2.5, 0);
+    houseBody.castShadow = true;
+    houseGroup.add(houseBody);
+    scene.add(houseGroup);
 
-      const houseGroup = new THREE.Group();
+    const tankGroup = new THREE.Group();
+    const tankMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 3.5, 32), new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.9, opacity: 1, transparent: true }));
+    tankMesh.position.y = 1.75;
+    tankGroup.add(tankMesh);
 
-      const houseBodyGeo = new THREE.BoxGeometry(10, 5, 8);
-      const houseBodyMat = new THREE.MeshStandardMaterial({
-        color: 0xf8fafc,
-        roughness: 0.5,
-      });
-      const houseBody = new THREE.Mesh(houseBodyGeo, houseBodyMat);
-      houseBody.position.set(0, 2.5, 0);
-      houseBody.castShadow = true;
-      houseBody.receiveShadow = true;
-      houseGroup.add(houseBody);
+    const waterMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.45, 3.4, 32), new THREE.MeshStandardMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.85 }));
+    waterMesh.position.y = 0.1;
+    waterMesh.geometry.translate(0, 1.7, 0);
+    waterMesh.scale.y = 0.001;
+    tankGroup.add(waterMesh);
+    tankGroup.position.set(2.5, 5.5, -1.5);
+    scene.add(tankGroup);
 
-      const roofRimGeo = new THREE.BoxGeometry(10.4, 0.6, 8.4);
-      const roofRimMat = new THREE.MeshStandardMaterial({
-        color: 0x334155,
-        roughness: 0.4,
-      });
-      const roofRim = new THREE.Mesh(roofRimGeo, roofRimMat);
-      roofRim.position.set(0, 5.2, 0);
-      roofRim.castShadow = true;
-      houseGroup.add(roofRim);
+    const pumpGroup = new THREE.Group();
+    const motor = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 1.2, 16), new THREE.MeshStandardMaterial({ color: 0x334155 }));
+    motor.rotation.z = Math.PI / 2;
+    pumpGroup.add(motor);
+    const pumpHead = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), new THREE.MeshStandardMaterial({ color: 0x2563eb }));
+    pumpHead.position.x = 0.6;
+    pumpGroup.add(pumpHead);
+    pumpGroup.position.set(-6, 0.4, 0);
+    scene.add(pumpGroup);
 
-      const doorGeo = new THREE.BoxGeometry(1.6, 2.8, 0.1);
-      const doorMat = new THREE.MeshStandardMaterial({
-        color: 0x78350f,
-        roughness: 0.3,
-      });
-      const door = new THREE.Mesh(doorGeo, doorMat);
-      door.position.set(0, 1.4, 4.01);
-      houseGroup.add(door);
+    let targetWaterLevel = 0.001;
+    let isPumpRunning = false;
 
-      const windowMat = new THREE.MeshStandardMaterial({
-        color: 0x0284c7,
-        metalness: 0.8,
-        roughness: 0.1,
-        opacity: 0.8,
-        transparent: true,
-      });
-
-      const win1 = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 0.1), windowMat);
-      win1.position.set(-3, 3, 4.01);
-      houseGroup.add(win1);
-
-      const win2 = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 0.1), windowMat);
-      win2.position.set(3, 3, 4.01);
-      houseGroup.add(win2);
-
-      scene.add(houseGroup);
-
-      function createTree(x, z) {
-        const treeGroup = new THREE.Group();
-        const trunk = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.2, 0.3, 2),
-          new THREE.MeshStandardMaterial({ color: 0x451a03 }),
-        );
-        trunk.position.y = 1;
-        trunk.castShadow = true;
-        treeGroup.add(trunk);
-
-        const foliage = new THREE.Mesh(
-          new THREE.DodecahedronGeometry(1.5),
-          new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.8 }),
-        );
-        foliage.position.y = 2.8;
-        foliage.castShadow = true;
-        treeGroup.add(foliage);
-
-        treeGroup.position.set(x, 0, z);
-        scene.add(treeGroup);
-      }
-
-      createTree(-10, 8);
-      createTree(10, 8);
-      createTree(-11, -5);
-      createTree(11, -5);
-
-      const tankGroup = new THREE.Group();
-
-      const tankGeo = new THREE.CylinderGeometry(1.5, 1.5, 3.5, 32);
-      const tankMat = new THREE.MeshPhysicalMaterial({
-        color: 0xffffff,
-        transmission: 0.9,
-        opacity: 1,
-        metalness: 0.1,
-        roughness: 0.1,
-        transparent: true,
-      });
-      const tankMesh = new THREE.Mesh(tankGeo, tankMat);
-      tankMesh.position.y = 1.75;
-      tankMesh.castShadow = true;
-      tankGroup.add(tankMesh);
-
-      const capGeo = new THREE.CylinderGeometry(1.55, 1.55, 0.15, 32);
-      const capMat = new THREE.MeshStandardMaterial({ color: 0x0f172a });
-      const topCap = new THREE.Mesh(capGeo, capMat);
-      topCap.position.y = 3.55;
-      tankGroup.add(topCap);
-      const bottomCap = new THREE.Mesh(capGeo, capMat);
-      bottomCap.position.y = 0.05;
-      tankGroup.add(bottomCap);
-
-      const waterGeo = new THREE.CylinderGeometry(1.45, 1.45, 3.4, 32);
-      const waterMat = new THREE.MeshStandardMaterial({
-        color: 0x0ea5e9,
-        transparent: true,
-        opacity: 0.85,
-        roughness: 0.1,
-      });
-      const waterMesh = new THREE.Mesh(waterGeo, waterMat);
-      waterMesh.position.y = 0.1;
-      waterMesh.geometry.translate(0, 1.7, 0);
-      waterMesh.scale.y = 0.001;
-      tankGroup.add(waterMesh);
-
-      tankGroup.position.set(2.5, 5.5, -1.5);
-      scene.add(tankGroup);
-
-      const pumpGroup = new THREE.Group();
-      const motor = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.4, 0.4, 1.2, 16),
-        new THREE.MeshStandardMaterial({ color: 0x334155 }),
-      );
-      motor.rotation.z = Math.PI / 2;
-      pumpGroup.add(motor);
-
-      const pumpHeadMat = new THREE.MeshStandardMaterial({ color: 0x2563eb });
-      const pumpHead = new THREE.Mesh(
-        new THREE.BoxGeometry(0.8, 0.8, 0.8),
-        pumpHeadMat,
-      );
-      pumpHead.position.x = 0.6;
-      pumpGroup.add(pumpHead);
-      pumpGroup.position.set(-6, 0.4, 0);
-      scene.add(pumpGroup);
-
-      const pipeMat = new THREE.MeshStandardMaterial({
-        color: 0x94a3b8,
-        metalness: 0.8,
-        roughness: 0.2,
-      });
-
-      const pipeV = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.08, 0.08, 8.8, 16),
-        pipeMat,
-      );
-      pipeV.position.set(-5.3, 4.4, 0);
-      scene.add(pipeV);
-
-      const pipeH = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.08, 0.08, 8, 16),
-        pipeMat,
-      );
-      pipeH.rotation.z = Math.PI / 2;
-      pipeH.position.set(-1.3, 8.8, -1.5);
-      scene.add(pipeH);
-
-      const pipeDown = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.08, 0.08, 1.2, 16),
-        pipeMat,
-      );
-      pipeDown.position.set(2.5, 8.4, -1.5);
-      scene.add(pipeDown);
-
-      let targetWaterLevel = 0.001;
-      let isPumpRunning = false;
-
-      function animate() {
+    function animate() {
         requestAnimationFrame(animate);
         controls.update();
-
-        waterMesh.scale.y = THREE.MathUtils.lerp(
-          waterMesh.scale.y,
-          targetWaterLevel,
-          0.05,
-        );
-
+        waterMesh.scale.y = THREE.MathUtils.lerp(waterMesh.scale.y, targetWaterLevel, 0.05);
         if (isPumpRunning) {
-          pumpGroup.position.y = 0.4 + Math.sin(Date.now() * 0.05) * 0.02;
-          waterMesh.rotation.y += 0.01;
+            pumpGroup.position.y = 0.4 + Math.sin(Date.now() * 0.05) * 0.02;
+            waterMesh.rotation.y += 0.01;
         } else {
-          pumpGroup.position.y = 0.4;
+            pumpGroup.position.y = 0.4;
         }
-
         renderer.render(scene, camera);
-      }
-      animate();
+    }
+    animate();
 
-      // --- هنا تم تعديل الاتصال ليكون مشفراً ويدعم GitHub Pages 100% ---
-      const client = new Paho.MQTT.Client(
-        "broker.emqx.io",
-        Number(8084),
-        "/mqtt",
-        "AquaTwin3D_" + Math.random().toString(16).substr(2, 8),
-      );
+    // الاتصال المحلي (يمكن استخدام بورت ws العادي 8000 أو wss 8084)
+    const client = new Paho.MQTT.Client("broker.emqx.io", Number(8084), "/mqtt", "LocalClient_" + Math.random().toString(16).substr(2, 8));
 
-      const dot = document.getElementById("connection-dot");
-      const lblLevel = document.getElementById("val-level");
-      const lblPump = document.getElementById("val-pump");
-      const lblFlow = document.getElementById("val-flow");
-      const cardPump = document.getElementById("card-pump");
-      const cardFlow = document.getElementById("card-flow");
+    const dot = document.getElementById('connection-dot');
+    const lblLevel = document.getElementById('val-level');
+    const lblPump = document.getElementById('val-pump');
+    const lblFlow = document.getElementById('val-flow');
+    const cardPump = document.getElementById('card-pump');
+    const cardFlow = document.getElementById('card-flow');
 
-      client.onMessageArrived = function (message) {
+    client.onMessageArrived = function (message) {
         const data = JSON.parse(message.payloadString);
-
-        // مستوى خزان السطح
+        
         targetWaterLevel = Math.max(data.level / 100, 0.001);
         lblLevel.innerText = data.level + "%";
 
-        // حالة المضخة
-        isPumpRunning =
-          data.pump == 1 || data.pump === true || data.pump === "1";
-        if (isPumpRunning) {
-          pumpHead.material.color.setHex(0x10b981);
-          lblPump.innerText = "تعمل وتضخ للسطح ⚡";
-          lblPump.className = "card-value alert-success";
-          cardPump.style.borderColor = "rgba(16, 185, 129, 0.3)";
+        isPumpRunning = (data.pump == 1);
+        if(isPumpRunning) {
+            pumpHead.material.color.setHex(0x10b981);
+            lblPump.innerText = "تعمل وتضخ للسطح ⚡";
+            lblPump.className = "card-value alert-success";
+            cardPump.style.borderColor = "rgba(16, 185, 129, 0.3)";
         } else {
-          pumpHead.material.color.setHex(0x2563eb);
-          lblPump.innerText = "متوقفة ⚪";
-          lblPump.className = "card-value";
-          cardPump.style.borderColor = "rgba(255, 255, 255, 0.08)";
+            pumpHead.material.color.setHex(0x2563eb);
+            lblPump.innerText = "متوقفة ⚪";
+            lblPump.className = "card-value";
+            cardPump.style.borderColor = "rgba(255, 255, 255, 0.08)";
         }
 
-        // --- التعديل الجذري لحالة خط السلطة (يدعم الرقم، النص، وboolean) ---
-        const isFlowActive =
-          data.flow == 1 || data.flow === true || data.flow === "1";
-
-        if (isFlowActive) {
-          lblFlow.innerText = "متوفرة ✅";
-          lblFlow.className = "card-value alert-info";
-          cardFlow.style.borderColor = "rgba(56, 189, 248, 0.3)";
+        if(data.flow == 1) {
+            lblFlow.innerText = "متوفرة ✅";
+            lblFlow.className = "card-value alert-info";
+            cardFlow.style.borderColor = "rgba(56, 189, 248, 0.3)";
         } else {
-          lblFlow.innerText = "مقطوعة ❌";
-          lblFlow.className = "card-value alert-danger";
-          cardFlow.style.borderColor = "rgba(239, 68, 68, 0.3)";
+            lblFlow.innerText = "مقطوعة ❌";
+            lblFlow.className = "card-value alert-danger";
+            cardFlow.style.borderColor = "rgba(239, 68, 68, 0.3)";
         }
-      };
+    };
 
-      client.connect({
-        useSSL: true, // ضروري جداً ليعمل على GitHub
+    client.connect({
+        useSSL: true,
         onSuccess: function () {
-          dot.classList.add("connected");
-          client.subscribe("jordan_tank_3d_demo_2026/status");
+            dot.classList.add('connected');
+            client.subscribe("jordan_tank_3d_demo_2026/status");
         },
         onFailure: function (err) {
-          console.log("MQTT Connect Error: ", err);
-        },
-      });
-
-      function resetTank() {
-        if (client.isConnected()) {
-          const message = new Paho.MQTT.Message("RESET");
-          message.destinationName = "jordan_tank_3d_demo_2026/cmd";
-          client.send(message);
+            console.log("MQTT Error: ", err);
         }
-      }
-    </script>
-  </body>
+    });
+
+    function resetTank() {
+        if(client.isConnected()) {
+            const message = new Paho.MQTT.Message("RESET");
+            message.destinationName = "jordan_tank_3d_demo_2026/cmd";
+            client.send(message);
+        }
+    }
+</script>
+</body>
 </html>
