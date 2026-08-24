@@ -113,33 +113,6 @@
         color: #38bdf8 !important;
       }
 
-      .btn-reset {
-        width: 100%;
-        background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
-        color: white;
-        border: none;
-        padding: 12px;
-        border-radius: 14px;
-        font-family: "Cairo", sans-serif;
-        font-size: 0.95rem;
-        font-weight: 800;
-        cursor: pointer;
-        transition: all 0.25s ease;
-        box-shadow: 0 6px 20px rgba(225, 29, 72, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 8px;
-      }
-      .btn-reset:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(225, 29, 72, 0.5);
-      }
-      .btn-reset:active {
-        transform: translateY(0);
-      }
-
       @keyframes pulse {
         0% {
           transform: scale(0.95);
@@ -205,16 +178,7 @@
           <p id="val-flow" class="card-value alert-danger">مقطوعة</p>
         </div>
       </div>
-
-      <button class="btn-reset" onclick="resetTank()">
-        🔄 تفريغ الخزان (Reset)
-      </button>
     </div>
-
-    <div id="hint">
-      🖱️ اسحب للتدوير حول الفيلا | العجلة للتقريب | التوأم الرقمي الحي
-    </div>
-
     <script>
       // --- 1. إعداد المشهد ثلاثي الأبعاد ---
       const scene = new THREE.Scene();
@@ -678,13 +642,6 @@
         },
       });
 
-      function resetTank() {
-        if (client.isConnected()) {
-          const message = new Paho.MQTT.Message("RESET");
-          message.destinationName = "jordan_tank_3d_demo_2026/cmd";
-          client.send(message);
-        }
-      }
     </script>
   </body>
 </html>
