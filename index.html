@@ -573,6 +573,18 @@
           padding: 0.15rem 0.5rem;
         }
       }
+      .section-number {
+        display: inline-block;
+        background: #2563eb;
+        color: #fff;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 2rem;
+        margin-inline-end: 0.5rem;
+        font-size: 1.2rem;
+      }
     </style>
   </head>
   <body>
@@ -600,14 +612,15 @@
     <main class="container-main">
       <!-- القسم 1: المقدمة ونشر الوعي -->
       <section class="card">
-        <h2>1️⃣ المقدمة ونشر الوعي</h2>
+        <h2><span class="section-number">1</span> المقدمة ونشر الوعي</h2>
         <p>
           <strong>هندسة التلقين (Prompt Engineering)</strong> هي المهارة الأسهل
-          والأكثر طلباً حاليًا في سوق العمل. لكن قبل التعمق, دعونا نضبط المصطلح:
+          والأكثر طلبا حاليا في سوق العمل. لكن قبل التعمق, دعونا نضبط المصطلح:
           نستخدم كلمة <strong>"تلقين"</strong> بدلاً من
           <strong>"أمر"</strong> لأن العملية تتضمن غرس المعرفة والسياق والنبرة
           في النموذج, وليس مجرد إصدار أوامر برمجية جامدة.
         </p>
+        <br />
         <h3>كيف يعمل النموذج اللغوي (LLM)؟</h3>
         <p>
           النموذج اللغوي الكبير يعتمد على
@@ -626,7 +639,7 @@
 
       <!-- القسم 2: خريطة الأدوات (جدول محدّث) -->
       <section class="card">
-        <h2>2️⃣ خريطة أدوات الذكاء الاصطناعي</h2>
+        <h2><span class="section-number">2</span> خريطة أدوات الذكاء الاصطناعي</h2>
         <p>
           اختيار الأداة المناسبة يوفر الوقت والجهد. الجدول التالي يلخص القوة
           التقنية الحقيقية لكل نموذج والاستخدام الأمثل واقعياً:
@@ -756,13 +769,15 @@
 
       <!-- القسم 3: عناصر البرومبت الخمسة -->
       <section class="card">
-        <h2>3️⃣ عناصر البرومبت الخمسة</h2>
+        <h2><span class="section-number">3</span> عناصر البرومبت الخمسة</h2>
         <p>كل برومبت احترافي يجب أن يشمل هذه العناصر الخمسة:</p>
         <div class="elements-grid">
           <div class="element-card">
             <div class="icon">1</div>
             <h4>المهمة (Task)</h4>
-            <p>ماذا تريد من النموذج أن يفعل؟ مثل: فرز, فلترة, استنباط, تلخيص.</p>
+            <p>
+              ماذا تريد من النموذج أن يفعل؟ مثل: فرز, فلترة, استنباط, تلخيص.
+            </p>
             <div class="example">رتب هذه الأطباق حسب قيمتها الغذائية.</div>
           </div>
           <div class="element-card">
@@ -786,16 +801,18 @@
           <div class="element-card">
             <div class="icon">5</div>
             <h4>المدخلات (Inputs)</h4>
-            <p>قدم البيانات التي سيعتمد عليها النموذج, ويفضل وضعها بين أقواس اقتباس.</p>
-            <div class="example">فلتر الأسماء غير العربية من القائمة التالية: [أحمد, John, مريم, Robert, سارة]
-            </div>
+            <p>
+              قدم البيانات التي سيعتمد عليها النموذج, ويفضل وضعها بين أقواس
+              اقتباس.
+            </p>
+            <div class="example">فلتر الأسماء غير العربية من القائمة التالية: [أحمد, John, مريم, Robert, سارة]</div>
           </div>
         </div>
       </section>
 
       <!-- القسم 4: التقنيات الأربع -->
       <section class="card">
-        <h2>4️⃣ التقنيات الأربع الأساسية</h2>
+        <h2><span class="section-number">4</span> التقنيات الأربع الأساسية</h2>
 
         <div class="technique-item">
           <div class="header">
@@ -803,8 +820,10 @@
             <h3>Zero-shot Prompting</h3>
             <span class="badge badge-blue">مباشر</span>
           </div>
-          <p>اطلب من النموذج أداء مهمة دون تقديم أمثلة. مناسب للأسئلة اليومية.</p>
-          <div class="prompt-box">ما عاصمة الأردن؟<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+          <p>
+            اطلب من النموذج أداء مهمة دون تقديم أمثلة. مناسب للأسئلة اليومية.
+          </p>
+          <div class="prompt-box">ما عاصمة الأردن؟ <button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
         </div>
 
         <div class="technique-item">
@@ -814,8 +833,8 @@
             <span class="badge badge-blue">التعليم بالأمثلة</span>
           </div>
           <p>قدم أمثلة قليلة ليتعلم النموذج النمط المطلوب.</p>
-          <div class="prompt-box">علمه كلمة جديدة: <br /><strong>"جومودار"</strong> تعني شخص ذكي جداً. <br />الآن استخدم كلمة <strong>"جومودار"</strong> في جملة.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
-          <div class="prompt-box">تصنيف العملاء: <br />العميل 1: يدفع دائماً => نصاب؟ لا, محترم <br />العميل 2: يتهرب من الدفع => نصاب <br />العميل 3: دفع نصف المبلغ => ؟<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+          <div class="prompt-box">علمه كلمة جديدة: <br /><strong>"جومودار"</strong> تعني شخص ذكي جداً.<br />الآن استخدم كلمة <strong>"جومودار"</strong> في جملة.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+          <div class="prompt-box">تصنيف العملاء: <br />العميل 1: يدفع دائماً => نصاب؟ لا, محترم<br />العميل 2: يتهرب من الدفع => نصاب <br />العميل 3: دفع نصف المبلغ => ؟<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
         </div>
 
         <div class="technique-item">
@@ -835,13 +854,13 @@
             <span class="badge badge-indigo">الاتساق الذاتي</span>
           </div>
           <p>اطلب من النموذج توليد عدة حلول واختيار الأكثر منطقية.</p>
-          <div class="prompt-box">حل المسألة السابقة بثلاث طرق مختلفة, ثم حدد الإجابة الأكثر اتساقاً.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+          <div class="prompt-box">حل المسألة السابقة بثلاث طرق مختلفة, ثم حدد الإجابة الأكثر اتساقا.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
         </div>
       </section>
 
       <!-- القسم 5: قالب البرومبت الجوكر -->
       <section class="card">
-        <h2>5️⃣ قالب البرومبت الجوكر (Master Prompt)</h2>
+        <h2><span class="section-number">5</span> قالب البرومبت الجوكر (Master Prompt)</h2>
         <p>هذا القالب مرن ويمكن تعديله لأي مهنة أو مهمة:</p>
         <div class="master-prompt">
           <button class="copy-btn-master" onclick="copyMasterPrompt()">
@@ -863,7 +882,7 @@
 
       <!-- القسم 6: أسرار الخبراء والأتمتة -->
       <section class="card">
-        <h2>6️⃣ أسرار الخبراء والأتمتة</h2>
+        <h2><span class="section-number">6</span> أسرار الخبراء والأتمتة</h2>
         <div class="space-y-4">
           <div class="bg-emerald-50 border-r-4 border-emerald-500 p-4 rounded">
             <h4>🔹 السر 1: البرومبت برنامج في تطور (Iterative Refinement)</h4>
@@ -886,7 +905,7 @@
       <!-- القسم 7: التهديد الفكري والانحياز -->
       <section class="card border-red-200">
         <h2 class="text-red-700 border-red-500">
-          7️⃣ التهديد الفكري والانحياز (AI Bias)
+          <span class="section-number">7</span> التهديد الفكري والانحياز (AI Bias)
         </h2>
         <ul class="list-disc pr-6 space-y-2">
           <li>
@@ -910,8 +929,7 @@
 
       <!-- القسم 8: التطبيق العملي والمصادر -->
       <section class="card">
-        <h2>8️⃣ التطبيق العملي والمصادر</h2>
-        <h3>تحدي عملي زوجي</h3>
+        <h2><span class="section-number">8</span> التطبيق العملي والمصادر</h2>
         <p>
           بالتعاون مع زميلك, اختر مشكلة واقعية من المجتمع الأردني (مثل: تحسين
           النقل العام, تقليل هدر الطعام, دعم المشاريع المنزلية) ثم قم بصياغة
