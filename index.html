@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الدليل الشامل لورشة هندسة التلقين | مبادرة ترابط</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+      />
+      <link src="Prompt_Examples.html" rel="import" />
+      <style>
+      /* ===== Base Styles ===== */
+      body {
+        font-family: "Cairo", sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+        line-height: 1.7;
+      }
+      .container-main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      .card {
+        background: #ffffff;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem 1.75rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #e2e8f0;
+        transition: box-shadow 0.2s;
+      }
+      .card:hover {
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+      }
+      h2 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 3px solid #2563eb;
+        display: inline-block;
+      }
+      h3 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: #1d4ed8;
+        margin: 1.5rem 0 0.75rem;
+      }
+      h4 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .badge {
+        display: inline-block;
+        padding: 0.2rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-inline-start: 0.5rem;
+      }
+      .badge-blue {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+      .badge-green {
+        background: #d1fae5;
+        color: #065f46;
+      }
+      .badge-indigo {
+        background: #e0e7ff;
+        color: #3730a3;
+      }
+      .badge-red {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      /* ===== Prompt Box ===== */
+      .prompt-box {
+        background: #f8fafc;
+        border-right: 4px solid #2563eb;
+        border-radius: 0.75rem;
+        padding: 1rem 1.25rem;
+        margin: 1rem 0;
+        font-family: "Cairo", sans-serif;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        position: relative;
+      }
+      .prompt-box .copy-icon {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        background: #e2e8f0;
+        color: #334155;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.3rem 0.6rem;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: background 0.2s;
+      }
+      .prompt-box .copy-icon:hover {
+        background: #cbd5e1;
+      }
+      .prompt-box code {
+        background: #f1f5f9;
+        padding: 0.1rem 0.3rem;
+        border-radius: 0.3rem;
+        font-size: 0.9em;
+      }
+
+      /* ===== Table Styling ===== */
+      .table-wrap {
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        border-radius: 0.75rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+        font-size: 0.95rem;
+      }
+      th {
+        background: #0f172a;
+        color: #ffffff;
+        padding: 0.75rem 1rem;
+        text-align: right;
+        font-weight: 700;
+      }
+      td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: #f8fafc;
+      }
+
+      /* ===== Five Elements Grid ===== */
+      .elements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.25rem;
+        margin: 1.5rem 0;
+      }
+      .element-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .element-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+      }
+      .element-card .icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        background: #dbeafe;
+        color: #1d4ed8;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        margin-bottom: 0.75rem;
+      }
+      .element-card h4 {
+        color: #0f172a;
+        margin: 0.25rem 0;
+      }
+      .element-card p {
+        color: #475569;
+        font-size: 0.95rem;
+      }
+      .element-card .example {
+        background: #f8fafc;
+        border-right: 3px solid #2563eb;
+        border-radius: 0.4rem;
+        padding: 0.6rem 0.75rem;
+        margin-top: 0.75rem;
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+      }
+
+      /* ===== Techniques Section ===== */
+      .technique-item {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        margin-bottom: 1.25rem;
+        transition: box-shadow 0.2s;
+      }
+      .technique-item:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      }
+      .technique-item .header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+      .technique-item .header .num {
+        background: #0f172a;
+        color: #fff;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+      .technique-item .header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #0f172a;
+      }
+      .technique-item .badge {
+        margin-inline-start: auto;
+      }
+
+      /* ===== Master Prompt Card ===== */
+      .master-prompt {
+        background: #1e293b;
+        color: #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        margin: 1.5rem 0;
+        position: relative;
+      }
+      .master-prompt .copy-btn-master {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: #334155;
+        color: #fff;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: background 0.2s;
+      }
+      .master-prompt .copy-btn-master:hover {
+        background: #475569;
+      }
+      .master-prompt p {
+        margin: 0.5rem 0;
+        font-size: 0.95rem;
+      }
+      .master-prompt strong {
+        color: #60a5fa;
+      }
+
+      /* ===== Print Styles ===== */
+      @media print {
+        body {
+          background: white;
+        }
+        .card {
+          box-shadow: none;
+          border: 1px solid #ddd;
+          break-inside: avoid;
+        }
+        .element-card,
+        .technique-item,
+        .prompt-box,
+        .master-prompt {
+          break-inside: avoid;
+        }
+        .no-print {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="bg-slate-900 text-white py-8 no-print">
+      <div class="container-main text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">
+          الدليل الشامل لورشة هندسة التلقين (Prompt Engineering)
+        </h1>
+        <p class="text-blue-300 text-lg">لكل التخصصات والمستويات</p>
+        <p class="text-blue-200">مبادرة ترابط الأردنية</p>
+        <div class="mt-4 flex flex-wrap justify-center gap-2">
+          <span class="badge badge-blue">للجميع</span>
+          <span class="badge badge-green">عملي وتفاعلي</span>
+          <span class="badge badge-indigo">من الصفر حتى الاحتراف</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container-main">
+      <!-- القسم 1: المقدمة ونشر الوعي -->
+      <section class="card">
+        <h2>1️⃣ المقدمة ونشر الوعي</h2>
+        <p>
+          <strong>هندسة التلقين (Prompt Engineering)</strong> هي المهارة الأسهل
+          والأكثر طلباً حاليًا في سوق العمل. لكن قبل التعمق, دعونا نضبط المصطلح:
+          نستخدم كلمة <strong>"تلقين"</strong> بدلاً من
+          <strong>"أمر"</strong> لأن العملية تتضمن غرس المعرفة والسياق والنبرة
+          في النموذج, وليس مجرد إصدار أوامر برمجية جامدة.
+        </p>
+        <h3>كيف يعمل النموذج اللغوي (LLM)؟</h3>
+        <p>
+          النموذج اللغوي الكبير يعتمد على
+          <strong>الإحصاء والاحتمالات</strong> وتوقع الكلمات والتصنيف الدلالي.
+          تم تدريبه على مليارات النصوص, وعند إدخال نص, يقوم بحساب الكلمة التالية
+          الأكثر احتمالاً بناءً على السياق. الأمر أشبه بآلة تنبؤ عملاقة.
+        </p>
+        <div class="bg-slate-100 p-4 rounded-lg mt-3">
+          <p>
+            <strong>مثال بسيط:</strong> إذا قلت "أنا ذاهب إلى..." فإن النموذج
+            يقترح كلمات مثل "المدرسة", "الجامعة", "العمل" حسب السياق الذي
+            أعطيته.
+          </p>
+        </div>
+      </section>
+
+      <!-- القسم 2: خريطة الأدوات (جدول محدّث) -->
+      <section class="card">
+        <h2>2️⃣ خريطة أدوات الذكاء الاصطناعي</h2>
+        <p>
+          اختيار الأداة المناسبة يوفر الوقت والجهد. الجدول التالي يلخص القوة
+          التقنية الحقيقية لكل نموذج والاستخدام الأمثل واقعياً:
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>النموذج / الأداة</th>
+                <th>الشركة / المنصة</th>
+                <th>القوة التقنية الحقيقية</th>
+                <th>الاستخدام الدقيق والأفضل واقعياً (The Real Sweet Spot)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">Claude 3.5 Sonnet</td>
+                <td>Anthropic</td>
+                <td>
+                  كتابة وتعديل الكود البرمجي, المنطق, والأسلوب الكتابي الطبيعي
+                </td>
+                <td>
+                  الملك الأول للبرمجة (Coding) والتفكير المنطقي: كتابة الأكواد
+                  المعقدة, إعطاء حلول برمجية نظيفة, Refactoring, والكتابة
+                  الأكاديمية والتعبيرية بدون نبرة الذكاء الاصطناعي الركيكة.
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">Gemini 1.5 Pro</td>
+                <td>Google</td>
+                <td>
+                  نافذة سياق ضخمة جدا (1-2 مليون توكن) وقراءة الفيديو والصوت
+                  المباشر
+                </td>
+                <td>
+                  معالجة الملفات العملاقة والوسائط المتعددة (Multimodal): قراءة
+                  مشروع برمجي كامل (Full Codebase), تحليل فيديو مدته ساعتان, أو
+                  مراجعة كتب وملفات PDF ضخمة دفعة واحدة.
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">GPT-4o</td>
+                <td>OpenAI</td>
+                <td>السرعة التفاعلية, الصوت والصورة اللحظية, وتنوع الأتمتة</td>
+                <td>
+                  المساعد العام الشامل والأتمتة المتقدمة: المهام اليومية
+                  السريعة, تحليل الصور التفاعلي, التحدث الصوتي, والتكامل مع
+                  الأدوات الخارجية عبر Custom GPTs و Ecosystem التابع ل OpenAI.
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">Perplexity AI</td>
+                <td>Perplexity</td>
+                <td>محرك بحث مدعوم بالذكاء الاصطناعي مع توثيق لحظي للمراجع</td>
+                <td>
+                  البحث الحي والتحقق من المصادر (Fact Checking): استبدال محركات
+                  البحث التقليدية للوصول لأحدث المعلومات والأبحاث مع روابط
+                  مباشرة وتوثيق دقيق لكل معلومة.
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">Llama 3</td>
+                <td>Meta</td>
+                <td>
+                  نموذج مفتوح المصدر (Open Source) للتشغيل والتعديل المحلي
+                </td>
+                <td>
+                  التشغيل المحلي (Offline) والخصوصية المطلقة: بناء تطبيقات خاصة,
+                  التدريب على بيانات سرية (Fine tuning), والتشغيل على أجهزة أو
+                  سيرفرات داخلية دون الحاجة ل API أو إنترنت.
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">Glass Health (Glass AI)</td>
+                <td>Glass Health</td>
+                <td>
+                  تحليل الحالات السريرية (Clinical Vignette) وصياغة التشخيص
+                  التفريقي
+                </td>
+                <td>
+                  التشخيص التفريقي (DDx) وتطوير الخطط العلاجية: مخصص بالكامل
+                  للأطباء وطلاب الطب للتحليل السريري المباشر وبناء قائمة تشخيصية
+                  منطقية مع خطة علاجية مفصلة.
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">Heidi Health / Abridge</td>
+                <td>Heidi Health / Abridge</td>
+                <td>
+                  المعالجة الصوتية الذكية وتوليد التقارير والملاحظات الطبية
+                  السريرية
+                </td>
+                <td>
+                  التوثيق السريري والملاحظات الطبية (SOAP Notes): تحويل الحوارات
+                  الشفهية والأعراض إلى تقارير سريرية منظمة لتوفير وقت الكتابة
+                  السريرية.
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">Consensus.app</td>
+                <td>Consensus</td>
+                <td>
+                  بحث واستخراج مباشر ومحايد من ملايين الأوراق العلمية في PubMed
+                </td>
+                <td>
+                  الإجابة عن الأسئلة الطبية المعقدة ومراجعة الأدبيات: تقديم
+                  خلاصة علمية مبنية على الدليل مع مؤشر اتفاق الدراسات (Consensus
+                  Meter) وتوثيق كل معلومة بمصدرها.
+                </td>
+              </tr>
+              <tr>
+                <td class="font-bold">SciSpace (Typeset.io)</td>
+                <td>SciSpace</td>
+                <td>
+                  محادثة واستخراج المعطيات من ملفات ال PDF والأوراق الأكاديمية
+                </td>
+                <td>
+                  قراءة وتفكيك الأوراق الطبية الصعبة: رفع ملفات PDF للأبحاث
+                  والخطوط الإرشادية (Guidelines) ومحادثتها مباشرة لاستخراج
+                  الجرعات, النتائج, والمنهجية.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <!-- القسم 3: عناصر البرومبت الخمسة (تصميم محسّن) -->
+      <section class="card">
+        <h2>3️⃣ عناصر البرومبت ا5</h2>
+        <p>كل برومبت احترافي يجب أن يشمل هذه العناصر الخمسة:</p>
+        <div class="elements-grid">
+          <!-- العنصر 1 -->
+          <div class="element-card">
+            <div class="icon">1</div>
+            <h4>المهمة (Task)</h4>
+            <p>
+              ماذا تريد من النموذج أن يفعل؟ مثل: فرز, فلترة, استنباط, تلخيص.
+            </p>
+            <div class="example">رتب هذه الأطباق حسب قيمتها الغذائية.</div>
+          </div>
+          <!-- العنصر 2 -->
+          <div class="element-card">
+            <div class="icon">2</div>
+            <h4>السياق (Context)</h4>
+            <p>أعطِ خلفية كافية عن الموقف أو الجمهور أو المستوى.</p>
+            <div class="example">أنا طالب طب في السنة الثالثة, أريد شرحاً مبسطاً لأمراض القلب.
+            </div>
+          </div>
+          <!-- العنصر 3 -->
+          <div class="element-card">
+            <div class="icon">3</div>
+            <h4>الدور (Role)</h4>
+            <p>اطلب من النموذج أن يتقمص شخصية معينة.</p>
+            <div class="example">أنت مدير تسويق خبير, اكتب خطة ترويجية لمنتج جديد.
+            </div>
+          </div>
+          <!-- العنصر 4 -->
+          <div class="element-card">
+            <div class="icon">4</div>
+            <h4>صيغة المخرجات (Output Format)</h4>
+            <p>حدد الشكل: جدول, CSV, JSON, مخطط شجري, قائمة.</p>
+            <div class="example">أعطني النتائج في جدول يحتوي على أعمدة: الاسم, العمر, النتيجة.
+            </div>
+          </div>
+          <!-- العنصر 5 -->
+          <div class="element-card">
+            <div class="icon">5</div>
+            <h4>المدخلات (Inputs)</h4>
+            <p>
+              قدم البيانات التي سيعتمد عليها النموذج, ويفضل وضعها بين أقواس اقتباس.
+            </p>
+            <div class="example">فلتر الأسماء غير العربية من القائمة التالية: [أحمد, John, مريم, Robert, سارة]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- القسم 4: التقنيات الأربع (تصميم محسّن) -->
+      <section class="card">
+        <h2>4️⃣ التقنيات الأربع الأساسية</h2>
+
+        <!-- تقنية 1 -->
+        <div class="technique-item">
+          <div class="header">
+            <div class="num">1</div>
+            <h3>Zero-shot Prompting</h3>
+            <span class="badge badge-blue">مباشر</span>
+          </div>
+          <p>
+            اطلب من النموذج أداء مهمة دون تقديم أمثلة. مناسب للأسئلة اليومية.
+          </p>
+          <div class="prompt-box">ما عاصمة الأردن؟<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
+          </div>
+        </div>
+
+        <!-- تقنية 2 -->
+        <div class="technique-item">
+          <div class="header">
+            <div class="num">2</div>
+            <h3>Few-shot Prompting</h3>
+            <span class="badge badge-blue">التعليم بالأمثلة</span>
+          </div>
+          <p>قدم أمثلة قليلة ليتعلم النموذج النمط المطلوب.</p>
+          <div class="prompt-box">
+            علمه كلمة جديدة: <br />
+            <strong>"جومودار"</strong> تعني شخص ذكي جداً. <br />
+            الآن استخدم كلمة <strong>"جومودار"</strong> في جملة.
+            <button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
+          </div>
+          <div class="prompt-box">
+            تصنيف العملاء: <br />
+            العميل 1: يدفع دائماً => نصاب؟ لا, محترم <br />
+            العميل 2: يتهرب من الدفع => نصاب <br />
+            العميل 3: دفع نصف المبلغ => ؟
+            <button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
+          </div>
+        </div>
+
+        <!-- تقنية 3 -->
+        <div class="technique-item">
+          <div class="header">
+            <div class="num">3</div>
+            <h3>Chain-of-Thought (CoT)</h3>
+            <span class="badge badge-indigo">التفكير خطوة بخطوة</span>
+          </div>
+          <p>اطلب من النموذج التفكير بصوت عالٍ لحل المشكلات المعقدة.</p>
+          <div class="prompt-box">
+            لدي 3 أقلام و4 شوكولاتة. أعطيت صديقي قلمين وشوكولاتة واحدة. كم بقي
+            معي؟ <br />
+            <strong>فكر خطوة بخطوة</strong>
+            <button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
+          </div>
+        </div>
+
+        <!-- تقنية 4 -->
+        <div class="technique-item">
+          <div class="header">
+            <div class="num">4</div>
+            <h3>Self-Consistency</h3>
+            <span class="badge badge-indigo">الاتساق الذاتي</span>
+          </div>
+          <p>اطلب من النموذج توليد عدة حلول واختيار الأكثر منطقية.</p>
+          <div class="prompt-box">حل المسألة السابقة بثلاث طرق مختلفة, ثم حدد الإجابة الأكثر اتساقاً.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- القسم 5: قالب البرومبت الجوكر (تصميم محسّن) -->
+      <section class="card">
+        <h2>5️⃣ قالب البرومبت الجوكر (Master Prompt)</h2>
+        <p>هذا القالب مرن ويمكن تعديله لأي مهنة أو مهمة:</p>
+        <div class="master-prompt">
+          <button class="copy-btn-master" onclick="copyMasterPrompt()">
+            نسخ القالب
+          </button>
+          <p><strong>[Identity & Role]</strong> أنت [خبير في...]</p>
+          <p><strong>[Context & Task]</strong> أحتاج منك [وصف المهمة]</p>
+          <p>
+            <strong>[Output Structure]</strong> قدم النتيجة على شكل
+            [جدول/قائمة/خطة]
+          </p>
+          <p><strong>[Constraints]</strong> التزم بال [المعايير/القيود]</p>
+          <p><strong>[Examples]</strong>
+            <a href="PromptEx.html" target="_blank"> صفحة الأمثلة</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- القسم 6: أسرار الخبراء والأتمتة -->
+      <section class="card">
+        <h2>6️⃣ أسرار الخبراء والأتمتة</h2>
+        <div class="space-y-4">
+          <div class="bg-emerald-50 border-r-4 border-emerald-500 p-4 rounded">
+            <h4>🔹 السر 1: البرومبت برنامج في تطور (Iterative Refinement)</h4>
+            <p>
+              لا يوجد برومبت مثالي من أول مرة. ابدأ بسيطاً, جرب, ثم حسّن. يمكن
+              بيع البرومبتات الناجحة على منصات مثل <strong>PromptBase</strong>.
+            </p>
+          </div>
+          <div class="bg-emerald-50 border-r-4 border-emerald-500 p-4 rounded">
+            <h4>🔹 السر 2: (Meta Prompting)</h4>
+            <p>
+              استخدم الذكاء الاصطناعي ليكتب لك برومبتات أفضل, وحتى لتوليد أوامر
+              لصور Midjourney أو DALL·E.
+            </p>
+            <div class="prompt-box text-sm mt-2">أنت خبير في هندسة البرومبت. اكتب لي برومبت مثالي لإنشاء شعار لشركة ناشئة في مجال الطاقة الشمسية.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- القسم 7: التهديد الفكري والانحياز -->
+      <section class="card border-red-200">
+        <h2 class="text-red-700 border-red-500">
+          7️⃣ التهديد الفكري والانحياز (AI Bias)
+        </h2>
+        <ul class="list-disc pr-6 space-y-2">
+          <li>
+            <strong>الانحياز الثقافي:</strong> النماذج قد تعكس قيماً غربية لا
+            تناسب مجتمعنا.
+          </li>
+          <li>
+            <strong>طوفان المحتوى الآلي:</strong> كثرة المحتوى المولد آلياً قد
+            يغرق الأفكار الأصلية.
+          </li>
+          <li>
+            <strong>الاعتماد الكلي:</strong> خطر فقدان التفكير النقدي والإبداع
+            الذاتي.
+          </li>
+        </ul>
+        <p class="mt-4">
+          لحماية هويتنا الفكرية, يجب أن نستخدم الذكاء الاصطناعي أداة مساعدة لا
+          بديل عن العقل.
+        </p>
+      </section>
+
+      <!-- القسم 8: التطبيق العملي والمصادر -->
+      <section class="card">
+        <h2>8️⃣ التطبيق العملي والمصادر</h2>
+        <h3>تحدي عملي زوجي</h3>
+        <p>
+          بالتعاون مع زميلك, اختر مشكلة واقعية من المجتمع الأردني (مثل: تحسين
+          النقل العام, تقليل هدر الطعام, دعم المشاريع المنزلية) ثم قم بصياغة
+          برومبت شامل لاقتراح حلول مبتكرة.
+        </p>
+        <div class="bg-slate-100 p-4 rounded-lg mt-3">
+          <p>
+            <strong>مثال:</strong> أنت مستشار استراتيجي, اقترح 5 حلول عملية
+            لمشكلة الازدحام المروري في عمان, مع مراعاة التكلفة المنخفضة والتنفيذ
+            السريع.
+          </p>
+        </div>
+        <h3 class="mt-4">مصادر التعلم المجانية</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-slate-50 p-3 rounded border border-slate-200">
+            📘 Learn Prompting
+          </div>
+          <div class="bg-slate-50 p-3 rounded border border-slate-200">
+            🎓 DeepLearning.AI (Andrew Ng)
+          </div>
+          <div class="bg-slate-50 p-3 rounded border border-slate-200">
+            🔍 OpenEvidence
+          </div>
+          <div class="bg-slate-50 p-3 rounded border border-slate-200">
+            📄 Prompting Guide (DAIR.AI)
+          </div>
+        </div>
+      </section>
+
+      <!-- خاتمة -->
+      <div class="text-center mt-8 py-6 border-t border-slate-300">
+        <p class="text-xl font-bold text-slate-900">
+          "التكنولوجيا لن تستبدلك, لكن من يتقنها سيسبقك"
+        </p>
+        <p class="text-slate-500 mt-2">
+          مبادرة ترابط الأردنية - ورشة هندسة التلقين
+        </p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-4 text-center text-sm no-print">
+      <p>© 2026 مبادرة ترابط الأردنية - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <script>
+      // وظيفة نسخ البرومبت من أي صندوق
+      function copyPrompt(btn) {
+        const box = btn.closest(".prompt-box");
+        const text = box.innerText.replace("نسخ", "").trim();
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            btn.textContent = "تم النسخ ✓";
+            setTimeout(() => {
+              btn.textContent = "نسخ";
+            }, 1500);
+          })
+          .catch((err) => {
+            alert("تعذر النسخ");
+          });
+      }
+
+      // وظيفة نسخ القالب الرئيسي
+      function copyMasterPrompt() {
+        const promptText = `[Identity & Role]\nأنت [خبير في...]\n\n[Context & Task]\nأحتاج منك [وصف المهمة]  [الجمهور/الهدف]\n\n[Output Structure]\nقدم النتيجة على شكل [جدول/قائمة/خطة]\n\n[Constraints]\nالتزم بـ [المعايير/القيود]\n\n[Examples]\nإليك مثال: [مثال]`;
+        navigator.clipboard
+          .writeText(promptText)
+          .then(() => {
+            const btn = document.querySelector(".copy-btn-master");
+            btn.textContent = "تم النسخ ✓";
+            setTimeout(() => {
+              btn.textContent = "نسخ القالب";
+            }, 1500);
+          })
+          .catch((err) => {
+            alert("تعذر النسخ");
+          });
+      }
+    </script>
+  </body>
+</html>

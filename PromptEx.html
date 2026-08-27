@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مكتبة البرومبتات الطبية الشاملة | أكثر من 40 مثالاً جاهزاً</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Cairo", sans-serif;
+        background-color: #f1f5f9;
+        color: #1e293b;
+        line-height: 1.7;
+      }
+      .container-main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      .card {
+        background: #ffffff;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem 1.75rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #e2e8f0;
+      }
+      h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #0f172a;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      h2 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 2rem 0 1rem;
+        border-bottom: 3px solid #2563eb;
+        display: inline-block;
+        padding-bottom: 0.3rem;
+      }
+      .prompt-item {
+        background: #f8fafc;
+        border-right: 4px solid #2563eb;
+        border-radius: 0.75rem;
+        padding: 1rem 1.25rem;
+        margin: 1rem 0;
+        position: relative;
+      }
+      .prompt-item .prompt-title {
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
+      .prompt-item .prompt-text {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-size: 0.95rem;
+        color: #334155;
+        margin-bottom: 0.5rem;
+      }
+      .copy-btn {
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: background 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .copy-btn:hover {
+        background: #1d4ed8;
+      }
+      .badge {
+        display: inline-block;
+        padding: 0.2rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-left: 0.5rem;
+      }
+      .badge-med {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+      .badge-analysis {
+        background: #d1fae5;
+        color: #065f46;
+      }
+      .badge-education {
+        background: #ede9fe;
+        color: #5b21b6;
+      }
+      .badge-admin {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .badge-research {
+        background: #ffe4e6;
+        color: #9f1239;
+      }
+      @media print {
+        body {
+          background: white;
+        }
+        .card {
+          box-shadow: none;
+          border: 1px solid #ddd;
+          break-inside: avoid;
+        }
+        .prompt-item {
+          break-inside: avoid;
+        }
+        .no-print {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bg-slate-900 text-white py-8 no-print">
+      <div class="container-main text-center">
+        <h1>📚 مكتبة البرومبتات الطبية الشاملة</h1>
+        <p class="text-blue-300 text-lg">
+          أكثر من 40 مثالاً جاهزاً - انسخ, ألصق, وابدأ فوراً
+        </p>
+      </div>
+    </header>
+
+    <main class="container-main">
+      <!-- ============ 1. التشخيص والتحليل السريري ============ -->
+      <section class="card">
+        <h2>🩺 التشخيص والتحليل السريري</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تشخيص تفريقي مبدئي <span class="badge badge-med">تشخيص</span>
+          </div>
+          <div class="prompt-text">
+            أنت طبيب باطني استشاري. مريض يعاني من ألم بطني في الربع العلوي
+            الأيمن مع حمى ويرقان. أعطني قائمة بالتشخيصات التفريقية مرتبة حسب
+            الأولوية مع الأسباب السريرية لكل تشخيص.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تشخيص من أعراض متعددة <span class="badge badge-med">تشخيص</span>
+          </div>
+          <div class="prompt-text">
+            مريض عمره 60 سنة, مدخن, يعاني من ضيق تنفس تدريجي, سعال جاف, وفقدان
+            وزن. ما هي أهم 3 تشخيصات تفريقية؟ وما الفحوصات اللازمة لتأكيد كل
+            منها؟
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تفسير أعراض عصبية <span class="badge badge-med">تشخيص</span>
+          </div>
+          <div class="prompt-text">
+            مريض يشكو من صداع مفاجئ مع تيبس رقبة وحساسية للضوء. ما
+            التشخيص الأكثر احتمالا؟ وما الإجراءات الطارئة المطلوبة؟
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تقييم حالة طفل <span class="badge badge-med">تشخيص</span>
+          </div>
+          <div class="prompt-text">
+            طفل عمره 3 سنوات يعاني من حمى 39°C, رفض الطعام, وبكاء مستمر. الفحص
+            يظهر احمرار في البلعوم. ما التشخيص المحتمل وما العلاج المنزلي؟
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ 2. تحليل التقارير والصور الطبية ============ -->
+      <section class="card">
+        <h2>🔬 تحليل التقارير والصور الطبية</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تحليل تقرير مخبري شامل
+            <span class="badge badge-analysis">تحليل تقرير</span>
+          </div>
+          <div class="prompt-text">
+            سأرفع لك تقرير مخبري كامل (CBC, كيمياء الدم, وظائف كبد وكلى). قم
+            بتحليله بالتفصيل: اذكر القيم الشاذة, تفسيرها السريري, والفحوصات
+            الإضافية المقترحة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تحليل صورة أشعة سينية
+            <span class="badge badge-analysis">تحليل صورة</span>
+          </div>
+          <div class="prompt-text">
+            سأرفق صورة أشعة صدر. حللها خطوة بخطوة: الرئة, القلب, العظام,
+            والأنسجة الرخوة. اذكر أي علامات غير طبيعية وتشخيصات محتملة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            قراءة تخطيط قلب (ECG)
+            <span class="badge badge-analysis">تحليل صورة</span>
+          </div>
+          <div class="prompt-text">
+            أرفقت صورة تخطيط قلب. قم بقراءته: النظم, المحاور, الفترات, وتغيرات
+            ST-T. أعطني التشخيص الأكثر احتمالاً.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تحليل تقرير أشعة مقطعية
+            <span class="badge badge-analysis">تحليل تقرير</span>
+          </div>
+          <div class="prompt-text">
+            لدي تقرير أشعة مقطعية للبطن (سألصقه). اشرح المصطلحات الواردة, وحدد
+            النتائج المهمة, واقترح الخطوات التالية.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تحليل نتائج خزعة
+            <span class="badge badge-analysis">تحليل تقرير</span>
+          </div>
+          <div class="prompt-text">
+            هذا تقرير خزعة نسيجية (سألصقه). اشرح النتائج بلغة طبية دقيقة, وحدد
+            مرحلة المرض إن وجدت, والتوصيات العلاجية.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ 3. خطط علاجية وإدارة الحالات ============ -->
+      <section class="card">
+        <h2>💊 خطط علاجية وإدارة الحالات</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            خطة علاجية شاملة لسكري <span class="badge badge-med">علاج</span>
+          </div>
+          <div class="prompt-text">
+            مريض سكري نوع 2, HbA1c=9.5, BMI=32. ضع خطة علاجية متكاملة تشمل
+            الأدوية, التغذية, النشاط البدني, والمتابعة, مع ذكر الأهداف الزمنية.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            إدارة ارتفاع ضغط الدم <span class="badge badge-med">علاج</span>
+          </div>
+          <div class="prompt-text">
+            مريض ضغطه 170/105 مع قصور كلوي خفيف (eGFR=55). ما الأدوية المناسبة؟
+            وما الجرعات الأولية؟ مع مراعاة موانع الاستعمال.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            علاج الربو الحاد <span class="badge badge-med">علاج</span>
+          </div>
+          <div class="prompt-text">
+            مريض ربو في نوبة حادة, SaO2=90%, لا يستطيع التحدث بجمل كاملة. ما
+            العلاج الطارئ خطوة بخطوة في قسم الطوارئ؟
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            خطة علاج التهاب رئوي <span class="badge badge-med">علاج</span>
+          </div>
+          <div class="prompt-text">
+            مريض عمره 70 سنة, التهاب رئوي مكتسب من المجتمع. ما المضاد الحيوي
+            المناسب حسب التوصيات الحديثة؟ وما مدة العلاج ومعايير التحسن؟
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ 4. تعليم المرضى والتواصل ============ -->
+      <section class="card">
+        <h2>🗣️ تعليم المرضى والتواصل</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تبسيط مفهوم طبي للمريض
+            <span class="badge badge-education">تثقيف</span>
+          </div>
+          <div class="prompt-text">
+            اشرح للمريض بطريقة بسيطة (بلهجة أردنية) ما هو ارتفاع الكوليسترول
+            وما تأثيره على القلب, بدون استخدام مصطلحات معقدة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تعليمات بعد عملية جراحية
+            <span class="badge badge-education">تثقيف</span>
+          </div>
+          <div class="prompt-text">
+            اكتب تعليمات ما بعد استئصال المرارة (بالعامية الواضحة): الأكل
+            المسموح, النشاط البدني, علامات الخطر التي تتطلب مراجعة الطوارئ.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            شرح دواء للمريض <span class="badge badge-education">تثقيف</span>
+          </div>
+          <div class="prompt-text">
+            أنا مريض وصف لي الطبيب أوميبرازول. اشرح لي بطريقة سهلة: لماذا
+            يؤخذ؟ كيف؟ متى؟ وما الآثار الجانبية المحتملة؟
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            نصائح غذائية لمرضى السكري
+            <span class="badge badge-education">تثقيف</span>
+          </div>
+          <div class="prompt-text">
+            أعطني نصائح غذائية عملية لمرضى السكري في رمضان, مع أمثلة لوجبات
+            مناسبة للفطور والسحور.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ 5. التعليم والتدريب الطبي ============ -->
+      <section class="card">
+        <h2>🎓 التعليم والتدريب الطبي</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            توليد أسئلة MCQs <span class="badge badge-education">تعليم</span>
+          </div>
+          <div class="prompt-text">
+            أنشئ 10 أسئلة متعددة الخيارات (MCQs) لطلاب الطب حول الالتهاب
+            الرئوي, مع ذكر الإجابة الصحيحة وشرح موجز لكل سؤال.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            شرح حالة سريرية لطالب
+            <span class="badge badge-education">تعليم</span>
+          </div>
+          <div class="prompt-text">
+            أنا طالب طب في السنة الرابعة. اشرح لي حالة فشل القلب الاحتقاني من
+            حيث الفيزيولوجيا المرضية, الأعراض, والتشخيص, بطريقة مبسطة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            محاكاة مقابلة سريرية
+            <span class="badge badge-education">تعليم</span>
+          </div>
+          <div class="prompt-text">
+            قم بدور مريض يعاني من ألم صدري, وأنا الطبيب الذي سأطرح الأسئلة. جاوب
+            بطلاقة وبشكل واقعي لمساعدتي على التدرب على التشخيص.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تلخيص محاضرة طبية <span class="badge badge-education">تعليم</span>
+          </div>
+          <div class="prompt-text">
+            لخّص هذا النص عن الجهاز المناعي (سألصقه) في نقاط رئيسية, مع رسم
+            مخطط شجري لأهم الخلايا ووظائفها.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ 6. الأبحاث والكتابة العلمية ============ -->
+      <section class="card">
+        <h2>📑 الأبحاث والكتابة العلمية</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تلخيص ورقة بحثية <span class="badge badge-research">بحث</span>
+          </div>
+          <div class="prompt-text">
+            لخّص هذه الورقة البحثية (سألصقها) إلى نقاط: الهدف, المنهجية, النتائج
+            الرئيسية, والاستنتاجات, مع تقييم نقاط القوة والضعف.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            كتابة مقترح بحثي <span class="badge badge-research">بحث</span>
+          </div>
+          <div class="prompt-text">
+            ساعدني في كتابة مقترح بحثي حول تأثير التغذية على مرض السكري لدى
+            الأطفال في الأردن. اكتب المقدمة, الأهداف, المنهجية, والاعتبارات
+            الأخلاقية.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            إعداد عرض تقديمي <span class="badge badge-research">بحث</span>
+          </div>
+          <div class="prompt-text">
+            أعددت بحثاً عن الذكاء الاصطناعي في التشخيص المبكر للسرطان. أنشئ 10
+            شرائح PowerPoint ملخصة بأهم النقاط, مع عناوين جذابة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            كتابة حالة سريرية (Case Report)
+            <span class="badge badge-research">بحث</span>
+          </div>
+          <div class="prompt-text">
+            سأعطيك تفاصيل حالة نادرة. ساعدني في كتابة تقرير حالة سريرية منظم حسب
+            الأقسام القياسية (Introduction, Case Presentation, Discussion,
+            Conclusion).
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ 7. إدارة المستشفيات والعيادات ============ -->
+      <section class="card">
+        <h2>🏥 إدارة المستشفيات والعيادات</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            كتابة مذكرة خروج <span class="badge badge-admin">إداري</span>
+          </div>
+          <div class="prompt-text">
+            اكتب مذكرة خروج لمريض أدخل بسبب التهاب الزائدة الدودية وعملت له
+            استئصال. تشمل: التشخيص النهائي, الإجراءات, الأدوية عند الخروج
+            والمتابعة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تلخيص قصة مرضية <span class="badge badge-admin">إداري</span>
+          </div>
+          <div class="prompt-text">
+            خذ هذه القصة المرضية الطويلة (سألصقها) ولخّصها في 5 أسطر مع التركيز
+            على الشكوى الرئيسية, التاريخ المرضي, الفحص, والخطة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            خطة لإدارة عيادة <span class="badge badge-admin">إداري</span>
+          </div>
+          <div class="prompt-text">
+            أنا طبيب أفتتح عيادة خاصة. ضع خطة عمل شاملة: التجهيزات, الترخيص,
+            التسويق, وإدارة المواعيد, مع تقدير التكاليف الأولية.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            رسالة إحالة لاستشاري <span class="badge badge-admin">إداري</span>
+          </div>
+          <div class="prompt-text">
+            اكتب رسالة إحالة من طبيب عام إلى استشاري قلب لمريض يعاني من خفقان
+            متكرر, مع ذكر التاريخ المرضي والفحوصات التي أجريت.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ 8. الصحة النفسية ============ -->
+      <section class="card">
+        <h2>🧠 الصحة النفسية</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تقييم اكتئاب <span class="badge badge-med">نفسي</span>
+          </div>
+          <div class="prompt-text">
+            مريض يشكو من حزن مستمر, فقدان اهتمام, واضطراب نوم لمدة 3 أسابيع. ما
+            معايير تشخيص الاكتئاب؟ وما الأسئلة الإضافية التي يجب طرحها؟
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            جلسة علاج معرفي سلوكي <span class="badge badge-med">نفسي</span>
+          </div>
+          <div class="prompt-text">
+            أنت معالج نفسي. صمم جلسة علاج معرفي سلوكي لمريض يعاني من قلق
+            اجتماعي, مع تمارين وأسئلة تساعد على تحدي الأفكار السلبية.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            نصائح لتخفيف التوتر <span class="badge badge-med">نفسي</span>
+          </div>
+          <div class="prompt-text">
+            أعطني 7 تقنيات عملية لتخفيف التوتر لطلاب الطب قبل الامتحانات, مع شرح
+            مختصر لكيفية تطبيق كل تقنية.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ تكنولوجيا المعلومات والبرمجة ============ -->
+      <section class="card">
+        <h2>💻 تكنولوجيا المعلومات والبرمجة</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            كتابة كود بايثون <span class="badge badge-it">IT</span>
+          </div>
+          <div class="prompt-text">
+            اكتب دالة في بايثون تأخذ قائمة أرقام وتعيد متوسطها الحسابي مع تجاهل
+            أي قيم غير رقمية. أضف تعليقات توضيحية في الكود.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            شرح كود معقد <span class="badge badge-it">IT</span>
+          </div>
+          <div class="prompt-text">
+            اشرح هذا الكود (الصق الكود هنا) خطوة بخطوة, مع توضيح الغرض من كل
+            دالة والمتغيرات المهمة, وكيفية تحسين الأداء.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تصحيح الأخطاء (Debugging) <span class="badge badge-it">IT</span>
+          </div>
+          <div class="prompt-text">
+            الكود التالي لا يعمل بشكل صحيح: (الصق الكود). حدد الخطأ وأعطني
+            النسخة المصححة مع شرح سبب المشكلة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            استعلام SQL <span class="badge badge-it">IT</span>
+          </div>
+          <div class="prompt-text">
+            اكتب استعلام SQL يجلب أسماء الموظفين الذين رواتبهم أعلى من 5000 من
+            جدول employees مع ترتيب النتائج تنازلياً حسب الراتب.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تصميم واجهة API <span class="badge badge-it">IT</span>
+          </div>
+          <div class="prompt-text">
+            صمم REST API لإدارة مكتبة بسيطة تحتوي على كتب ومستخدمين. حدد
+            Endpoints, Methods, Response JSON لكل عملية (إضافة, تعديل,
+            حذف, استرجاع).
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تحليل أمني (Cybersecurity) <span class="badge badge-it">IT</span>
+          </div>
+          <div class="prompt-text">
+            قم بمراجعة هذا الكود (الصق الكود) من منظور أمني, وحدد الثغرات
+            المحتملة (مثل SQL injection, XSS) واقترح حلولاً لتأمينه.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تحليل بيانات (Python/Pandas) <span class="badge badge-it">IT</span>
+          </div>
+          <div class="prompt-text">
+            اكتب كود بايثون باستخدام Pandas لقراءة ملف CSV يحتوي على بيانات
+            مبيعات, ثم نظّف البيانات واحسب إجمالي المبيعات لكل شهر.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            سكربت DevOps <span class="badge badge-it">IT</span>
+          </div>
+          <div class="prompt-text">
+            اكتب سكربت Bash يقوم بأخذ نسخة احتياطية من قاعدة بيانات MySQL كل يوم
+            في الساعة 2 فجراً, ثم يضغط الملف ويرسله إلى خادم بعيد عبر scp.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ التسويق والأعمال ============ -->
+      <section class="card">
+        <h2>📈 التسويق والأعمال</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            خطة تسويقية <span class="badge badge-marketing">تسويق</span>
+          </div>
+          <div class="prompt-text">
+            أنت خبير تسويق رقمي. ضع خطة تسويقية لمطعم جديد في عمّان متخصص بالأكل
+            الصحي, تستهدف الشباب من 20-35 سنة, بميزانية 3000 دينار للشهر الأول.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            كتابة إعلان جذاب <span class="badge badge-marketing">تسويق</span>
+          </div>
+          <div class="prompt-text">
+            اكتب إعلاناً قصيراً لمنتج سماعات لاسلكية بنبرة شبابية, مع عبارة
+            تحفيزية قوية ودعوة لاتخاذ إجراء, مناسب لمنصات التواصل الاجتماعي.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تحليل المنافسين <span class="badge badge-marketing">تسويق</span>
+          </div>
+          <div class="prompt-text">
+            أعطني قائمة بأهم 5 منافسين في سوق التجارة الإلكترونية للملابس في
+            الأردن, وحلّل نقاط قوتهم وضعفهم, واقترح فرصاً للتميز.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ المحتوى والكتابة ============ -->
+      <section class="card">
+        <h2>✍️ المحتوى والكتابة</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            مقال SEO <span class="badge badge-content">محتوى</span>
+          </div>
+          <div class="prompt-text">
+            اكتب مقالاً من 800 كلمة بعنوان فوائد الذكاء الاصطناعي في التعليم
+            مع تحسين محركات البحث (SEO), واستخدم كلمات مفتاحية مناسبة وهيكلية
+            عناوين واضحة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            منشور سوشيال ميديا <span class="badge badge-content">محتوى</span>
+          </div>
+          <div class="prompt-text">
+            اكتب 5 منشورات قصيرة لصفحة فيسبوك تروج لكتاب جديد عن التنمية
+            الذاتية, مع هاشتاغات مناسبة وأسئلة تفاعلية لزيادة المشاركة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            تلخيص كتاب <span class="badge badge-content">محتوى</span>
+          </div>
+          <div class="prompt-text">
+            لخّص كتاب العادات الذرية في 10 نقاط رئيسية, مع ذكر الفكرة الأساسية
+            لكل عادة وكيفية تطبيقها عملياً.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ التعليم والتدريب ============ -->
+      <section class="card">
+        <h2>🎓 التعليم والتدريب</h2>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            شرح مفهوم معقد <span class="badge badge-education">تعليم</span>
+          </div>
+          <div class="prompt-text">
+            اشرح مفهوم النسبية العامة لطالب في المرحلة الثانوية باستخدام
+            تشبيهات يومية, مع التركيز على الفكرة الأساسية دون تعقيد رياضي.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            خطة درس <span class="badge badge-education">تعليم</span>
+          </div>
+          <div class="prompt-text">
+            أعد خطة درس لمدة 45 دقيقة لتدريس الجهاز الهضمي لطلاب الصف السابع,
+            تشمل الأهداف والأنشطة التفاعلية ووسائل التقويم.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+
+        <div class="prompt-item">
+          <div class="prompt-title">
+            اختبار قصير <span class="badge badge-education">تعليم</span>
+          </div>
+          <div class="prompt-text">
+            أنشئ اختباراً قصيراً من 10 أسئلة صح/خطأ حول الفيزياء النووية مع
+            الإجابات الصحيحة وشرح مختصر لكل إجابة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">
+            📋 نسخ البرومبت
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ خاتمة ============ -->
+      <div class="text-center mt-8 py-6">
+        <p class="text-xl font-bold text-slate-900">
+          💡 انسخ البرومبت المناسب, عدّله حسب حاجتك, واحصل على نتائج أفضل
+        </p>
+        <p class="text-slate-500 mt-2">
+          مبادرة ترابط الأردنية - ورشة هندسة التلقين
+        </p>
+      </div>
+    </main>
+
+    <script>
+      function copyPrompt(btn) {
+        const promptItem = btn.closest(".prompt-item");
+        const promptText = promptItem.querySelector(".prompt-text").innerText;
+        navigator.clipboard
+          .writeText(promptText)
+          .then(() => {
+            btn.textContent = "تم النسخ ✓";
+            setTimeout(() => {
+              btn.textContent = "📋 نسخ البرومبت";
+            }, 1500);
+          })
+          .catch((err) => {
+            alert("تعذر النسخ: " + err);
+          });
+      }
+    </script>
+  </body>
+</html>
