@@ -451,6 +451,77 @@
           display: none !important;
         }
       }
+      /* ===== Responsive for Mobile ===== */
+@media (max-width: 640px) {
+  .container-main {
+    padding: 1rem 0.75rem;
+  }
+  .card {
+    padding: 1.25rem 1rem;
+    border-radius: 0.75rem;
+  }
+  h1 {
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+  h2 {
+    font-size: 1.4rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  .elements-grid {
+    grid-template-columns: 1fr; /* عمود واحد */
+    gap: 1rem;
+  }
+  .element-card {
+    padding: 1rem;
+  }
+  .technique-item {
+    padding: 1rem;
+  }
+  .prompt-box {
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+  }
+  .prompt-box .copy-icon {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: block;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  .master-prompt {
+    padding: 1rem;
+  }
+  .master-prompt .copy-btn-master {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: block;
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+  table {
+    font-size: 0.85rem;
+  }
+  th, td {
+    padding: 0.5rem 0.6rem;
+  }
+  /* زر التبديل - أصغر وأبعد عن الحواف */
+  #theme-toggle {
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  /* شارات أصغر */
+  .badge {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+  }
+}
     </style>
   </head>
   <body>
