@@ -198,6 +198,65 @@
         border-color: #334155;
         color: #e2e8f0;
       }
+      /* ===== Responsive for Mobile ===== */
+@media (max-width: 640px) {
+  body {
+    line-height: 1.6;
+  }
+  .container-main {
+    padding: 1rem 0.75rem;
+  }
+  .card {
+    padding: 1.25rem 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-size: 1.8rem;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+  h2 {
+    font-size: 1.4rem;
+    margin: 1.5rem 0 0.75rem;
+    padding-bottom: 0.25rem;
+  }
+  .prompt-item {
+    padding: 0.9rem 1rem;
+    margin: 0.75rem 0;
+    border-right-width: 3px;
+  }
+  .prompt-item .prompt-title {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .prompt-item .prompt-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .copy-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  .badge {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    margin-left: 0.25rem;
+    white-space: nowrap;
+  }
+  /* زر التبديل - أصغر وأبعد عن الحواف */
+  #theme-toggle {
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+}
     </style>
   </head>
   <body>
