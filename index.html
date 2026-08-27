@@ -16,7 +16,7 @@
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <style>
+      <style>
       /* ===== Base Styles ===== */
       * {
         -webkit-tap-highlight-color: transparent;
@@ -185,6 +185,7 @@
         margin: 1.5rem 0;
       }
       .element-card {
+        text-align: right;
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 0.75rem;
@@ -205,18 +206,22 @@
         background: #dbeafe;
         color: #1d4ed8;
         border-radius: 0.75rem;
-        display: flex;
+        display: inline-flex;
+        vertical-align: middle;
         align-items: center;
         justify-content: center;
         font-weight: 800;
         margin-bottom: 0.75rem;
+        margin-inline-end: 0.5rem;
         transition:
           background-color 0.3s,
           color 0.3s;
       }
       .element-card h4 {
         color: #0f172a;
-        margin: 0.25rem 0;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 0 0.75rem 0;
       }
       .element-card p {
         color: #475569;
@@ -573,6 +578,7 @@
           padding: 0.15rem 0.5rem;
         }
       }
+
       .section-number {
         display: inline-block;
         background: #2563eb;
@@ -585,6 +591,27 @@
         margin-inline-end: 0.5rem;
         font-size: 1.2rem;
       }
+      /* 1. إجبار الجدول على عرض أدنى لتفعيل التمرير الأفقي */
+      .table-wrap table {
+        width: 100%;
+        min-width: 800px; /* هذا السطر يمنع تكسير الجدول على الجوال */
+      }
+
+      /* 2. منع انقسام النصوص القصيرة في عمودي (الاسم) و (الشركة) */
+      .table-wrap th:first-child,
+      .table-wrap td:first-child,
+      .table-wrap th:nth-child(2),
+      .table-wrap td:nth-child(2) {
+        white-space: nowrap;
+      }
+
+      /* 3. إعطاء مساحة مريحة لعمود (الاستخدام الدقيق) لأنه يحتوي على نصوص طويلة */
+      .table-wrap th:last-child,
+      .table-wrap td:last-child {
+        min-width: 300px;
+        line-height: 1.6;
+      }
+      
     </style>
   </head>
   <body>
@@ -612,7 +639,7 @@
     <main class="container-main">
       <!-- القسم 1: المقدمة ونشر الوعي -->
       <section class="card">
-        <h2><span class="section-number">1</span> المقدمة ونشر الوعي</h2>
+        <h2><span class="section-number">1</span>المقدمة</h2>
         <p>
           <strong>هندسة التلقين (Prompt Engineering)</strong> هي المهارة الأسهل
           والأكثر طلبا حاليا في سوق العمل. لكن قبل التعمق, دعونا نضبط المصطلح:
