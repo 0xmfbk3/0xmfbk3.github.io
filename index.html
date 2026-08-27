@@ -2,7 +2,10 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>الدليل الشامل لورشة هندسة التلقين | مبادرة ترابط</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,15 +15,21 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
-      />
+    />
     <style>
       /* ===== Base Styles ===== */
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
       body {
         font-family: "Cairo", sans-serif;
         background-color: #f8fafc;
         color: #1e293b;
         line-height: 1.7;
-        transition: background-color 0.3s, color 0.3s;
+        overflow-x: hidden;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
       }
       .container-main {
         max-width: 900px;
@@ -34,7 +43,10 @@
         padding: 1.5rem 1.75rem;
         margin-bottom: 1.5rem;
         border: 1px solid #e2e8f0;
-        transition: box-shadow 0.2s, background-color 0.3s, border-color 0.3s;
+        transition:
+          box-shadow 0.2s,
+          background-color 0.3s,
+          border-color 0.3s;
       }
       .card:hover {
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
@@ -47,7 +59,9 @@
         padding-bottom: 0.5rem;
         border-bottom: 3px solid #2563eb;
         display: inline-block;
-        transition: color 0.3s, border-color 0.3s;
+        transition:
+          color 0.3s,
+          border-color 0.3s;
       }
       h3 {
         font-size: 1.35rem;
@@ -60,6 +74,7 @@
         font-size: 1.1rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
+        transition: color 0.3s;
       }
       .badge {
         display: inline-block;
@@ -97,7 +112,9 @@
         white-space: pre-wrap;
         word-wrap: break-word;
         position: relative;
-        transition: background-color 0.3s, border-color 0.3s;
+        transition:
+          background-color 0.3s,
+          border-color 0.3s;
       }
       .prompt-box .copy-icon {
         position: absolute;
@@ -110,10 +127,15 @@
         padding: 0.3rem 0.6rem;
         cursor: pointer;
         font-size: 0.8rem;
-        transition: background 0.2s;
+        transition:
+          background 0.2s,
+          transform 0.1s;
       }
       .prompt-box .copy-icon:hover {
         background: #cbd5e1;
+      }
+      .prompt-box .copy-icon:active {
+        transform: scale(0.95);
       }
       .prompt-box code {
         background: #f1f5f9;
@@ -188,7 +210,9 @@
         justify-content: center;
         font-weight: 800;
         margin-bottom: 0.75rem;
-        transition: background-color 0.3s, color 0.3s;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
       }
       .element-card h4 {
         color: #0f172a;
@@ -214,7 +238,10 @@
         border-radius: 0.75rem;
         padding: 1.25rem;
         margin-bottom: 1.25rem;
-        transition: box-shadow 0.2s, background-color 0.3s, border-color 0.3s;
+        transition:
+          box-shadow 0.2s,
+          background-color 0.3s,
+          border-color 0.3s;
       }
       .technique-item:hover {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -224,6 +251,7 @@
         align-items: center;
         gap: 0.75rem;
         margin-bottom: 0.5rem;
+        flex-wrap: wrap;
       }
       .technique-item .header .num {
         background: #0f172a;
@@ -236,6 +264,7 @@
         justify-content: center;
         font-weight: 700;
         font-size: 1rem;
+        flex-shrink: 0;
       }
       .technique-item .header h3 {
         margin: 0;
@@ -268,10 +297,15 @@
         padding: 0.4rem 0.8rem;
         cursor: pointer;
         font-size: 0.85rem;
-        transition: background 0.2s;
+        transition:
+          background 0.2s,
+          transform 0.1s;
       }
       .master-prompt .copy-btn-master:hover {
         background: #475569;
+      }
+      .master-prompt .copy-btn-master:active {
+        transform: scale(0.95);
       }
       .master-prompt p {
         margin: 0.5rem 0;
@@ -279,6 +313,10 @@
       }
       .master-prompt strong {
         color: #60a5fa;
+      }
+      .master-prompt a {
+        color: #60a5fa;
+        text-decoration: underline;
       }
 
       /* ===== Dark Mode Overrides ===== */
@@ -421,6 +459,12 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: all 0.3s;
       }
+      #theme-toggle:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+      #theme-toggle:active {
+        transform: scale(0.95);
+      }
       body.dark #theme-toggle {
         background: #1e293b;
         border-color: #334155;
@@ -443,94 +487,108 @@
         .master-prompt {
           break-inside: avoid;
         }
-        .no-print {
-          display: none !important;
-        }
+        .no-print,
         #theme-toggle {
           display: none !important;
         }
       }
+
       /* ===== Responsive for Mobile ===== */
-@media (max-width: 640px) {
-  .container-main {
-    padding: 1rem 0.75rem;
-  }
-  .card {
-    padding: 1.25rem 1rem;
-    border-radius: 0.75rem;
-  }
-  h1 {
-    font-size: 1.8rem;
-    line-height: 1.4;
-  }
-  h2 {
-    font-size: 1.4rem;
-  }
-  h3 {
-    font-size: 1.2rem;
-  }
-  .elements-grid {
-    grid-template-columns: 1fr; /* عمود واحد */
-    gap: 1rem;
-  }
-  .element-card {
-    padding: 1rem;
-  }
-  .technique-item {
-    padding: 1rem;
-  }
-  .prompt-box {
-    padding: 0.75rem 0.9rem;
-    font-size: 0.9rem;
-  }
-  .prompt-box .copy-icon {
-    position: relative;
-    top: auto;
-    left: auto;
-    display: block;
-    margin-top: 0.5rem;
-    text-align: center;
-  }
-  .master-prompt {
-    padding: 1rem;
-  }
-  .master-prompt .copy-btn-master {
-    position: relative;
-    top: auto;
-    left: auto;
-    display: block;
-    margin-top: 0.75rem;
-    text-align: center;
-  }
-  table {
-    font-size: 0.85rem;
-  }
-  th, td {
-    padding: 0.5rem 0.6rem;
-  }
-  /* زر التبديل - أصغر وأبعد عن الحواف */
-  #theme-toggle {
-    top: 0.75rem;
-    left: 0.75rem;
-    padding: 0.35rem 0.8rem;
-    font-size: 0.9rem;
-  }
-  /* شارات أصغر */
-  .badge {
-    font-size: 0.7rem;
-    padding: 0.15rem 0.5rem;
-  }
-}
+      @media (max-width: 640px) {
+        body {
+          line-height: 1.6;
+        }
+        .container-main {
+          padding: 1rem 0.75rem;
+        }
+        .card {
+          padding: 1.25rem 1rem;
+          border-radius: 0.75rem;
+          margin-bottom: 1rem;
+        }
+        h1 {
+          font-size: 1.8rem;
+          line-height: 1.4;
+        }
+        h2 {
+          font-size: 1.4rem;
+        }
+        h3 {
+          font-size: 1.2rem;
+        }
+        .elements-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        .element-card {
+          padding: 1rem;
+        }
+        .technique-item {
+          padding: 1rem;
+        }
+        .technique-item .header {
+          gap: 0.5rem;
+        }
+        .prompt-box {
+          padding: 0.75rem 0.9rem;
+          font-size: 0.9rem;
+        }
+        .prompt-box .copy-icon {
+          position: relative;
+          top: auto;
+          left: auto;
+          display: block;
+          margin-top: 0.5rem;
+          text-align: center;
+          width: 100%;
+        }
+        .master-prompt {
+          padding: 1rem;
+        }
+        .master-prompt .copy-btn-master {
+          position: relative;
+          top: auto;
+          left: auto;
+          display: block;
+          margin-top: 0.75rem;
+          text-align: center;
+          width: 100%;
+        }
+        table {
+          font-size: 0.85rem;
+        }
+        th,
+        td {
+          padding: 0.5rem 0.6rem;
+        }
+        #theme-toggle {
+          top: 0.75rem;
+          left: 0.75rem;
+          padding: 0.35rem 0.8rem;
+          font-size: 0.9rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+        .badge {
+          font-size: 0.7rem;
+          padding: 0.15rem 0.5rem;
+        }
+      }
     </style>
   </head>
   <body>
-    <button id="theme-toggle" onclick="toggleTheme()">🌙 الوضع الليلي</button>
-    <!-- Header -->
+    <button
+      id="theme-toggle"
+      onclick="toggleTheme()"
+      aria-label="تبديل الوضع الليلي"
+    >
+      🌙 الوضع الليلي
+    </button>
+
     <header class="bg-slate-900 text-white py-8 no-print">
       <div class="container-main text-center">
         <h1 class="text-3xl md:text-4xl font-bold mb-2">
-          الدليل الشامل لورشة هندسة التلقين 
-          <br>(Prompt Engineering)
+          الدليل الشامل لورشة هندسة التلقين
+          <br />(Prompt Engineering)
         </h1>
         <p class="text-blue-300 text-lg">لكل التخصصات والمستويات</p>
         <p class="text-blue-200 font-bold">مبادرة ترابط الأردنية</p>
@@ -695,76 +753,60 @@
           </table>
         </div>
       </section>
-      <!-- القسم 3: عناصر البرومبت الخمسة (تصميم محسّن) -->
+
+      <!-- القسم 3: عناصر البرومبت الخمسة -->
       <section class="card">
-        <h2>3️⃣ عناصر البرومبت الخمسة </h2>
+        <h2>3️⃣ عناصر البرومبت الخمسة</h2>
         <p>كل برومبت احترافي يجب أن يشمل هذه العناصر الخمسة:</p>
         <div class="elements-grid">
-          <!-- العنصر 1 -->
           <div class="element-card">
             <div class="icon">1</div>
             <h4>المهمة (Task)</h4>
-            <p>
-              ماذا تريد من النموذج أن يفعل؟ مثل: فرز, فلترة, استنباط, تلخيص.
-            </p>
+            <p>ماذا تريد من النموذج أن يفعل؟ مثل: فرز, فلترة, استنباط, تلخيص.</p>
             <div class="example">رتب هذه الأطباق حسب قيمتها الغذائية.</div>
           </div>
-          <!-- العنصر 2 -->
           <div class="element-card">
             <div class="icon">2</div>
             <h4>السياق (Context)</h4>
             <p>أعطِ خلفية كافية عن الموقف أو الجمهور أو المستوى.</p>
-            <div class="example">أنا طالب طب في السنة الثالثة, أريد شرحاً مبسطاً لأمراض القلب.
-            </div>
+            <div class="example">أنا طالب طب في السنة الثالثة, أريد شرحاً مبسطاً لأمراض القلب.</div>
           </div>
-          <!-- العنصر 3 -->
           <div class="element-card">
             <div class="icon">3</div>
             <h4>الدور (Role)</h4>
             <p>اطلب من النموذج أن يتقمص شخصية معينة.</p>
-            <div class="example">أنت مدير تسويق خبير, اكتب خطة ترويجية لمنتج جديد.
-            </div>
+            <div class="example">أنت مدير تسويق خبير, اكتب خطة ترويجية لمنتج جديد.</div>
           </div>
-          <!-- العنصر 4 -->
           <div class="element-card">
             <div class="icon">4</div>
             <h4>صيغة المخرجات (Output Format)</h4>
             <p>حدد الشكل: جدول, CSV, JSON, مخطط شجري, قائمة.</p>
-            <div class="example">أعطني النتائج في جدول يحتوي على أعمدة: الاسم, العمر, النتيجة.
-            </div>
+            <div class="example">أعطني النتائج في جدول يحتوي على أعمدة: الاسم, العمر, النتيجة.</div>
           </div>
-          <!-- العنصر 5 -->
           <div class="element-card">
             <div class="icon">5</div>
             <h4>المدخلات (Inputs)</h4>
-            <p>
-              قدم البيانات التي سيعتمد عليها النموذج, ويفضل وضعها بين أقواس اقتباس.
-            </p>
+            <p>قدم البيانات التي سيعتمد عليها النموذج, ويفضل وضعها بين أقواس اقتباس.</p>
             <div class="example">فلتر الأسماء غير العربية من القائمة التالية: [أحمد, John, مريم, Robert, سارة]
             </div>
           </div>
         </div>
       </section>
 
-      <!-- القسم 4: التقنيات الأربع (تصميم محسّن) -->
+      <!-- القسم 4: التقنيات الأربع -->
       <section class="card">
         <h2>4️⃣ التقنيات الأربع الأساسية</h2>
 
-        <!-- تقنية 1 -->
         <div class="technique-item">
           <div class="header">
             <div class="num">1</div>
             <h3>Zero-shot Prompting</h3>
             <span class="badge badge-blue">مباشر</span>
           </div>
-          <p>
-            اطلب من النموذج أداء مهمة دون تقديم أمثلة. مناسب للأسئلة اليومية.
-          </p>
-          <div class="prompt-box">ما عاصمة الأردن؟<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
-          </div>
+          <p>اطلب من النموذج أداء مهمة دون تقديم أمثلة. مناسب للأسئلة اليومية.</p>
+          <div class="prompt-box">ما عاصمة الأردن؟<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
         </div>
 
-        <!-- تقنية 2 -->
         <div class="technique-item">
           <div class="header">
             <div class="num">2</div>
@@ -772,22 +814,10 @@
             <span class="badge badge-blue">التعليم بالأمثلة</span>
           </div>
           <p>قدم أمثلة قليلة ليتعلم النموذج النمط المطلوب.</p>
-          <div class="prompt-box">
-            علمه كلمة جديدة: <br />
-            <strong>"جومودار"</strong> تعني شخص ذكي جداً. <br />
-            الآن استخدم كلمة <strong>"جومودار"</strong> في جملة.
-            <button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
-          </div>
-          <div class="prompt-box">
-            تصنيف العملاء: <br />
-            العميل 1: يدفع دائماً => نصاب؟ لا, محترم <br />
-            العميل 2: يتهرب من الدفع => نصاب <br />
-            العميل 3: دفع نصف المبلغ => ؟
-            <button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
-          </div>
+          <div class="prompt-box">علمه كلمة جديدة: <br /><strong>"جومودار"</strong> تعني شخص ذكي جداً. <br />الآن استخدم كلمة <strong>"جومودار"</strong> في جملة.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+          <div class="prompt-box">تصنيف العملاء: <br />العميل 1: يدفع دائماً => نصاب؟ لا, محترم <br />العميل 2: يتهرب من الدفع => نصاب <br />العميل 3: دفع نصف المبلغ => ؟<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
         </div>
 
-        <!-- تقنية 3 -->
         <div class="technique-item">
           <div class="header">
             <div class="num">3</div>
@@ -795,15 +825,9 @@
             <span class="badge badge-indigo">التفكير خطوة بخطوة</span>
           </div>
           <p>اطلب من النموذج التفكير بصوت عالٍ لحل المشكلات المعقدة.</p>
-          <div class="prompt-box">
-            لدي 3 أقلام و4 شوكولاتة. أعطيت صديقي قلمين وشوكولاتة واحدة. كم بقي
-            معي؟ <br />
-            <strong>فكر خطوة بخطوة</strong>
-            <button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
-          </div>
+          <div class="prompt-box">لدي 3 أقلام و4 شوكولاتة. أعطيت صديقي قلمين وشوكولاتة واحدة. كم بقي معي؟ <br /><strong>فكر خطوة بخطوة</strong><button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
         </div>
 
-        <!-- تقنية 4 -->
         <div class="technique-item">
           <div class="header">
             <div class="num">4</div>
@@ -811,12 +835,11 @@
             <span class="badge badge-indigo">الاتساق الذاتي</span>
           </div>
           <p>اطلب من النموذج توليد عدة حلول واختيار الأكثر منطقية.</p>
-          <div class="prompt-box">حل المسألة السابقة بثلاث طرق مختلفة, ثم حدد الإجابة الأكثر اتساقاً.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
-          </div>
+          <div class="prompt-box">حل المسألة السابقة بثلاث طرق مختلفة, ثم حدد الإجابة الأكثر اتساقاً.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
         </div>
       </section>
 
-      <!-- القسم 5: قالب البرومبت الجوكر (تصميم محسّن) -->
+      <!-- القسم 5: قالب البرومبت الجوكر -->
       <section class="card">
         <h2>5️⃣ قالب البرومبت الجوكر (Master Prompt)</h2>
         <p>هذا القالب مرن ويمكن تعديله لأي مهنة أو مهمة:</p>
@@ -831,8 +854,9 @@
             [جدول/قائمة/خطة]
           </p>
           <p><strong>[Constraints]</strong> التزم بال [المعايير/القيود]</p>
-          <p><strong>[Examples]</strong>
-            <a href="PromptEx.html" target="_blank"> صفحة الأمثلة</a>
+          <p>
+            <strong>[Examples]</strong>
+            <a href="PromptEx.html" target="_blank">صفحة الأمثلة</a>
           </p>
         </div>
       </section>
@@ -854,8 +878,7 @@
               استخدم الذكاء الاصطناعي ليكتب لك برومبتات أفضل, وحتى لتوليد أوامر
               لصور Midjourney أو DALL·E.
             </p>
-            <div class="prompt-box text-sm mt-2">أنت خبير في هندسة البرومبت. اكتب لي برومبت مثالي لإنشاء شعار لشركة ناشئة في مجال الطاقة الشمسية.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button>
-            </div>
+            <div class="prompt-box text-sm mt-2">أنت خبير في هندسة البرومبت. اكتب لي برومبت مثالي لإنشاء شعار لشركة ناشئة في مجال الطاقة الشمسية.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
           </div>
         </div>
       </section>
@@ -917,163 +940,137 @@
           </div>
         </div>
       </section>
+
+      <!-- خاتمة -->
+      <div class="text-center mt-8 py-6 border-t border-slate-300">
+        <p class="text-xl font-bold text-slate-900">
+          التكنولوجيا لن تستبدلك, لكن من يتقنها سيسبقك
+        </p>
+      </div>
     </main>
-<script>
-  // ===== 1) نسخ البرومبت من الصناديق =====
-  function copyPrompt(btn) {
-    const box = btn.closest(".prompt-box");
-    if (!box) {
-      alert("لم يتم العثور على صندوق البرومبت");
-      return;
-    }
+    <script>
+      // ===== 1) نسخ البرومبت =====
+      function copyPrompt(btn) {
+        const box = btn.closest(".prompt-box");
+        if (!box) return;
 
-    // استنساخ الصندوق لإزالة زر النسخ قبل قراءة النص
-    const clone = box.cloneNode(true);
-    const btnClone = clone.querySelector(".copy-icon");
-    if (btnClone) btnClone.remove();
+        const clone = box.cloneNode(true);
+        const btnClone = clone.querySelector(".copy-icon");
+        if (btnClone) btnClone.remove();
+        const text = clone.innerText.trim();
 
-    const text = clone.innerText.trim();
-
-    // دالة مساعدة للنسخ الاحتياطي
-    const fallbackCopy = (text) => {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand("copy");
-        return true;
-      } catch (e) {
-        return false;
-      } finally {
-        document.body.removeChild(textarea);
-      }
-    };
-
-    // محاولة النسخ باستخدام Clipboard API مع fallback
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard
-        .writeText(text)
-        .then(() => showCopiedFeedback(btn, "نسخ"))
-        .catch(() => {
-          if (fallbackCopy(text)) {
-            showCopiedFeedback(btn, "نسخ");
-          } else {
-            alert("تعذر النسخ");
+        const fallbackCopy = (text) => {
+          const textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.style.position = "fixed";
+          textarea.style.opacity = "0";
+          document.body.appendChild(textarea);
+          textarea.select();
+          try {
+            document.execCommand("copy");
+            return true;
+          } catch (e) {
+            return false;
+          } finally {
+            document.body.removeChild(textarea);
           }
-        });
-    } else {
-      if (fallbackCopy(text)) {
-        showCopiedFeedback(btn, "نسخ");
-      } else {
-        alert("تعذر النسخ");
+        };
+
+        const showCopied = () => {
+          const originalText = btn.textContent;
+          btn.textContent = "تم النسخ ✓";
+          btn.disabled = true;
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 1500);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard
+            .writeText(text)
+            .then(showCopied)
+            .catch(() => {
+              if (fallbackCopy(text)) showCopied();
+              else alert("تعذر النسخ");
+            });
+        } else {
+          if (fallbackCopy(text)) showCopied();
+          else alert("تعذر النسخ");
+        }
       }
-    }
-  }
 
-  // ===== 2) نسخ قالب البرومبت الرئيسي =====
-  function copyMasterPrompt() {
-    const promptText = `[Identity & Role]
-أنت [خبير في...]
+      // ===== 2) نسخ القالب الرئيسي =====
+      function copyMasterPrompt() {
+        const promptText = `[Identity & Role]\nأنت [خبير في...]\n\n[Context & Task]\nأحتاج منك [وصف المهمة]  [الجمهور/الهدف]\n\n[Output Structure]\nقدم النتيجة على شكل [جدول/قائمة/خطة]\n\n[Constraints]\nالتزم بـ [المعايير/القيود]\n\n[Examples]\nإليك مثال: [مثال]`;
+        const btn = document.querySelector(".copy-btn-master");
+        if (!btn) return;
 
-[Context & Task]
-أحتاج منك [وصف المهمة]  [الجمهور/الهدف]
-
-[Output Structure]
-قدم النتيجة على شكل [جدول/قائمة/خطة]
-
-[Constraints]
-التزم بـ [المعايير/القيود]
-
-[Examples]
-إليك مثال: [مثال]`;
-
-    const btn = document.querySelector(".copy-btn-master");
-    if (!btn) {
-      alert("لم يتم العثور على زر النسخ");
-      return;
-    }
-
-    const fallbackCopy = (text) => {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand("copy");
-        return true;
-      } catch (e) {
-        return false;
-      } finally {
-        document.body.removeChild(textarea);
-      }
-    };
-
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard
-        .writeText(promptText)
-        .then(() => showCopiedFeedback(btn, "نسخ القالب"))
-        .catch(() => {
-          if (fallbackCopy(promptText)) {
-            showCopiedFeedback(btn, "نسخ القالب");
-          } else {
-            alert("تعذر النسخ");
+        const fallbackCopy = (text) => {
+          const textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.style.position = "fixed";
+          textarea.style.opacity = "0";
+          document.body.appendChild(textarea);
+          textarea.select();
+          try {
+            document.execCommand("copy");
+            return true;
+          } catch (e) {
+            return false;
+          } finally {
+            document.body.removeChild(textarea);
           }
-        });
-    } else {
-      if (fallbackCopy(promptText)) {
-        showCopiedFeedback(btn, "نسخ القالب");
-      } else {
-        alert("تعذر النسخ");
+        };
+
+        const showCopied = () => {
+          btn.textContent = "تم النسخ ✓";
+          btn.disabled = true;
+          setTimeout(() => {
+            btn.textContent = "نسخ القالب";
+            btn.disabled = false;
+          }, 1500);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard
+            .writeText(promptText)
+            .then(showCopied)
+            .catch(() => {
+              if (fallbackCopy(promptText)) showCopied();
+              else alert("تعذر النسخ");
+            });
+        } else {
+          if (fallbackCopy(promptText)) showCopied();
+          else alert("تعذر النسخ");
+        }
       }
-    }
-  }
 
-  // ===== 3) دالة عرض ملاحظات النسخ =====
-  function showCopiedFeedback(btn, originalText) {
-    btn.textContent = "تم النسخ ✓";
-    setTimeout(() => {
-      btn.textContent = originalText;
-    }, 1500);
-  }
-
-  // ===== 4) وظائف تبديل الوضع الليلي/النهاري =====
-  function toggleTheme() {
-    const isDark = document.body.classList.toggle("dark");
-    
-    // حفظ التفضيل مع معالجة الأخطاء
-    try {
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    } catch (e) {
-      // تجاهل أخطاء localStorage (مثل الوضع الخاص)
-    }
-    
-    updateThemeButton(isDark);
-  }
-
-  function updateThemeButton(isDark) {
-    const btn = document.getElementById("theme-toggle");
-    if (btn) {
-      btn.textContent = isDark ? "☀️ الوضع النهاري" : "🌙 الوضع الليلي";
-    }
-  }
-
-  // ===== 5) تحميل الوضع المحفوظ عند فتح الصفحة =====
-  (function () {
-    try {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "dark") {
-        document.body.classList.add("dark");
-        updateThemeButton(true);
+      // ===== 3) الوضع الليلي/النهاري =====
+      function toggleTheme() {
+        const isDark = document.body.classList.toggle("dark");
+        try {
+          localStorage.setItem("theme", isDark ? "dark" : "light");
+        } catch (e) {}
+        updateThemeButton(isDark);
       }
-    } catch (e) {
-      // تجاهل أخطاء localStorage
-    }
-  })();
-</script>
+
+      function updateThemeButton(isDark) {
+        const btn = document.getElementById("theme-toggle");
+        if (btn) {
+          btn.textContent = isDark ? "☀️ الوضع النهاري" : "🌙 الوضع الليلي";
+        }
+      }
+
+      (function () {
+        try {
+          const savedTheme = localStorage.getItem("theme");
+          if (savedTheme === "dark") {
+            document.body.classList.add("dark");
+            updateThemeButton(true);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </body>
 </html>
