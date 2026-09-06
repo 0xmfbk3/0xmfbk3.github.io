@@ -245,8 +245,7 @@
         box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent);
       }
       .hero h1 {
-        font-size: clamp(2.1rem, 4.8vw, 3.4rem);
-        font-weight: 800;
+        font-weight: 500;
         line-height: 1.35;
         margin: 0 0 1.1rem;
         color: var(--text);
@@ -770,28 +769,41 @@
       <div class="hero-inner">
         <div>
           <div class="eyebrow-line">
-            <span class="dot"></span> مبادرة ترابط الأردنية - ورشة تقنية عالجد
+            <span class="dot"></span> مبادرة ترابط الأردنية
           </div>
           <h1>
-            هندسة التلقين:<br />كيف تحكي مع
-            <span class="hl">نموذج لغوي</span> وتطلع منه اللي بدك ياه بالظبط
+            هندسة التلقين: كيف تحكي مع
+            <span class="hl">نموذج لغوي</span> وتطلع منه اللي بدك ياه بالظبط.
           </h1>
           <p class="lede">
-            دليل عملي لكل التخصصات، من أول كلمة لآخر نتيجة: كيف تغرس السياق
+            دليل عملي لكل التخصصات، من أول كلمة لآخر نتيجة، كيف تغرس السياق
             والدور والصيغة بموديل لغوي كبير، عشان يطلعلك جواب مضبوط ومفيد، مش
-            عبط.
+            مجرد هبد.
           </p>
           <div class="meta-row">
             <span>إعداد: <strong>Mustafa Banikhalaf</strong></span>
-            <span>ورشة تفاعلية</span>
-            <span>لكل المستويات، من الصفر لفوق</span>
           </div>
         </div>
         <div class="terminal" aria-hidden="true">
           <div class="bar">
             <i></i><i></i><i></i><span>prompt.session</span>
           </div>
-          <div class="body" id="typewriter"></div>
+          <div class="body">
+            <div class="row">
+              <span class="who">أنت:</span>
+              <span class="txt"
+                >احكيلي شو يعني "هندسة التلقين" بجملة وحدة، وكأني أول مرة بسمع
+                فيها.</span
+              >
+            </div>
+            <div class="row">
+              <span class="who ai">AI:</span>
+              <span class="txt"
+                >يعني فن انك تصيغ طلبك صح، عشان الموديل يفهم قصدك مية بالمية ويطلعلك جواب على كيفك، مش
+                مو بس تكتب سؤال عشوائي وتستنى المعجزة.</span
+              >
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -1183,7 +1195,7 @@
           <div class="thead-row">
             <h3>Zero-shot Prompting</h3>
             <p>
-              تطلب من الموديل يعمل مهمة من غير ما تعطيه ولا مثال - منيحة للأسئلة
+              تطلب من الموديل يعمل مهمة من غير ما تعطيه ولا مثال، منيحة للأسئلة
               اليومية السريعة.
             </p>
           </div>
@@ -1196,10 +1208,8 @@
             <h3>Few-shot Prompting</h3>
             <p>تعطيه شوي أمثلة عشان يلقط النمط المطلوب ويطبقه.</p>
           </div>
-          <div class="tcode">
-            علّمه كلمة جديدة: "جومودار" تعني شخص ذكي جدا. هسا استخدم كلمة
-            "جومودار" في جملة.
-          </div>
+          <div class="tcode">علّمه كلمة جديدة: 
+"جومودار" تعني شخص ذكي جدا. هسا استخدم كلمة "جومودار" في جملة مفيدة.</div>
           <button class="copy-btn" onclick="copyPrompt(this)">نسخ ⧉</button>
         </div>
 
@@ -1211,10 +1221,8 @@
               المعقدة صح.
             </p>
           </div>
-          <div class="tcode">
-            عندي 3 أقلام و4 شوكولاتة. عطيت صاحبي قلمين وشوكولاتة وحدة. كم ضل
-            معي؟ فكّر خطوة بخطوة.
-          </div>
+          <div class="tcode">عندي 3 أقلام و4 شوكولاتة. عطيت صاحبي قلمين وشوكولاتة وحدة. 
+كم ضل معي؟ فكّر خطوة بخطوة.</div>
           <button class="copy-btn" onclick="copyPrompt(this)">نسخ ⧉</button>
         </div>
 
@@ -1225,10 +1233,7 @@
               تطلب منه يجرب أكتر من طريقة، وبعدين يختار الإجابة الأكتر منطقية.
             </p>
           </div>
-          <div class="tcode">
-            حل المسألة السابقة بثلاث طرق مختلفة، وبعدين حدّد الإجابة الأكتر
-            اتساقا.
-          </div>
+          <div class="tcode">حل المسألة السابقة بثلاث طرق مختلفة، وبعدين حدّد الإجابة الأكتر اتساقا.</div>
           <button class="copy-btn" onclick="copyPrompt(this)">نسخ ⧉</button>
         </div>
       </section>
@@ -1351,8 +1356,7 @@
             <div class="idx">[🩺 02]</div>
             <h4>تبسيط معلومة طبية</h4>
             <p>
-              اكتب برومبت يخلي الذكاء الاصطناعي يشرح مرض السكري لمريض أمّي
-              طبيا.
+              اكتب برومبت يخلي الذكاء الاصطناعي يشرح مرض السكري لمريض أمّي طبيا.
             </p>
             <div class="ex">
               <strong>المطلوب:</strong> شرح مبسط بالعامية، بدون مصطلحات معقدة،
@@ -1659,9 +1663,12 @@
       /* ============================================================
    HERO TERMINAL TYPEWRITER
    ============================================================ */
+
       const reduceMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
+
+      // السؤال والجواب كما طلبت
       const script = [
         {
           who: "أنت",
@@ -1674,7 +1681,9 @@
           text: "يعني فن انك تصيغ طلبك صح، عشان الموديل يفهم قصدك مية بالمية - مو بس تكتب سؤال عشوائي وتستنى المعجزة.",
         },
       ];
+
       const twEl = document.getElementById("typewriter");
+
       function renderStatic() {
         twEl.innerHTML = script
           .map(
@@ -1683,6 +1692,7 @@
           )
           .join("");
       }
+
       async function typeLoop() {
         if (reduceMotion) {
           renderStatic();
@@ -1715,6 +1725,7 @@
           await new Promise((r) => setTimeout(r, 1800));
         }
       }
+
       typeLoop();
 
       /* ============================================================
