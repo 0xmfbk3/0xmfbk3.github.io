@@ -6,787 +6,1113 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <title>الدليل الشامل لورشة هندسة التلقين | مبادرة ترابط</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Cairo -->
+    <title>هندسة التلقين | ورشة مبادرة ترابط الأردنية</title>
+    <meta
+      name="description"
+      content="دليل ورشة هندسة التلقين (Prompt Engineering) بلهجة أردنية بسيطة - مبادرة ترابط الأردنية"
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-      <style>
-      /* ===== Base Styles ===== */
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+      /* ============================================================
+   TOKENS
+   ============================================================ */
+      :root {
+        --ink: #0a0f1a;
+        --panel: #111a2b;
+        --panel-2: #0d1522;
+        --line: #22314a;
+        --text: #e8edf5;
+        --muted: #a7b6cf; /* أفتح شوي من قبل عشان يبين أوضح */
+        --accent: #49d3c7; /* teal - signal / output */
+        --accent-2: #f2b84b; /* amber - sequence / emphasis */
+        --danger: #f2745b;
+        --radius-lg: 18px;
+        --radius-md: 12px;
+        /* JetBrains Mono ما فيها حروف عربي، فكانت بترجع لخط افتراضي بشع للعربي.
+           هلأ: أي حرف إنجليزي/رقم بيضل JetBrains Mono، وأي حرف عربي بيرجع
+           لـ Cairo (نفس خط "Mustafa Banikhalaf" لما بيكون Bold) عشان يبين واضح وغامق. */
+        --mono: "JetBrains Mono", "Cairo", ui-monospace, monospace;
+        --sans: "Cairo", sans-serif;
+        --maxw: 820px;
+      }
+      html.light {
+        --ink: #f5f7fb;
+        --panel: #ffffff;
+        --panel-2: #eef2f8;
+        --line: #dbe3ef;
+        --text: #101828;
+        --muted: #435268; /* أغمق شوي بالفاتح عشان التباين يكون واضح لكبار السن */
+        --accent: #0f9c8f;
+        --accent-2: #96620a;
+        --danger: #c8452f;
+      }
       * {
+        box-sizing: border-box;
         -webkit-tap-highlight-color: transparent;
       }
+      /* تكبير الأساس: كل الأحجام بالصفحة مبنية على rem، فرفع حجم الجذر
+         بيكبّر كل شي (نص، أزرار، شارات...) بانسجام بدون ما نلعب بكل قيمة لحالها */
+      html {
+        scroll-behavior: smooth;
+        font-size: 118%; /* بدل الافتراضي 16px، صار الأساس حوالي 19px */
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        * {
+          animation-duration: 0.001ms !important;
+          transition-duration: 0.001ms !important;
+        }
+      }
       body {
-        font-family: "Cairo", sans-serif;
-        background-color: #f8fafc;
-        color: #1e293b;
-        line-height: 1.7;
-        overflow-x: hidden;
-        transition:
-          background-color 0.3s,
-          color 0.3s;
-      }
-      .container-main {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 2rem 1rem;
-      }
-      .card {
-        background: #ffffff;
-        border-radius: 1rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        padding: 1.5rem 1.75rem;
-        margin-bottom: 1.5rem;
-        border: 1px solid #e2e8f0;
-        transition:
-          box-shadow 0.2s,
-          background-color 0.3s,
-          border-color 0.3s;
-      }
-      .card:hover {
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
-      }
-      h2 {
-        font-size: 1.75rem;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 3px solid #2563eb;
-        display: inline-block;
-        transition:
-          color 0.3s,
-          border-color 0.3s;
-      }
-      h3 {
-        font-size: 1.35rem;
-        font-weight: 700;
-        color: #1d4ed8;
-        margin: 1.5rem 0 0.75rem;
-        transition: color 0.3s;
-      }
-      h4 {
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        transition: color 0.3s;
-      }
-      .badge {
-        display: inline-block;
-        padding: 0.2rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        margin-inline-start: 0.5rem;
-      }
-      .badge-blue {
-        background: #dbeafe;
-        color: #1e40af;
-      }
-      .badge-green {
-        background: #d1fae5;
-        color: #065f46;
-      }
-      .badge-indigo {
-        background: #e0e7ff;
-        color: #3730a3;
-      }
-      .badge-red {
-        background: #fee2e2;
-        color: #991b1b;
-      }
-
-      /* ===== Prompt Box ===== */
-      .prompt-box {
-        background: #f8fafc;
-        border-right: 4px solid #2563eb;
-        border-radius: 0.75rem;
-        padding: 1rem 1.25rem;
-        margin: 1rem 0;
-        font-family: "Cairo", sans-serif;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        position: relative;
-        transition:
-          background-color 0.3s,
-          border-color 0.3s;
-      }
-      .prompt-box .copy-icon {
-        position: absolute;
-        top: 0.75rem;
-        left: 0.75rem;
-        background: #e2e8f0;
-        color: #334155;
-        border: none;
-        border-radius: 0.5rem;
-        padding: 0.3rem 0.6rem;
-        cursor: pointer;
-        font-size: 0.8rem;
-        transition:
-          background 0.2s,
-          transform 0.1s;
-      }
-      .prompt-box .copy-icon:hover {
-        background: #cbd5e1;
-      }
-      .prompt-box .copy-icon:active {
-        transform: scale(0.95);
-      }
-      .prompt-box code {
-        background: #f1f5f9;
-        padding: 0.1rem 0.3rem;
-        border-radius: 0.3rem;
-        font-size: 0.9em;
-      }
-
-      /* ===== Table Styling ===== */
-      .table-wrap {
-        overflow-x: auto;
-        margin: 1.5rem 0;
-        border-radius: 0.75rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        background: #ffffff;
-        font-size: 0.95rem;
-        transition: background-color 0.3s;
-      }
-      th {
-        background: #0f172a;
-        color: #ffffff;
-        padding: 0.75rem 1rem;
-        text-align: right;
-        font-weight: 700;
-      }
-      td {
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid #e2e8f0;
-        transition: border-color 0.3s;
-      }
-      tr:last-child td {
-        border-bottom: none;
-      }
-      tr:hover td {
-        background: #f8fafc;
-      }
-
-      /* ===== Five Elements Grid ===== */
-      .elements-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.25rem;
-        margin: 1.5rem 0;
-      }
-      .element-card {
-        text-align: right;
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 0.75rem;
-        padding: 1.25rem;
-        transition:
-          transform 0.2s,
-          box-shadow 0.2s,
-          background-color 0.3s,
-          border-color 0.3s;
-      }
-      .element-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-      }
-      .element-card .icon {
-        width: 2.5rem;
-        height: 2.5rem;
-        background: #dbeafe;
-        color: #1d4ed8;
-        border-radius: 0.75rem;
-        display: inline-flex;
-        vertical-align: middle;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        margin-bottom: 0.75rem;
-        margin-inline-end: 0.5rem;
-        transition:
-          background-color 0.3s,
-          color 0.3s;
-      }
-      .element-card h4 {
-        color: #0f172a;
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0 0 0.75rem 0;
-      }
-      .element-card p {
-        color: #475569;
-        font-size: 0.95rem;
-      }
-      .element-card .example {
-        background: #f8fafc;
-        border-right: 3px solid #2563eb;
-        border-radius: 0.4rem;
-        padding: 0.6rem 0.75rem;
-        margin-top: 0.75rem;
-        font-size: 0.9rem;
-        white-space: pre-wrap;
-      }
-
-      /* ===== Techniques Section ===== */
-      .technique-item {
-        border: 1px solid #e2e8f0;
-        border-radius: 0.75rem;
-        padding: 1.25rem;
-        margin-bottom: 1.25rem;
-        transition:
-          box-shadow 0.2s,
-          background-color 0.3s,
-          border-color 0.3s;
-      }
-      .technique-item:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-      }
-      .technique-item .header {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 0.5rem;
-        flex-wrap: wrap;
-      }
-      .technique-item .header .num {
-        background: #0f172a;
-        color: #fff;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 1rem;
-        flex-shrink: 0;
-      }
-      .technique-item .header h3 {
         margin: 0;
-        font-size: 1.2rem;
-        color: #0f172a;
-        transition: color 0.3s;
-      }
-      .technique-item .badge {
-        margin-inline-start: auto;
-      }
-
-      /* ===== Master Prompt Card ===== */
-      .master-prompt {
-        background: #1e293b;
-        color: #e2e8f0;
-        border-radius: 0.75rem;
-        padding: 1.25rem;
-        margin: 1.5rem 0;
-        position: relative;
-        transition: background-color 0.3s;
-      }
-      .master-prompt .copy-btn-master {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        background: #334155;
-        color: #fff;
-        border: none;
-        border-radius: 0.5rem;
-        padding: 0.4rem 0.8rem;
-        cursor: pointer;
-        font-size: 0.85rem;
+        font-family: var(--sans);
+        font-weight: 500; /* Cairo Medium بدل Regular - أوضح للقراءاة على الشاشة */
+        background: var(--ink);
+        color: var(--text);
+        line-height: 1.9; /* مسافة أكبر بين الأسطر تريّح العين */
+        letter-spacing: 0.1px;
         transition:
-          background 0.2s,
-          transform 0.1s;
+          background 0.4s ease,
+          color 0.4s ease;
       }
-      .master-prompt .copy-btn-master:hover {
-        background: #475569;
+      ::selection {
+        background: var(--accent);
+        color: #04211d;
       }
-      .master-prompt .copy-btn-master:active {
-        transform: scale(0.95);
+      a {
+        color: inherit;
       }
-      .master-prompt p {
-        margin: 0.5rem 0;
-        font-size: 0.95rem;
-      }
-      .master-prompt strong {
-        color: #60a5fa;
-      }
-      .master-prompt a {
-        color: #60a5fa;
-        text-decoration: underline;
+      .mono {
+        font-family: var(--mono);
       }
 
-      /* ===== Dark Mode Overrides ===== */
-      body.dark {
-        background-color: #0f172a;
-        color: #e2e8f0;
+      /* ============================================================
+   TOP PROGRESS BAR
+   ============================================================ */
+      #progress {
+        position: fixed;
+        inset-inline: 0;
+        top: 0;
+        height: 4px;
+        z-index: 100;
+        background: transparent;
       }
-      body.dark .card {
-        background: #1e293b;
-        border-color: #334155;
-        color: #e2e8f0;
-      }
-      body.dark h2 {
-        color: #f1f5f9;
-        border-bottom-color: #3b82f6;
-      }
-      body.dark h3 {
-        color: #60a5fa;
-      }
-      body.dark h4 {
-        color: #f1f5f9;
-      }
-      body.dark .badge-blue,
-      body.dark .badge-green,
-      body.dark .badge-indigo,
-      body.dark .badge-red {
-        background: #334155;
-        color: #fff;
-      }
-      body.dark .prompt-box {
-        background: #0f172a;
-        border-right-color: #3b82f6;
-        color: #e2e8f0;
-      }
-      body.dark .prompt-box .copy-icon {
-        background: #334155;
-        color: #e2e8f0;
-      }
-      body.dark .prompt-box .copy-icon:hover {
-        background: #475569;
-      }
-      body.dark .prompt-box code {
-        background: #1e293b;
-      }
-      body.dark .table-wrap {
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-      }
-      body.dark table {
-        background: #1e293b;
-        color: #e2e8f0;
-      }
-      body.dark th {
-        background: #0f172a;
-        color: #f1f5f9;
-      }
-      body.dark td {
-        border-bottom-color: #334155;
-      }
-      body.dark tr:hover td {
-        background: #334155;
-      }
-      body.dark .elements-grid .element-card {
-        background: #1e293b;
-        border-color: #334155;
-        color: #e2e8f0;
-      }
-      body.dark .element-card .icon {
-        background: #1e293b;
-        color: #60a5fa;
-      }
-      body.dark .element-card p {
-        color: #cbd5e1;
-      }
-      body.dark .element-card .example {
-        background: #0f172a;
-        border-right-color: #3b82f6;
-        color: #e2e8f0;
-      }
-      body.dark .technique-item {
-        background: #1e293b;
-        border-color: #334155;
-        color: #e2e8f0;
-      }
-      body.dark .technique-item .header .num {
-        background: #334155;
-        color: #fff;
-      }
-      body.dark .technique-item .header h3 {
-        color: #f1f5f9;
-      }
-      body.dark .master-prompt {
-        background: #0f172a;
-        color: #e2e8f0;
-      }
-      body.dark .master-prompt .copy-btn-master {
-        background: #334155;
-      }
-      body.dark .master-prompt .copy-btn-master:hover {
-        background: #475569;
-      }
-      body.dark .bg-slate-100,
-      body.dark .bg-slate-50,
-      body.dark .bg-emerald-50 {
-        background: #1e293b;
-        color: #e2e8f0;
-      }
-      body.dark .bg-slate-100 p,
-      body.dark .bg-slate-50 p,
-      body.dark .bg-emerald-50 p {
-        color: #e2e8f0;
-      }
-      body.dark .border-slate-200,
-      body.dark .border-slate-300 {
-        border-color: #334155;
-      }
-      body.dark .text-slate-900 {
-        color: #f1f5f9;
-      }
-      body.dark .text-slate-500 {
-        color: #94a3b8;
-      }
-      body.dark footer,
-      body.dark header {
-        background: #1e293b;
+      #progress > span {
+        display: block;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        transition: width 0.08s linear;
       }
 
-      /* ===== Theme Toggle Button ===== */
+      /* ============================================================
+   THEME TOGGLE
+   ============================================================ */
       #theme-toggle {
         position: fixed;
         top: 1rem;
-        left: 1rem;
-        z-index: 9999;
-        background: #ffffff;
-        border: 2px solid #e2e8f0;
-        border-radius: 9999px;
-        padding: 0.5rem 1rem;
+        inset-inline-start: 1rem;
+        z-index: 99;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.6rem 1.1rem;
         cursor: pointer;
-        font-family: "Cairo", sans-serif;
-        font-weight: 700;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s;
+        font-family: var(--mono);
+        font-size: 0.95rem;
+        font-weight: 600;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        transition:
+          background 0.3s,
+          border-color 0.3s,
+          transform 0.15s;
       }
       #theme-toggle:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
       }
       #theme-toggle:active {
-        transform: scale(0.95);
-      }
-      body.dark #theme-toggle {
-        background: #1e293b;
-        border-color: #334155;
-        color: #e2e8f0;
+        transform: translateY(0) scale(0.97);
       }
 
-      /* ===== Print Styles ===== */
-      @media print {
-        body {
-          background: white;
-        }
-        .card {
-          box-shadow: none;
-          border: 1px solid #ddd;
-          break-inside: avoid;
-        }
-        .element-card,
-        .technique-item,
-        .prompt-box,
-        .master-prompt {
-          break-inside: avoid;
-        }
-        .no-print,
-        #theme-toggle {
-          display: none !important;
-        }
+      /* ============================================================
+   SECTION NAV (sticky pill rail)
+   ============================================================ */
+      #section-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--ink) 86%, transparent);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
       }
-
-      /* ===== Responsive for Mobile ===== */
-      @media (max-width: 640px) {
-        body {
-          line-height: 1.6;
-        }
-        .container-main {
-          padding: 1rem 0.75rem;
-        }
-        .card {
-          padding: 1.25rem 1rem;
-          border-radius: 0.75rem;
-          margin-bottom: 1rem;
-        }
-        h1 {
-          font-size: 1.8rem;
-          line-height: 1.4;
-        }
-        h2 {
-          font-size: 1.4rem;
-        }
-        h3 {
-          font-size: 1.2rem;
-        }
-        .elements-grid {
-          grid-template-columns: 1fr;
-          gap: 1rem;
-        }
-        .element-card {
-          padding: 1rem;
-        }
-        .technique-item {
-          padding: 1rem;
-        }
-        .technique-item .header {
-          gap: 0.5rem;
-        }
-        .prompt-box {
-          padding: 0.75rem 0.9rem;
-          font-size: 0.9rem;
-        }
-        .prompt-box .copy-icon {
-          position: relative;
-          top: auto;
-          left: auto;
-          display: block;
-          margin-top: 0.5rem;
-          text-align: center;
-          width: 100%;
-        }
-        .master-prompt {
-          padding: 1rem;
-        }
-        .master-prompt .copy-btn-master {
-          position: relative;
-          top: auto;
-          left: auto;
-          display: block;
-          margin-top: 0.75rem;
-          text-align: center;
-          width: 100%;
-        }
-        table {
-          font-size: 0.85rem;
-        }
-        th,
-        td {
-          padding: 0.5rem 0.6rem;
-        }
-        #theme-toggle {
-          top: 0.75rem;
-          left: 0.75rem;
-          padding: 0.35rem 0.8rem;
-          font-size: 0.9rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-        }
-        .badge {
-          font-size: 0.7rem;
-          padding: 0.15rem 0.5rem;
-        }
+      #section-nav .rail {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0.75rem 1rem;
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: auto;
+        scrollbar-width: none;
       }
-
-      .section-number {
-        display: inline-block;
-        background: #2563eb;
-        color: #fff;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 2rem;
-        margin-inline-end: 0.5rem;
-        font-size: 1.2rem;
+      #section-nav .rail::-webkit-scrollbar {
+        display: none;
       }
-      /* 1. إجبار الجدول على عرض أدنى لتفعيل التمرير الأفقي */
-      .table-wrap table {
-        width: 100%;
-        min-width: 800px; /* هذا السطر يمنع تكسير الجدول على الجوال */
-      }
-
-      /* 2. منع انقسام النصوص القصيرة في عمودي (الاسم) و (الشركة) */
-      .table-wrap th:first-child,
-      .table-wrap td:first-child,
-      .table-wrap th:nth-child(2),
-      .table-wrap td:nth-child(2) {
+      #section-nav button {
+        flex: 0 0 auto;
+        font-family: var(--mono);
+        font-size: 0.95rem;
+        font-weight: 600;
         white-space: nowrap;
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      #section-nav button.active {
+        color: var(--ink);
+        background: var(--accent);
+        border-color: var(--accent);
+        font-weight: 700;
+      }
+      #section-nav button:hover:not(.active) {
+        border-color: var(--accent);
+        color: var(--text);
       }
 
-      /* 3. إعطاء مساحة مريحة لعمود (الاستخدام الدقيق) لأنه يحتوي على نصوص طويلة */
-      .table-wrap th:last-child,
-      .table-wrap td:last-child {
-        min-width: 300px;
+      /* ============================================================
+   HERO
+   ============================================================ */
+      .hero {
+        position: relative;
+        overflow: hidden;
+        min-height: 92vh;
+        display: flex;
+        align-items: center;
+        padding: 6rem 1.25rem 4rem;
+        border-bottom: 1px solid var(--line);
+      }
+      .hero canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+      }
+      .hero-inner {
+        position: relative;
+        z-index: 2;
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 2.5rem;
+        align-items: center;
+      }
+      .eyebrow-line {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1.2rem;
+        font-family: var(--mono);
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--accent);
+      }
+      .eyebrow-line .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent);
+      }
+      .hero h1 {
+        font-size: clamp(2.1rem, 4.8vw, 3.4rem);
+        font-weight: 800;
+        line-height: 1.35;
+        margin: 0 0 1.1rem;
+        color: var(--text);
+      }
+      .hero h1 .hl {
+        color: var(--accent);
+      }
+      .hero p.lede {
+        color: var(--muted);
+        font-size: 1.2rem;
+        line-height: 1.85;
+        max-width: 50ch;
+        margin: 0 0 1.85rem;
+      }
+      .hero .meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        font-family: var(--mono);
+        font-size: 0.95rem;
+      }
+      .hero .meta-row span {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0.45rem 0.9rem;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .hero .meta-row strong {
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      /* --- terminal --- */
+      .terminal {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5);
+      }
+      .terminal .bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1rem;
+        background: var(--panel-2);
+        border-bottom: 1px solid var(--line);
+      }
+      .terminal .bar i {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .terminal .bar i:nth-child(1) {
+        background: #f2745b;
+      }
+      .terminal .bar i:nth-child(2) {
+        background: #f2b84b;
+      }
+      .terminal .bar i:nth-child(3) {
+        background: #49d3c7;
+      }
+      .terminal .bar span {
+        margin-inline-start: auto;
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      .terminal .body {
+        padding: 1.25rem 1.3rem;
+        font-family: var(--mono);
+        font-size: 1rem;
+        line-height: 1.9;
+        min-height: 240px;
+        direction: rtl;
+        text-align: right;
+      }
+      .terminal .row {
+        margin-bottom: 1rem;
+      }
+      .terminal .who {
+        color: var(--accent-2);
+        font-weight: 700;
+      }
+      .terminal .who.ai {
+        color: var(--accent);
+      }
+      .terminal .txt {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .terminal .cursor {
+        display: inline-block;
+        width: 0.5em;
+        background: var(--accent);
+        animation: blink 1s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* ============================================================
+   LAYOUT / SECTION SHELL
+   ============================================================ */
+      main {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 1.25rem;
+      }
+      section.block {
+        padding: 4.75rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      section.block:last-of-type {
+        border-bottom: none;
+      }
+      .kicker {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
+      }
+      .kicker .num {
+        font-family: var(--mono);
+        font-size: 1rem;
+        color: var(--ink);
+        background: var(--accent);
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .kicker h2 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--text);
+      }
+      p {
+        color: var(--text);
+        font-size: 1.08rem;
+      }
+      .block p {
+        color: var(--text);
+      }
+      .block .lead {
+        color: var(--muted);
+        font-size: 1.12rem;
+      }
+      h3 {
+        font-size: 1.3rem !important;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      /* ============================================================
+   CALLOUT / NOTE BOXES
+   ============================================================ */
+      .note {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 1.15rem 1.35rem;
+        margin-top: 1rem;
+        font-size: 1.05rem;
+        line-height: 1.85;
+      }
+      .note.accent {
+        border-inline-start: 4px solid var(--accent);
+      }
+      .note.warn {
+        border-inline-start: 4px solid var(--danger);
+        background: color-mix(in srgb, var(--danger) 6%, var(--panel));
+      }
+      .note h4 {
+        font-size: 1.15rem !important;
+      }
+      .note ul li {
+        margin-bottom: 0.5rem;
+      }
+
+      /* إجبار الجدول على ملاءامة عرض الشاشة بالكامل بدون سكرول أفقي */
+      table.data {
+        width: 100%;
+        table-layout: fixed; /* يمنع تمدد الجدول أفقيا ويجبر الأعمدة على الالتزام بالعرض المخصص */
+        border-collapse: collapse;
+      }
+
+      /* تقليص المساحات قليلا لتناسب العرض الكلي للشاشة */
+      table.data th,
+      table.data td {
+        padding: 14px 12px;
+        white-space: normal !important; /* السماح بالتفاف النص وعدم إجبار النص على سطر واحد طويل */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      /* توزيع نسب الأعمدة بدقة لتملأ 100% من الشاشة بشكل متناسق */
+      table.data th:nth-child(1),
+      table.data td:nth-child(1) {
+        width: 260%;
+      } /* النموذج / الأداة */
+      table.data th:nth-child(2),
+      table.data td:nth-child(2) {
+        width: 200%;
+      } /* الشركة */
+      table.data th:nth-child(3),
+      table.data td:nth-child(3) {
+        width: 230%;
+      } /* شو بيتقن فيه */
+      table.data th:nth-child(4),
+      table.data td:nth-child(4) {
+        width: 300%;
+      } /* المواصفات التقنية */
+      table.data th:nth-child(5),
+      table.data td:nth-child(5) {
+        width: 350%;
+      } /* أفضل استخدام إله بالواقع */
+
+      /* ضبط تنسيق المواصفات التقنية داخل عمودها المخصص */
+      table.data td.tech-specs ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 0.8rem; /* تصغير الخط قليلا ليتسع براحة داخل النسبة */
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      table.data td.tech-specs li {
+        line-height: 1.4;
+      }
+
+      table.data td.tech-specs strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* تأكيد وجود سكرول أفقي في الشاشات الصغيرة لتجنب انضغاط الجدول */
+      .grid-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .elements {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.1rem;
+        margin-top: 1.4rem;
+      }
+      .elem {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 1.3rem;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .elem:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+      .elem .idx {
+        font-family: var(--mono);
+        color: var(--accent-2);
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .elem h4 {
+        margin: 0 0 0.6rem;
+        font-size: 1.2rem;
+        color: var(--text);
+      }
+      .elem p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.75;
+      }
+      .elem .ex {
+        margin-top: 0.8rem;
+        font-family: var(--mono);
+        font-weight: 600;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--text);
+        background: var(--panel-2);
+        border-radius: 8px;
+        padding: 0.65rem 0.85rem;
+        direction: rtl;
+      }
+
+      /* ============================================================
+   TECHNIQUE = CODE WINDOW
+   ============================================================ */
+      .tech-window {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        margin-top: 1.25rem;
+      }
+      .tech-window .tbar {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.65rem 1rem;
+        background: var(--panel-2);
+        border-bottom: 1px solid var(--line);
+        font-family: var(--mono);
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      .tech-window .tbar .fname {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .tech-window .tbar .tag {
+        margin-inline-start: auto;
+        padding: 0.2rem 0.65rem;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+      .tech-window .tcode {
+        padding: 1.15rem 1.25rem;
+        font-family: var(--mono);
+        font-weight: 600;
+        font-size: 1rem;
+        line-height: 1.9;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        direction: rtl;
+        text-align: right;
+      }
+      .tech-window .thead-row {
+        padding: 1.05rem 1.25rem 0.3rem;
+      }
+      .tech-window .thead-row h3 {
+        margin: 0 0 0.4rem;
+        font-size: 1.3rem !important;
+        color: var(--text);
+      }
+      .tech-window .thead-row p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.02rem;
+        line-height: 1.7;
+      }
+      .copy-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: transparent;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.92rem;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.5rem 0.9rem;
+        margin: 0.8rem 1.25rem 1.1rem;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .copy-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .copy-btn:disabled {
+        opacity: 0.7;
+        cursor: default;
+      }
+
+      /* ============================================================
+   MASTER PROMPT
+   ============================================================ */
+      .master {
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 1.6rem 1.7rem;
+        margin-top: 1.4rem;
+        position: relative;
+      }
+      .master .field {
+        margin-bottom: 0.85rem;
+        font-size: 1.08rem;
+        line-height: 1.8;
+      }
+      .master .field b {
+        color: var(--accent);
+        font-family: var(--mono);
+        font-size: 0.95rem;
+        display: block;
+        margin-bottom: 0.2rem;
+      }
+      .master a {
+        color: var(--accent);
+        text-decoration: underline;
+        font-weight: 600;
+      }
+
+      /* ============================================================
+   RESOURCE CHIPS
+   ============================================================ */
+      .chips {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 0.8rem;
+        margin-top: 1.1rem;
+      }
+      .chip {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 1rem 1.1rem;
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .chip:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+      .chip .tag {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      /* ============================================================
+   FOOTER
+   ============================================================ */
+      footer {
+        padding: 3.75rem 1.25rem 4.25rem;
+        text-align: center;
+        border-top: 1px solid var(--line);
+      }
+      footer .closing {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--text);
+        max-width: 560px;
+        margin: 0 auto 1.1rem;
         line-height: 1.6;
       }
-      
+      footer .credit {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      /* ============================================================
+   RESPONSIVE
+   ============================================================ */
+      @media (max-width: 880px) {
+        .hero-inner {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 6.5rem 1rem 3rem;
+          min-height: auto;
+        }
+      }
+      @media (max-width: 560px) {
+        html {
+          font-size: 112%; /* لسا أكبر من الأصل بس منمنع اللف الزايد عالموبايل */
+        }
+        section.block {
+          padding: 3.25rem 0;
+        }
+        .kicker h2 {
+          font-size: 1.4rem;
+        }
+        .terminal .body {
+          min-height: 190px;
+          font-size: 0.92rem;
+        }
+        .hero h1 {
+          font-size: 1.85rem;
+        }
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+      }
     </style>
   </head>
   <body>
-    <button
-      id="theme-toggle"
-      onclick="toggleTheme()"
-      aria-label="تبديل الوضع الليلي"
-    >
-      🌙 الوضع الليلي
+    <div id="progress"><span></span></div>
+
+    <button id="theme-toggle" onclick="toggleTheme()" aria-label="تبديل الوضع">
+      <span id="theme-icon">☾</span><span id="theme-label">ليلي</span>
     </button>
 
-    <header class="bg-slate-900 text-white py-8 no-print">
-      <div class="container-main text-center">
-        <h1 class="text-3xl md:text-4xl font-bold mb-2">
-          الدليل الشامل لورشة هندسة التلقين
-          <br />(Prompt Engineering)
-        </h1>
-        <p class="text-blue-300 text-lg">لكل التخصصات والمستويات</p>
-        <p class="text-blue-200 font-bold">مبادرة ترابط الأردنية</p>
-        <p class="text-blue-200 font-bold">إعداد وتقديم: Mustafa Banikhalaf</p>
+    <!-- ============================= HERO ============================= -->
+    <header class="hero">
+      <canvas id="net"></canvas>
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow-line">
+            <span class="dot"></span> مبادرة ترابط الأردنية - ورشة تقنية عالجد
+          </div>
+          <h1>
+            هندسة التلقين:<br />كيف تحكي مع
+            <span class="hl">نموذج لغوي</span> وتطلع منه اللي بدك ياه بالظبط
+          </h1>
+          <p class="lede">
+            دليل عملي لكل التخصصات، من أول كلمة لآخر نتيجة: كيف تغرس السياق
+            والدور والصيغة بموديل لغوي كبير، عشان يطلعلك جواب مضبوط ومفيد، مش
+            عبط.
+          </p>
+          <div class="meta-row">
+            <span>إعداد: <strong>Mustafa Banikhalaf</strong></span>
+            <span>ورشة تفاعلية</span>
+            <span>لكل المستويات، من الصفر لفوق</span>
+          </div>
+        </div>
+        <div class="terminal" aria-hidden="true">
+          <div class="bar">
+            <i></i><i></i><i></i><span>prompt.session</span>
+          </div>
+          <div class="body" id="typewriter"></div>
+        </div>
       </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container-main">
-      <!-- القسم 1: المقدمة ونشر الوعي -->
-      <section class="card">
-        <h2><span class="section-number">1</span>المقدمة</h2>
+    <!-- ============================= SECTION NAV ============================= -->
+    <nav id="section-nav">
+      <div class="rail" id="rail"></div>
+    </nav>
+
+    <main>
+      <!-- 1 -->
+      <section class="block reveal" id="s1" data-title="المقدمة">
+        <div class="kicker">
+          <span class="num">1</span>
+          <h2>المقدمة</h2>
+        </div>
         <p>
-          <strong>هندسة التلقين (Prompt Engineering)</strong> هي المهارة الأسهل
-          والأكثر طلبا حاليا في سوق العمل. لكن قبل التعمق, دعونا نضبط المصطلح:
-          نستخدم كلمة <strong>"تلقين"</strong> بدلاً من
-          <strong>"أمر"</strong> لأن العملية تتضمن غرس المعرفة والسياق والنبرة
-          في النموذج, وليس مجرد إصدار أوامر برمجية جامدة.
+          <strong>هندسة التلقين (Prompt Engineering)</strong> هي أسهل مهارة،
+          وأكتر إشي مطلوب هسا بسوق الشغل. بس قبل ما نغوص فيها، خلينا نتفق على
+          المصطلح: رح نستخدم كلمة <strong>"تلقين"</strong> مش
+          <strong>"أمر"</strong>، لأن العملية فيها غرس معرفة وسياق ونبرة
+          بالموديل، مش مجرد أوامر برمجية ناشفة.
         </p>
-        <br />
-        <h3>كيف يعمل النموذج اللغوي (LLM)؟</h3>
+
+        <h3
+          style="color: var(--accent); font-size: 1.15rem; margin-top: 1.6rem"
+        >
+          طيب، كيف بيشتغل النموذج اللغوي (LLM)؟
+        </h3>
         <p>
-          النموذج اللغوي الكبير يعتمد على
-          <strong>الإحصاء والاحتمالات</strong> وتوقع الكلمات والتصنيف الدلالي.
-          تم تدريبه على مليارات النصوص, وعند إدخال نص, يقوم بحساب الكلمة التالية
-          الأكثر احتمالاً بناءً على السياق. الأمر أشبه بآلة تنبؤ عملاقة.
+          النموذج اللغوي الكبير شغلته كلها
+          <strong>احتمالات وإحصاءا</strong> وتوقّع كلمة بعد كلمة. اتدرّب على
+          مليارات النصوص، وبس تدخله نص، بيحسب شو أقرب كلمة رح تجي حسب السياق.
+          تخيله زي آلة تنبؤ عملاقة. بس، على عكسنا، هاي ما بتتأخر ولا بتقول "بفكر
+          وبرجعلك".
         </p>
-        <div class="bg-slate-100 p-4 rounded-lg mt-3">
-          <p>
-            <strong>مثال بسيط:</strong> إذا قلت "أنا ذاهب إلى..." فإن النموذج
-            يقترح كلمات مثل "المدرسة", "الجامعة", "العمل" حسب السياق الذي
-            أعطيته.
-          </p>
+        <div class="note accent">
+          <strong>مثال بسيط:</strong> لو قلت "أنا رايح على ..." الموديل بيقترح
+          كلمات زي "المدرسة"، "الجامعة"، "الشغل" حسب السياق يلي أعطيته ياه. ما
+          رح يقترح "القمر" إلا إذا كنت فعلا ناويين تصيروا رائدين فضاءا.
         </div>
       </section>
 
-      <!-- القسم 2: خريطة الأدوات (جدول محدّث) -->
-      <section class="card">
-        <h2><span class="section-number">2</span> خريطة أدوات الذكاء الاصطناعي</h2>
-        <p>
-          اختيار الأداة المناسبة يوفر الوقت والجهد. الجدول التالي يلخص القوة
-          التقنية الحقيقية لكل نموذج والاستخدام الأمثل واقعياً:
+      <section class="block reveal" id="s2" data-title="خريطة الأدوات">
+        <div class="kicker">
+          <span class="num">2</span>
+          <h2>خريطة أدوات الذكاءا الاصطناعي</h2>
+        </div>
+        <p class="lead">
+          اختيار الأداة الصح بيوفرلك وقت وجهد مش قليل. الجدول التالي بيلخصلك شو
+          بيتقن فيه كل موديل، مواصفاته التقنية، وشو أفضل استخدام إله بالواقع، مش
+          بالدعاية:
         </p>
-        <div class="table-wrap">
-          <table>
+        <div class="grid-wrap">
+          <table class="data">
             <thead>
               <tr>
                 <th>النموذج / الأداة</th>
-                <th>الشركة / المنصة</th>
-                <th>القوة التقنية الحقيقية</th>
-                <th>الاستخدام الدقيق والأفضل واقعياً (The Real Sweet Spot)</th>
+                <th>الشركة</th>
+                <th>شو بيتقن فيه</th>
+                <th>المواصفات التقنية</th>
+                <th>أفضل استخدام إله بالواقع</th>
               </tr>
             </thead>
             <tbody>
+              <!-- Anthropic -->
               <tr>
-                <td class="font-bold">Claude 3.5 Sonnet</td>
-                <td>Anthropic</td>
-                <td>
-                  كتابة وتعديل الكود البرمجي, المنطق, والأسلوب الكتابي الطبيعي
+                <td class="name">Claude 3.5 Sonnet</td>
+                <td class="org">Anthropic</td>
+                <td>برمجة ومنطق</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> Dense Network</li>
+                    <li><strong>الذاكرة:</strong> 200K Token</li>
+                    <li><strong>الترخيص:</strong> مغلق المصدر</li>
+                  </ul>
                 </td>
                 <td>
-                  الملك الأول للبرمجة (Coding) والتفكير المنطقي: كتابة الأكواد
-                  المعقدة, إعطاء حلول برمجية نظيفة, Refactoring, والكتابة
-                  الأكاديمية والتعبيرية بدون نبرة الذكاء الاصطناعي الركيكة.
+                  أفضل خيار لو بدك تكتب كود نظيف أو تراجعه، أو تكتب نص طويل حسّه
+                  طبيعي مش آلي.
+                </td>
+              </tr>
+
+              <!-- Google -->
+              <tr>
+                <td class="name">Gemini 1.5 Pro/Flash</td>
+                <td class="org">Google</td>
+                <td>ملفات ضخمة وفيديو</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> MoE</li>
+                    <li><strong>الذاكرة:</strong> 1M - 2M Token</li>
+                    <li><strong>الترخيص:</strong> مغلق المصدر</li>
+                  </ul>
+                </td>
+                <td>
+                  لما يكون عندك ملف كبير أو فيديو طويل أو مشروع كامل بدك تراجعه
+                  بجلسة وحدة.
+                </td>
+              </tr>
+
+              <!-- OpenAI -->
+              <tr>
+                <td class="name">GPT-4o / mini</td>
+                <td class="org">OpenAI</td>
+                <td>سرعة وصوت مباشر</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> MoE</li>
+                    <li><strong>الذاكرة:</strong> 128K Token</li>
+                    <li><strong>الترخيص:</strong> مغلق المصدر</li>
+                  </ul>
+                </td>
+                <td>
+                  مساعد يومي سريع تحكي معه، يحلل صورة، وبيتصل مع أدوات ثانية
+                  بسهولة.
+                </td>
+              </tr>
+
+              <!-- DeepSeek -->
+              <tr>
+                <td class="name">DeepSeek V3/R1</td>
+                <td class="org">DeepSeek</td>
+                <td>كود ورياضيات معقدة</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> MoE</li>
+                    <li><strong>الذاكرة:</strong> 128K Token</li>
+                    <li><strong>الترخيص:</strong> مفتوح المصدر</li>
+                  </ul>
+                </td>
+                <td>
+                  نموذج مفتوح بدون قيود صارمة، الأفضل في حل المشكلات المنطقية
+                  والرياضيات والبرمجة.
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name">Grok 2</td>
+                <td class="org">xAI</td>
+                <td>تحليل الأخبار والأحداث الحية بمرونة عالية</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> LST</li>
+                    <li><strong>الذاكرة:</strong> 128K Token</li>
+                    <li><strong>الترخيص:</strong> مغلق المصدر</li>
+                  </ul>
+                </td>
+                <td>
+                  متابعة الترندات والأخبار اللحظية والتحليل السياسي أو الاجتماعي
+                  المباشر مدعوما ببيانات منصة إكس الحية.
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name">Phi-4 / Copilot</td>
+                <td class="org">Microsoft</td>
+                <td>تكامل مكتبي وأداءا عالي للأجهزة الصغيرة (SLMs)</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> Dense / SLM</li>
+                    <li><strong>الذاكرة:</strong> 128K Token</li>
+                    <li>
+                      <strong>الترخيص:</strong> مغلق / مفتوح الأوزان جزئيا
+                    </li>
+                  </ul>
+                </td>
+                <td>
+                  تشغيل ذكاءا اصطناعي محليا بكفاءاة عالية على الأجهزة الشخصية،
+                  أو دمج الذكاءا في حزمة أوفيس وبرمجة الأنظمة المؤسسية.
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name">Qwen 2.5</td>
+                <td class="org">Alibaba</td>
+                <td>دعم اللغات المتعددة والبرمجة والرياضيات</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> Dense / MoE</li>
+                    <li><strong>الذاكرة:</strong> 128K Token</li>
+                    <li><strong>الترخيص:</strong> مفتوح الأوزان</li>
+                  </ul>
+                </td>
+                <td>
+                  <strong
+                    >الأقوى برمجيا وتقنيا من Llama 3.3/4 و Mistral Large
+                    2</strong
+                  >
+                  الخيار الأمثل والأنسب إذا كانت أولويتك المطلقة هي دقة البرمجة،
+                  حل الرياضيات، وفهم <strong>اللغة العربية</strong> بطلاقة
+                  مقارنة بالبقية.
+                </td>
+              </tr>
+
+              <!-- Meta Llama -->
+              <tr>
+                <td class="name">Llama 3.3/4</td>
+                <td class="org">Meta</td>
+                <td>مفتوح وخصوصية</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> Dense Network</li>
+                    <li><strong>الذاكرة:</strong> 128K Token</li>
+                    <li><strong>الترخيص:</strong> مفتوح الأوزان</li>
+                  </ul>
+                </td>
+                <td>
+                  <strong>الأفضل للتشغيل المحلي (Local):</strong> الخيار الأكثر
+                  مرونة إذا كنت تريد تشغيل نموذج على جهازك الشخصي بسرية تامة،
+                  مستفيدا من مجتمع ضخم ودعم واسع للأتمتة.
+                </td>
+              </tr>
+
+              <tr>
+                <td class="name">Mistral Large 2</td>
+                <td class="org">Mistral AI</td>
+                <td>اللغات المتعددة والمنطق البرمجي</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> Dense Network</li>
+                    <li><strong>الذاكرة:</strong> 128K Token</li>
+                    <li><strong>الترخيص:</strong> مفتوح الأوزان</li>
+                  </ul>
+                </td>
+                <td>
+                  <strong>الحل المؤسسي الأسرع:</strong> الأنسب للشركات التي تبحث
+                  عن أداءا ينافس الموديلات المغلقة مع استضافته على سيرفرات خاصة
+                  لضمان السيادة الرقمية والسرعة.
+                </td>
+              </tr>
+
+              <!-- Perplexity -->
+              <tr>
+                <td class="name">Perplexity</td>
+                <td class="org">Perplexity</td>
+                <td>بحث موثّق</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>التقنية:</strong> RAG + LLM</li>
+                    <li>
+                      <strong>الميزة:</strong> بحث متصل بالإنترنت يعطيك جواب
+                      مباشر مع مصدره
+                    </li>
+                  </ul>
+                </td>
+                <td>
+                  بدل ما تدور بجوجل وتفتح عشر مواقع، بيجيبلك جواب مباشر ومعه
+                  مصدره.
+                </td>
+              </tr>
+
+              <!-- Consensus -->
+              <tr>
+                <td class="name">Consensus</td>
+                <td class="org">Consensus</td>
+                <td>أبحاث علمية</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>التقنية:</strong> Academic RAG</li>
+                    <li>
+                      <strong>الميزة:</strong> استخراج الإجماع من ملايين الأبحاث
+                    </li>
+                  </ul>
+                </td>
+                <td>
+                  بيدور بآلاف الأبحاث الطبية ويلخصلك شو رأي أغلبها، مع مصدر لكل
+                  معلومة.
+                </td>
+              </tr>
+
+              <!-- SciSpace -->
+              <tr>
+                <td class="name">SciSpace</td>
+                <td class="org">Typeset.io</td>
+                <td>قراءاة أبحاث PDF</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>التقنية:</strong> Document Analysis</li>
+                    <li>
+                      <strong>الميزة:</strong> قراءاة الجداول وشرح المعادلات
+                    </li>
+                  </ul>
+                </td>
+                <td>
+                  ترفعله بحث طبي أو علمي صعب، وتسأله عن الجرعات أو النتائج وهو
+                  يشرحلك مباشرة.
                 </td>
               </tr>
               <tr>
-                <td class="font-bold">Gemini 1.5 Pro</td>
-                <td>Google</td>
-                <td>
-                  نافذة سياق ضخمة جدا (1-2 مليون توكن) وقراءة الفيديو والصوت
-                  المباشر
+                <td class="name">Glass Health</td>
+                <td class="org">Glass Health</td>
+                <td>الاستدلال السريري واقتراح التشخيص التفريقي</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> Clinical Reasoning Agent</li>
+                    <li><strong>الذاكرة:</strong> ~100K tokens</li>
+                  </ul>
                 </td>
                 <td>
-                  معالجة الملفات العملاقة والوسائط المتعددة (Multimodal): قراءة
-                  مشروع برمجي كامل (Full Codebase), تحليل فيديو مدته ساعتان, أو
-                  مراجعة كتب وملفات PDF ضخمة دفعة واحدة.
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold">GPT-4o</td>
-                <td>OpenAI</td>
-                <td>السرعة التفاعلية, الصوت والصورة اللحظية, وتنوع الأتمتة</td>
-                <td>
-                  المساعد العام الشامل والأتمتة المتقدمة: المهام اليومية
-                  السريعة, تحليل الصور التفاعلي, التحدث الصوتي, والتكامل مع
-                  الأدوات الخارجية عبر Custom GPTs و Ecosystem التابع ل OpenAI.
+                  هذا زي الاستشاري الذكي، بساعد الدكاترة والباحثين يحللوا
+                  الحالات المرضية المعقدة ويطلعوا بالتشخيص التفريقي الصح بناءا
+                  على الفسيولوجيا الطبية وخطط العلاج الموثقة بالأدلة.
                 </td>
               </tr>
+
               <tr>
-                <td class="font-bold">Perplexity AI</td>
-                <td>Perplexity</td>
-                <td>محرك بحث مدعوم بالذكاء الاصطناعي مع توثيق لحظي للمراجع</td>
-                <td>
-                  البحث الحي والتحقق من المصادر (Fact Checking): استبدال محركات
-                  البحث التقليدية للوصول لأحدث المعلومات والأبحاث مع روابط
-                  مباشرة وتوثيق دقيق لكل معلومة.
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold">Llama 3</td>
-                <td>Meta</td>
-                <td>
-                  نموذج مفتوح المصدر (Open Source) للتشغيل والتعديل المحلي
+                <td class="name">Heidi Health</td>
+                <td class="org">Heidi Health</td>
+                <td>التوثيق الطبي المحيطي وإدارة العيادات</td>
+                <td class="tech-specs">
+                  <ul>
+                    <li><strong>الهندسة:</strong> Clinical Reasoning Agent</li>
+                    <li><strong>الذاكرة:</strong> ~100K tokens</li>
+                  </ul>
                 </td>
                 <td>
-                  التشغيل المحلي (Offline) والخصوصية المطلقة: بناء تطبيقات خاصة,
-                  التدريب على بيانات سرية (Fine tuning), والتشغيل على أجهزة أو
-                  سيرفرات داخلية دون الحاجة ل API أو إنترنت.
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold">Glass Health (Glass AI)</td>
-                <td>Glass Health</td>
-                <td>
-                  تحليل الحالات السريرية (Clinical Vignette) وصياغة التشخيص
-                  التفريقي
-                </td>
-                <td>
-                  التشخيص التفريقي (DDx) وتطوير الخطط العلاجية: مخصص بالكامل
-                  للأطباء وطلاب الطب للتحليل السريري المباشر وبناء قائمة تشخيصية
-                  منطقية مع خطة علاجية مفصلة.
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold">Heidi Health / Abridge</td>
-                <td>Heidi Health / Abridge</td>
-                <td>
-                  المعالجة الصوتية الذكية وتوليد التقارير والملاحظات الطبية
-                  السريرية
-                </td>
-                <td>
-                  التوثيق السريري والملاحظات الطبية (SOAP Notes): تحويل الحوارات
-                  الشفهية والأعراض إلى تقارير سريرية منظمة لتوفير وقت الكتابة
-                  السريرية.
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold">Consensus.app</td>
-                <td>Consensus</td>
-                <td>
-                  بحث واستخراج مباشر ومحايد من ملايين الأوراق العلمية في PubMed
-                </td>
-                <td>
-                  الإجابة عن الأسئلة الطبية المعقدة ومراجعة الأدبيات: تقديم
-                  خلاصة علمية مبنية على الدليل مع مؤشر اتفاق الدراسات (Consensus
-                  Meter) وتوثيق كل معلومة بمصدرها.
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold">SciSpace (Typeset.io)</td>
-                <td>SciSpace</td>
-                <td>
-                  محادثة واستخراج المعطيات من ملفات ال PDF والأوراق الأكاديمية
-                </td>
-                <td>
-                  قراءة وتفكيك الأوراق الطبية الصعبة: رفع ملفات PDF للأبحاث
-                  والخطوط الإرشادية (Guidelines) ومحادثتها مباشرة لاستخراج
-                  الجرعات, النتائج, والمنهجية.
+                  هذا مخصص للعيادات عشان يفك عن الدكاترة زحمة الشغل الإداري،
+                  بيقعد يسجل الحكي والمحادثات اللي بتصير بين الدكتور والمريض
+                  بالعيادة، وبحولها بسرعة فلاش لتقارير طبية دقيقة عشان يريحهم من
+                  تعب الكتابة والمراجعة.
                 </td>
               </tr>
             </tbody>
@@ -794,328 +1120,724 @@
         </div>
       </section>
 
-      <!-- القسم 3: عناصر البرومبت الخمسة -->
-      <section class="card">
-        <h2><span class="section-number">3</span> عناصر البرومبت الخمسة</h2>
-        <p>كل برومبت احترافي يجب أن يشمل هذه العناصر الخمسة:</p>
-        <div class="elements-grid">
-          <div class="element-card">
-            <div class="icon">1</div>
+      <!-- 3 -->
+      <section class="block reveal" id="s3" data-title="العناصر الخمسة">
+        <div class="kicker">
+          <span class="num">3</span>
+          <h2>عناصر البرومبت الخمسة</h2>
+        </div>
+        <p class="lead">كل برومبت شاطر بيمرّ من نفس الخمس خطوات:</p>
+        <div class="elements">
+          <div class="elem">
+            <div class="idx">[01]</div>
             <h4>المهمة (Task)</h4>
-            <p>
-              ماذا تريد من النموذج أن يفعل؟ مثل: فرز, فلترة, استنباط, تلخيص.
-            </p>
-            <div class="example">رتب هذه الأطباق حسب قيمتها الغذائية.</div>
+            <p>شو بدك بالظبط من الموديل؟ فرز، فلترة، استنباط، تلخيص.</p>
+            <div class="ex">رتب هذه الأطباق حسب قيمتها الغذائية.</div>
           </div>
-          <div class="element-card">
-            <div class="icon">2</div>
+          <div class="elem">
+            <div class="idx">[02]</div>
             <h4>السياق (Context)</h4>
-            <p>أعطِ خلفية كافية عن الموقف أو الجمهور أو المستوى.</p>
-            <div class="example">أنا طالب طب في السنة الثالثة, أريد شرحاً مبسطاً لأمراض القلب.</div>
+            <p>عطيه خلفية كافية عن الموقف والجمهور والمستوى، لا تخليه يخمّن.</p>
+            <div class="ex">
+              أنا طالب طب في السنة الثالثة، أريد شرحا مبسطا لأمراض القلب.
+            </div>
           </div>
-          <div class="element-card">
-            <div class="icon">3</div>
+          <div class="elem">
+            <div class="idx">[03]</div>
             <h4>الدور (Role)</h4>
-            <p>اطلب من النموذج أن يتقمص شخصية معينة.</p>
-            <div class="example">أنت مدير تسويق خبير, اكتب خطة ترويجية لمنتج جديد.</div>
+            <p>خليه يتقمص شخصية معينة، بيرد عليك أدق وأذكى.</p>
+            <div class="ex">
+              أنت مدير تسويق خبير، اكتب خطة ترويجية لمنتج جديد.
+            </div>
           </div>
-          <div class="element-card">
-            <div class="icon">4</div>
-            <h4>صيغة المخرجات (Output Format)</h4>
-            <p>حدد الشكل: جدول, CSV, JSON, مخطط شجري, قائمة.</p>
-            <div class="example">أعطني النتائج في جدول يحتوي على أعمدة: الاسم, العمر, النتيجة.</div>
+          <div class="elem">
+            <div class="idx">[04]</div>
+            <h4>صيغة المخرجات</h4>
+            <p>
+              حدد الشكل يلي بدك ياه: جدول، CSV، JSON، قائمة - لا تسيبها مفتوحة.
+            </p>
+            <div class="ex">أعطني النتائج في جدول: الاسم، العمر، النتيجة.</div>
           </div>
-          <div class="element-card">
-            <div class="icon">5</div>
+          <div class="elem">
+            <div class="idx">[05]</div>
             <h4>المدخلات (Inputs)</h4>
             <p>
-              قدم البيانات التي سيعتمد عليها النموذج, ويفضل وضعها بين أقواس
-              اقتباس.
+              حط البيانات يلي بيشتغل عليها الموديل، وحطها بين أقواس عشان
+              توضحلها.
             </p>
-            <div class="example">فلتر الأسماء غير العربية من القائمة التالية: [أحمد, John, مريم, Robert, سارة]</div>
+            <div class="ex">
+              فلتر الأسماءا غير العربية: [أحمد, John, مريم, Robert]
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- القسم 4: التقنيات الأربع -->
-      <section class="card">
-        <h2><span class="section-number">4</span> التقنيات الأربع الأساسية</h2>
+      <!-- 4 -->
+      <section class="block reveal" id="s4" data-title="التقنيات الأربع">
+        <div class="kicker">
+          <span class="num">4</span>
+          <h2>التقنيات الأربع الأساسية</h2>
+        </div>
 
-        <div class="technique-item">
-          <div class="header">
-            <div class="num">1</div>
+        <div class="tech-window">
+          <div class="thead-row">
             <h3>Zero-shot Prompting</h3>
-            <span class="badge badge-blue">مباشر</span>
+            <p>
+              تطلب من الموديل يعمل مهمة من غير ما تعطيه ولا مثال - منيحة للأسئلة
+              اليومية السريعة.
+            </p>
           </div>
-          <p>
-            اطلب من النموذج أداء مهمة دون تقديم أمثلة. مناسب للأسئلة اليومية.
-          </p>
-          <div class="prompt-box">ما عاصمة الأردن؟ <button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+          <div class="tcode">ما عاصمة الأردن؟</div>
+          <button class="copy-btn" onclick="copyPrompt(this)">نسخ ⧉</button>
         </div>
 
-        <div class="technique-item">
-          <div class="header">
-            <div class="num">2</div>
+        <div class="tech-window">
+          <div class="thead-row">
             <h3>Few-shot Prompting</h3>
-            <span class="badge badge-blue">التعليم بالأمثلة</span>
+            <p>تعطيه شوي أمثلة عشان يلقط النمط المطلوب ويطبقه.</p>
           </div>
-          <p>قدم أمثلة قليلة ليتعلم النموذج النمط المطلوب.</p>
-          <div class="prompt-box">علمه كلمة جديدة: <br /><strong>"جومودار"</strong> تعني شخص ذكي جداً.<br />الآن استخدم كلمة <strong>"جومودار"</strong> في جملة.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
-          <div class="prompt-box">تصنيف العملاء: <br />العميل 1: يدفع دائماً => نصاب؟ لا, محترم<br />العميل 2: يتهرب من الدفع => نصاب <br />العميل 3: دفع نصف المبلغ => ؟<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+          <div class="tcode">
+            علّمه كلمة جديدة: "جومودار" تعني شخص ذكي جدا. هسا استخدم كلمة
+            "جومودار" في جملة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">نسخ ⧉</button>
         </div>
 
-        <div class="technique-item">
-          <div class="header">
-            <div class="num">3</div>
-            <h3>Chain-of-Thought (CoT)</h3>
-            <span class="badge badge-indigo">التفكير خطوة بخطوة</span>
+        <div class="tech-window">
+          <div class="thead-row">
+            <h3>Chain-of-Thought</h3>
+            <p>
+              تطلب من الموديل يفكر بصوت عالي، خطوة خطوة، عشان يحل المسائل
+              المعقدة صح.
+            </p>
           </div>
-          <p>اطلب من النموذج التفكير بصوت عالٍ لحل المشكلات المعقدة.</p>
-          <div class="prompt-box">لدي 3 أقلام و4 شوكولاتة. أعطيت صديقي قلمين وشوكولاتة واحدة. كم بقي معي؟ <br /><strong>فكر خطوة بخطوة</strong><button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+          <div class="tcode">
+            عندي 3 أقلام و4 شوكولاتة. عطيت صاحبي قلمين وشوكولاتة وحدة. كم ضل
+            معي؟ فكّر خطوة بخطوة.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">نسخ ⧉</button>
         </div>
 
-        <div class="technique-item">
-          <div class="header">
-            <div class="num">4</div>
+        <div class="tech-window">
+          <div class="thead-row">
             <h3>Self-Consistency</h3>
-            <span class="badge badge-indigo">الاتساق الذاتي</span>
+            <p>
+              تطلب منه يجرب أكتر من طريقة، وبعدين يختار الإجابة الأكتر منطقية.
+            </p>
           </div>
-          <p>اطلب من النموذج توليد عدة حلول واختيار الأكثر منطقية.</p>
-          <div class="prompt-box">حل المسألة السابقة بثلاث طرق مختلفة, ثم حدد الإجابة الأكثر اتساقا.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+          <div class="tcode">
+            حل المسألة السابقة بثلاث طرق مختلفة، وبعدين حدّد الإجابة الأكتر
+            اتساقا.
+          </div>
+          <button class="copy-btn" onclick="copyPrompt(this)">نسخ ⧉</button>
         </div>
       </section>
 
-      <!-- القسم 5: قالب البرومبت الجوكر -->
-      <section class="card">
-        <h2><span class="section-number">5</span> قالب البرومبت الجوكر (Master Prompt)</h2>
-        <p>هذا القالب مرن ويمكن تعديله لأي مهنة أو مهمة:</p>
-        <div class="master-prompt">
-          <button class="copy-btn-master" onclick="copyMasterPrompt()">
-            نسخ القالب
+      <!-- 5 -->
+      <section class="block reveal" id="s5" data-title="القالب الجوكر">
+        <div class="kicker">
+          <span class="num">5</span>
+          <h2>قالب البرومبت الجوكر (Master Prompt)</h2>
+        </div>
+        <p class="lead">
+          هاد القالب مرن، وبتقدر تعدله لأي مهنة أو مهمة بدك ياها:
+        </p>
+        <div class="master">
+          <div class="field"><b>[Identity & Role]</b> أنت [خبير في...]</div>
+          <div class="field">
+            <b>[Context & Task]</b> أحتاج منك [وصف المهمة]
+          </div>
+          <div class="field">
+            <b>[Output Structure]</b> قدّم النتيجة على شكل [جدول / قائمة / خطة]
+          </div>
+          <div class="field">
+            <b>[Constraints]</b> التزم في [المعايير / القيود]
+          </div>
+          <div class="field">
+            <b>[Examples]</b>
+          </div>
+          <button
+            class="copy-btn"
+            style="margin: 0.5rem 0 0"
+            onclick="copyMasterPrompt(this)"
+          >
+            نسخ القالب ⧉
           </button>
-          <p><strong>[Identity & Role]</strong> أنت [خبير في...]</p>
-          <p><strong>[Context & Task]</strong> أحتاج منك [وصف المهمة]</p>
-          <p>
-            <strong>[Output Structure]</strong> قدم النتيجة على شكل
-            [جدول/قائمة/خطة]
-          </p>
-          <p><strong>[Constraints]</strong> التزم بال [المعايير/القيود]</p>
-          <p>
-            <strong>[Examples]</strong>
-            <a href="PromptEx.html" target="_blank">صفحة الأمثلة</a>
-          </p>
         </div>
       </section>
 
-      <!-- القسم 6: أسرار الخبراء والأتمتة -->
-      <section class="card">
-        <h2><span class="section-number">6</span> أسرار الخبراء والأتمتة</h2>
-        <div class="space-y-4">
-          <div class="bg-emerald-50 border-r-4 border-emerald-500 p-4 rounded">
-            <h4>🔹 السر 1: البرومبت برنامج في تطور (Iterative Refinement)</h4>
+      <!-- 6 -->
+      <section class="block reveal" id="s6" data-title="أسرار الخبرة">
+        <div class="kicker">
+          <span class="num">6</span>
+          <h2>أسرار الخبرة والأتمتة</h2>
+        </div>
+        <div class="note accent">
+          <h4 style="margin: 0 0 0.4rem">البرومبت مش نهائي من أول مرة</h4>
+          <p style="margin: 0; color: var(--muted)">
+            ما في برومبت مثالي من أول محاولة. ابدأ بسيط، جرّب، وحسّن. وفي ناس
+            هسا عم تبيع برومبتاتها الناجحة على منصات زي
+            <strong>PromptBase</strong>.
+          </p>
+        </div>
+        <div class="note accent" style="margin-top: 0.9rem">
+          <h4 style="margin: 0 0 0.4rem">Meta Prompting</h4>
+          <p style="margin: 0 0 0.7rem; color: var(--muted)">
+            استخدم الذكاءا الاصطناعي نفسه يكتبلك برومبتات أحسن منك، وحتى يولّدلك
+            أوامر لصور Midjourney أو DALL·E.
+          </p>
+          <div class="tcode" style="padding: 0; background: transparent">
+            أنت خبير في هندسة البرومبت. اكتب لي برومبت مثالي لإنشاءا شعار لشركة
+            ناشئة في مجال الطاقة الشمسية.
+          </div>
+        </div>
+      </section>
+
+      <!-- 7 -->
+      <section class="block reveal" id="s7" data-title="خلونا واعين">
+        <div class="kicker">
+          <span class="num">7</span>
+          <h2>خلونا واعين: الانحياز والتهديد الفكري</h2>
+        </div>
+        <div class="note warn">
+          <ul
+            style="margin: 0; padding-inline-start: 1.2rem; color: var(--text)"
+          >
+            <li>
+              <strong>الانحياز الثقافي:</strong> الموديلات ممكن تعكس قيم غربية
+              مش دايما بتناسب مجتمعنا.
+            </li>
+            <li>
+              <strong>طوفان المحتوى الآلي:</strong> كتر المحتوى المولّد آليا
+              ممكن يغرق الأفكار الأصيلة.
+            </li>
+            <li>
+              <strong>الاعتماد الكلي:</strong> خطر حقيقي إنك تفقد تفكيرك النقدي
+              وإبداعك الشخصي.
+            </li>
+          </ul>
+        </div>
+        <p style="margin-top: 1rem">
+          عشان نحافظ على هويتنا الفكرية، لازم نستخدم الذكاءا الاصطناعي كأداة
+          مساعدة، مش بديل عن عقلنا.
+        </p>
+      </section>
+
+      <!-- 8 -->
+      <section class="block reveal" id="s8" data-title="التطبيق العملي">
+        <div class="kicker">
+          <span class="num">8</span>
+          <h2>تحدي البرومبت الهندسي - للمجموعات الطبية والتقنية</h2>
+        </div>
+
+        <!-- Medical group -->
+        <div class="elements" style="margin-top: 1.5rem">
+          <div class="elem">
+            <div class="idx">[🩺 01]</div>
+            <h4>فرز مرضى الطوارئ</h4>
             <p>
-              لا يوجد برومبت مثالي من أول مرة. ابدأ بسيطاً, جرب, ثم حسّن. يمكن
-              بيع البرومبتات الناجحة على منصات مثل <strong>PromptBase</strong>.
+              اكتب برومبت يخلي الذكاء الاصطناعي يفرز قائمة مرضى حسب الأولوية
+              الطبية.
             </p>
+            <div class="ex">
+              <strong>المطلوب:</strong> جدول فيه (اسم المريض، الحالة، درجة
+              الأولوية، سبب التصنيف).<br />
+              <strong>المدخلات:</strong> [مريض بنوبة قلبية، طفل حرارته 39، مصاب
+              بكسر، حالة ربو خفيفة، مغص كلوي]
+            </div>
           </div>
-          <div class="bg-emerald-50 border-r-4 border-emerald-500 p-4 rounded">
-            <h4>🔹 السر 2: (Meta Prompting)</h4>
+
+          <div class="elem">
+            <div class="idx">[🩺 02]</div>
+            <h4>تبسيط معلومة طبية</h4>
             <p>
-              استخدم الذكاء الاصطناعي ليكتب لك برومبتات أفضل, وحتى لتوليد أوامر
-              لصور Midjourney أو DALL·E.
+              اكتب برومبت يخلي الذكاء الاصطناعي يشرح مرض السكري لمريض أمّي
+              طبيا.
             </p>
-            <div class="prompt-box text-sm mt-2">أنت خبير في هندسة البرومبت. اكتب لي برومبت مثالي لإنشاء شعار لشركة ناشئة في مجال الطاقة الشمسية.<button class="copy-icon" onclick="copyPrompt(this)">نسخ</button></div>
+            <div class="ex">
+              <strong>المطلوب:</strong> شرح مبسط بالعامية، بدون مصطلحات معقدة،
+              مع تشبيه من الحياة اليومية.<br />
+              <strong>مثال:</strong> "أنت طبيب أسرة صبور، مريض عمره 55 سنة، اشرح
+              له في 3 نقاط بسيطة مع تشبيه."
+            </div>
           </div>
+        </div>
+
+        <!-- IT group -->
+        <div class="elements" style="margin-top: 1rem">
+          <div class="elem">
+            <div class="idx">[💻 01]</div>
+            <h4>فلترة الأسماء من ملف</h4>
+            <p>
+              اكتب برومبت يخلي الذكاء الاصطناعي يفلتر الأسماء العربية من قائمة
+              مختلطة.
+            </p>
+            <div class="ex">
+              <strong>المطلوب:</strong> قائمة فيها الأسماء العربية فقط.<br />
+              <strong>المدخلات:</strong> [أحمد, John, مريم, Robert, خالد, Emma]
+            </div>
+          </div>
+
+          <div class="elem">
+            <div class="idx">[💻 02]</div>
+            <h4>تحويل بيانات إلى JSON</h4>
+            <p>
+              اكتب برومبت يخلي الذكاء الاصطناعي يحول بيانات موظفين إلى صيغة
+              JSON.
+            </p>
+            <div class="ex">
+              <strong>المطلوب:</strong> كود JSON صالح للاستخدام.<br />
+              <strong>المدخلات:</strong> [محمد، 30، مطور]، [سارة، 28، مصممة]
+            </div>
+          </div>
+        </div>
+
+        <!-- Scoring criteria -->
+        <div class="note accent" style="margin-top: 1.5rem">
+          <strong>🏅 معايير التقييم (من 10):</strong>
+          <table
+            style="
+              width: 100%;
+              margin-top: 0.8rem;
+              border-collapse: collapse;
+              font-size: 0.9rem;
+            "
+          >
+            <thead>
+              <tr>
+                <th
+                  style="
+                    text-align: right;
+                    padding: 0.5rem;
+                    border-bottom: 1px solid #ddd;
+                  "
+                >
+                  العنصر
+                </th>
+                <th
+                  style="
+                    text-align: center;
+                    padding: 0.5rem;
+                    border-bottom: 1px solid #ddd;
+                  "
+                >
+                  الدرجة
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 0.5rem; border-bottom: 1px solid #eee">
+                  استخدم عنصرين على الأقل من العناصر الخمسة
+                </td>
+                <td
+                  style="
+                    text-align: center;
+                    padding: 0.5rem;
+                    border-bottom: 1px solid #eee;
+                  "
+                >
+                  3
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.5rem; border-bottom: 1px solid #eee">
+                  استخدم تقنية من التقنيات الأربع (Zero-shot / Few-shot / CoT /
+                  Self-Consistency)
+                </td>
+                <td
+                  style="
+                    text-align: center;
+                    padding: 0.5rem;
+                    border-bottom: 1px solid #eee;
+                  "
+                >
+                  2
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.5rem; border-bottom: 1px solid #eee">
+                  المخرجات واضحة ومحددة (جدول / قائمة / JSON)
+                </td>
+                <td
+                  style="
+                    text-align: center;
+                    padding: 0.5rem;
+                    border-bottom: 1px solid #eee;
+                  "
+                >
+                  2
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.5rem; border-bottom: 1px solid #eee">
+                  النتيجة النهائية صحيحة من الذكاء الاصطناعي
+                </td>
+                <td
+                  style="
+                    text-align: center;
+                    padding: 0.5rem;
+                    border-bottom: 1px solid #eee;
+                  "
+                >
+                  3
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
-      <!-- القسم 7: التهديد الفكري والانحياز -->
-      <section class="card border-red-200">
-        <h2 class="text-red-700 border-red-500">
-          <span class="section-number">7</span> التهديد الفكري والانحياز (AI Bias)
-        </h2>
-        <ul class="list-disc pr-6 space-y-2">
-          <li>
-            <strong>الانحياز الثقافي:</strong> النماذج قد تعكس قيماً غربية لا
-            تناسب مجتمعنا.
-          </li>
-          <li>
-            <strong>طوفان المحتوى الآلي:</strong> كثرة المحتوى المولد آلياً قد
-            يغرق الأفكار الأصلية.
-          </li>
-          <li>
-            <strong>الاعتماد الكلي:</strong> خطر فقدان التفكير النقدي والإبداع
-            الذاتي.
-          </li>
-        </ul>
-        <p class="mt-4">
-          لحماية هويتنا الفكرية, يجب أن نستخدم الذكاء الاصطناعي أداة مساعدة لا
-          بديل عن العقل.
-        </p>
-      </section>
-
-      <!-- القسم 8: التطبيق العملي والمصادر -->
-      <section class="card">
-        <h2><span class="section-number">8</span> التطبيق العملي والمصادر</h2>
-        <p>
-          بالتعاون مع زميلك, اختر مشكلة واقعية من المجتمع الأردني (مثل: تحسين
-          النقل العام, تقليل هدر الطعام, دعم المشاريع المنزلية) ثم قم بصياغة
-          برومبت شامل لاقتراح حلول مبتكرة.
-        </p>
-        <div class="bg-slate-100 p-4 rounded-lg mt-3">
-          <p>
-            <strong>مثال:</strong> أنت مستشار استراتيجي, اقترح 5 حلول عملية
-            لمشكلة الازدحام المروري في عمان, مع مراعاة التكلفة المنخفضة والتنفيذ
-            السريع.
-          </p>
+      <!-- 9 -->
+      <section class="block reveal" id="s9" data-title="المصادر">
+        <div class="kicker">
+          <span class="num">9</span>
+          <h2>مصادر تتعلم منها ببلاش</h2>
         </div>
-        <h3 class="mt-4">مصادر التعلم المجانية</h3>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="bg-slate-50 p-3 rounded border border-slate-200">
-            📘 Learn Prompting
+        <div class="chips">
+          <div class="chip">
+            📘
+            <div>
+              <div>Learn Prompting</div>
+              <div class="tag">دليل شامل</div>
+            </div>
           </div>
-          <div class="bg-slate-50 p-3 rounded border border-slate-200">
-            🎓 DeepLearning.AI (Andrew Ng)
+          <div class="chip">
+            🎓
+            <div>
+              <div>DeepLearning.AI</div>
+              <div class="tag">من Andrew Ng</div>
+            </div>
           </div>
-          <div class="bg-slate-50 p-3 rounded border border-slate-200">
-            🔍 OpenEvidence
-          </div>
-          <div class="bg-slate-50 p-3 rounded border border-slate-200">
-            📄 Prompting Guide (DAIR.AI)
+          <div class="chip">
+            📄
+            <div>
+              <div>Prompting Guide</div>
+              <div class="tag">من DAIR.AI</div>
+            </div>
           </div>
         </div>
       </section>
-
-      <!-- خاتمة -->
-      <div class="text-center mt-8 py-6 border-t border-slate-300">
-        <p class="text-xl font-bold text-slate-900">
-          التكنولوجيا لن تستبدلك, لكن من يتقنها سيسبقك
-        </p>
-      </div>
     </main>
+
+    <footer>
+      <p class="closing">By Mustafa Banikhalaf</p>
+    </footer>
+
     <script>
-      // ===== 1) نسخ البرومبت =====
+      /* ============================================================
+   THEME
+   ============================================================ */
+      function applyTheme(mode) {
+        document.documentElement.classList.toggle("light", mode === "light");
+        document.getElementById("theme-icon").textContent =
+          mode === "light" ? "☀" : "☾";
+        document.getElementById("theme-label").textContent =
+          mode === "light" ? "نهاري" : "ليلي";
+      }
+      function toggleTheme() {
+        const next = document.documentElement.classList.contains("light")
+          ? "dark"
+          : "light";
+        try {
+          localStorage.setItem("theme", next);
+        } catch (e) {}
+        applyTheme(next);
+      }
+      (function () {
+        let saved = "dark";
+        try {
+          saved = localStorage.getItem("theme") || "dark";
+        } catch (e) {}
+        applyTheme(saved);
+      })();
+
+      /* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+      const progressBar = document.querySelector("#progress > span");
+      function updateProgress() {
+        const h = document.documentElement;
+        const scrolled = h.scrollTop || document.body.scrollTop;
+        const height =
+          (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+        progressBar.style.width =
+          height > 0 ? (scrolled / height) * 100 + "%" : "0%";
+      }
+      document.addEventListener("scroll", updateProgress, { passive: true });
+      updateProgress();
+
+      /* ============================================================
+   SECTION NAV - build + active state
+   ============================================================ */
+      const sections = Array.from(
+        document.querySelectorAll("main section.block"),
+      );
+      const rail = document.getElementById("rail");
+      sections.forEach((sec) => {
+        const btn = document.createElement("button");
+        btn.textContent = sec.dataset.title;
+        btn.addEventListener("click", () =>
+          sec.scrollIntoView({ behavior: "smooth", block: "start" }),
+        );
+        btn.dataset.target = sec.id;
+        rail.appendChild(btn);
+      });
+      const navButtons = Array.from(rail.children);
+      const navObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              navButtons.forEach((b) =>
+                b.classList.toggle(
+                  "active",
+                  b.dataset.target === entry.target.id,
+                ),
+              );
+            }
+          });
+        },
+        { rootMargin: "-40% 0px -55% 0px" },
+      );
+      sections.forEach((s) => navObserver.observe(s));
+
+      /* ============================================================
+   COPY BUTTONS
+   ============================================================ */
+      function fallbackCopy(text) {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        let ok = false;
+        try {
+          ok = document.execCommand("copy");
+        } catch (e) {}
+        document.body.removeChild(ta);
+        return ok;
+      }
+      function flashCopied(btn) {
+        const original = btn.textContent;
+        btn.textContent = "تم النسخ ✓";
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.disabled = false;
+        }, 1400);
+      }
       function copyPrompt(btn) {
-        const box = btn.closest(".prompt-box");
-        if (!box) return;
-
-        const clone = box.cloneNode(true);
-        const btnClone = clone.querySelector(".copy-icon");
-        if (btnClone) btnClone.remove();
-        const text = clone.innerText.trim();
-
-        const fallbackCopy = (text) => {
-          const textarea = document.createElement("textarea");
-          textarea.value = text;
-          textarea.style.position = "fixed";
-          textarea.style.opacity = "0";
-          document.body.appendChild(textarea);
-          textarea.select();
-          try {
-            document.execCommand("copy");
-            return true;
-          } catch (e) {
-            return false;
-          } finally {
-            document.body.removeChild(textarea);
-          }
-        };
-
-        const showCopied = () => {
-          const originalText = btn.textContent;
-          btn.textContent = "تم النسخ ✓";
-          btn.disabled = true;
-          setTimeout(() => {
-            btn.textContent = originalText;
-            btn.disabled = false;
-          }, 1500);
-        };
-
+        const win = btn.closest(".tech-window") || btn.closest(".note");
+        const code = win.querySelector(".tcode");
+        const text = code ? code.innerText.trim() : "";
         if (navigator.clipboard && window.isSecureContext) {
           navigator.clipboard
             .writeText(text)
-            .then(showCopied)
+            .then(() => flashCopied(btn))
             .catch(() => {
-              if (fallbackCopy(text)) showCopied();
-              else alert("تعذر النسخ");
+              if (fallbackCopy(text)) flashCopied(btn);
             });
-        } else {
-          if (fallbackCopy(text)) showCopied();
-          else alert("تعذر النسخ");
+        } else if (fallbackCopy(text)) {
+          flashCopied(btn);
         }
       }
-
-      // ===== 2) نسخ القالب الرئيسي =====
-      function copyMasterPrompt() {
-        const promptText = `[Identity & Role]\nأنت [خبير في...]\n\n[Context & Task]\nأحتاج منك [وصف المهمة]  [الجمهور/الهدف]\n\n[Output Structure]\nقدم النتيجة على شكل [جدول/قائمة/خطة]\n\n[Constraints]\nالتزم بـ [المعايير/القيود]\n\n[Examples]\nإليك مثال: [مثال]`;
-        const btn = document.querySelector(".copy-btn-master");
-        if (!btn) return;
-
-        const fallbackCopy = (text) => {
-          const textarea = document.createElement("textarea");
-          textarea.value = text;
-          textarea.style.position = "fixed";
-          textarea.style.opacity = "0";
-          document.body.appendChild(textarea);
-          textarea.select();
-          try {
-            document.execCommand("copy");
-            return true;
-          } catch (e) {
-            return false;
-          } finally {
-            document.body.removeChild(textarea);
-          }
-        };
-
-        const showCopied = () => {
-          btn.textContent = "تم النسخ ✓";
-          btn.disabled = true;
-          setTimeout(() => {
-            btn.textContent = "نسخ القالب";
-            btn.disabled = false;
-          }, 1500);
-        };
-
+      function copyMasterPrompt(btn) {
+        const text = `[Identity & Role]\nأنت [خبير في...]\n\n[Context & Task]\nأحتاج منك [وصف المهمة]\n\n[Output Structure]\nقدّم النتيجة على شكل [جدول/قائمة/خطة]\n\n[Constraints]\nالتزم بـ [المعايير/القيود]`;
         if (navigator.clipboard && window.isSecureContext) {
           navigator.clipboard
-            .writeText(promptText)
-            .then(showCopied)
+            .writeText(text)
+            .then(() => flashCopied(btn))
             .catch(() => {
-              if (fallbackCopy(promptText)) showCopied();
-              else alert("تعذر النسخ");
+              if (fallbackCopy(text)) flashCopied(btn);
             });
-        } else {
-          if (fallbackCopy(promptText)) showCopied();
-          else alert("تعذر النسخ");
+        } else if (fallbackCopy(text)) {
+          flashCopied(btn);
         }
       }
 
-      // ===== 3) الوضع الليلي/النهاري =====
-      function toggleTheme() {
-        const isDark = document.body.classList.toggle("dark");
-        try {
-          localStorage.setItem("theme", isDark ? "dark" : "light");
-        } catch (e) {}
-        updateThemeButton(isDark);
+      /* ============================================================
+   HERO TERMINAL TYPEWRITER
+   ============================================================ */
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const script = [
+        {
+          who: "أنت",
+          role: "",
+          text: 'احكيلي شو يعني "هندسة التلقين" بجملة وحدة، وكأني أول مرة بسمع فيها.',
+        },
+        {
+          who: "AI",
+          role: "ai",
+          text: "يعني فن انك تصيغ طلبك صح، عشان الموديل يفهم قصدك مية بالمية - مو بس تكتب سؤال عشوائي وتستنى المعجزة.",
+        },
+      ];
+      const twEl = document.getElementById("typewriter");
+      function renderStatic() {
+        twEl.innerHTML = script
+          .map(
+            (s) =>
+              `<div class="row"><span class="who ${s.role}">${s.who}:</span> <span class="txt">${s.text}</span></div>`,
+          )
+          .join("");
       }
-
-      function updateThemeButton(isDark) {
-        const btn = document.getElementById("theme-toggle");
-        if (btn) {
-          btn.textContent = isDark ? "☀️ الوضع النهاري" : "🌙 الوضع الليلي";
+      async function typeLoop() {
+        if (reduceMotion) {
+          renderStatic();
+          return;
         }
-      }
-
-      (function () {
-        try {
-          const savedTheme = localStorage.getItem("theme");
-          if (savedTheme === "dark") {
-            document.body.classList.add("dark");
-            updateThemeButton(true);
+        while (true) {
+          twEl.innerHTML = "";
+          for (const line of script) {
+            const row = document.createElement("div");
+            row.className = "row";
+            const who = document.createElement("span");
+            who.className = "who " + line.role;
+            who.textContent = line.who + ": ";
+            const txt = document.createElement("span");
+            txt.className = "txt";
+            const cursor = document.createElement("span");
+            cursor.className = "cursor";
+            cursor.textContent = "\u00A0";
+            row.appendChild(who);
+            row.appendChild(txt);
+            row.appendChild(cursor);
+            twEl.appendChild(row);
+            for (let i = 0; i < line.text.length; i++) {
+              txt.textContent += line.text[i];
+              await new Promise((r) => setTimeout(r, 18));
+            }
+            cursor.remove();
+            await new Promise((r) => setTimeout(r, 500));
           }
-        } catch (e) {}
+          await new Promise((r) => setTimeout(r, 1800));
+        }
+      }
+      typeLoop();
+
+      /* ============================================================
+   HERO NEURAL NETWORK CANVAS
+   ============================================================ */
+      (function () {
+        const canvas = document.getElementById("net");
+        const ctx = canvas.getContext("2d");
+        let w,
+          h,
+          points = [];
+        function resize() {
+          w = canvas.width = canvas.offsetWidth;
+          h = canvas.height = canvas.offsetHeight;
+        }
+        function init() {
+          resize();
+          const count = Math.min(46, Math.floor(w / 28));
+          points = Array.from({ length: count }, () => ({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: (Math.random() - 0.5) * 0.25,
+          }));
+        }
+        function accent() {
+          return (
+            getComputedStyle(document.documentElement)
+              .getPropertyValue("--accent")
+              .trim() || "#49d3c7"
+          );
+        }
+        function frame() {
+          ctx.clearRect(0, 0, w, h);
+          const col = accent();
+          points.forEach((p) => {
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0 || p.x > w) p.vx *= -1;
+            if (p.y < 0 || p.y > h) p.vy *= -1;
+          });
+          for (let i = 0; i < points.length; i++) {
+            for (let j = i + 1; j < points.length; j++) {
+              const dx = points[i].x - points[j].x,
+                dy = points[i].y - points[j].y;
+              const d = Math.sqrt(dx * dx + dy * dy);
+              if (d < 130) {
+                ctx.strokeStyle = col;
+                ctx.globalAlpha = (1 - d / 130) * 0.35;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(points[i].x, points[i].y);
+                ctx.lineTo(points[j].x, points[j].y);
+                ctx.stroke();
+              }
+            }
+          }
+          ctx.globalAlpha = 0.8;
+          points.forEach((p) => {
+            ctx.fillStyle = col;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+            ctx.fill();
+          });
+          ctx.globalAlpha = 1;
+          if (!reduceMotion) requestAnimationFrame(frame);
+        }
+        window.addEventListener("resize", init);
+        init();
+        frame();
       })();
+
+      /* ============================================================
+   GSAP - hero entrance + scroll reveals
+   ============================================================ */
+      if (window.gsap) {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.fromTo(
+          ".eyebrow-line, .hero h1, .hero p.lede, .hero .meta-row",
+          { opacity: 0, y: 18 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.12,
+            ease: "power2.out",
+          },
+        );
+        gsap.fromTo(
+          ".terminal",
+          { opacity: 0, y: 24, scale: 0.98 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            delay: 0.25,
+            ease: "power2.out",
+          },
+        );
+
+        if (!reduceMotion) {
+          document.querySelectorAll(".reveal").forEach((el) => {
+            gsap.to(el, {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power2.out",
+              scrollTrigger: { trigger: el, start: "top 85%" },
+            });
+          });
+        } else {
+          document.querySelectorAll(".reveal").forEach((el) => {
+            el.style.opacity = 1;
+            el.style.transform = "none";
+          });
+        }
+      } else {
+        document.querySelectorAll(".reveal").forEach((el) => {
+          el.style.opacity = 1;
+          el.style.transform = "none";
+        });
+      }
     </script>
   </body>
 </html>
