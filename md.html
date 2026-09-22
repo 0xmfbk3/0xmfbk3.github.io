@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Optimized AI Markdown Footprint Sanitizer</title>
+    <style>
+      :root {
+        --bg: #0f1115;
+        --panel: #161a21;
+        --border: #262b35;
+        --text: #e4e7ec;
+        --muted: #8891a0;
+        --accent: #5ec9a8;
+        --accent-dim: #3a7d68;
+        --danger: #d97066;
+        font-size: 16px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+      }
+      header {
+        padding: 24px 32px 12px;
+        padding-top: max(24px, env(safe-area-inset-top));
+        padding-left: max(32px, env(safe-area-inset-left));
+        padding-right: max(32px, env(safe-area-inset-right));
+        border-bottom: 1px solid var(--border);
+      }
+      header h1 {
+        font-size: 1.3rem;
+        margin: 0 0 4px;
+        font-weight: 600;
+      }
+      header p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 24px 32px 32px;
+        padding-bottom: max(32px, env(safe-area-inset-bottom));
+        padding-left: max(32px, env(safe-area-inset-left));
+        padding-right: max(32px, env(safe-area-inset-right));
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      @media (max-width: 800px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.78rem;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      textarea,
+      .output {
+        width: 100%;
+        height: 420px;
+        background: transparent;
+        color: var(--text);
+        border: none;
+        padding: 16px;
+        font-family: "SF Mono", Consolas, Menlo, monospace;
+        font-size: 0.88rem;
+        line-height: 1.55;
+        resize: vertical;
+        outline: none;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        padding: 10px 14px;
+        border-top: 1px solid var(--border);
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+      .stats span b {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      button {
+        background: var(--accent-dim);
+        color: #eafff6;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        cursor: pointer;
+      }
+      button:hover {
+        background: var(--accent);
+        color: #04140f;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>AI Markdown Footprint Sanitizer (Optimized Engine)</h1>
+      <p>
+        Clean text footprints while preserving protected Markdown structure
+        efficiently.
+      </p>
+    </header>
+
+    <main>
+      <div class="grid">
+        <div class="panel">
+          <div class="panel-head">
+            <span>Input</span>
+            <button id="clearBtn" type="button">Clear</button>
+          </div>
+          <textarea
+            id="input"
+            placeholder="Paste Markdown here..."
+            spellcheck="false"
+          ></textarea>
+          <div class="stats">
+            <span>Chars: <b id="inChars">0</b></span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <span>Sanitized Output</span>
+            <button id="copyBtn" type="button">Copy</button>
+          </div>
+          <div class="output" id="output"></div>
+          <div class="stats" id="statsContainer">
+            <!-- Static DOM nodes initialized once -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var input = document.getElementById("input");
+        var output = document.getElementById("output");
+        var inChars = document.getElementById("inChars");
+        var statsContainer = document.getElementById("statsContainer");
+        var copyBtn = document.getElementById("copyBtn");
+        var clearBtn = document.getElementById("clearBtn");
+
+        // =========================================================================
+        // 1. PRE-COMPILED REGEX CONSTANTS & DATA STRUCTURES
+        // =========================================================================
+
+        var CLICHE_COMPOUNDS = [
+          "easy-to-use",
+          "all-in-one",
+          "next-level",
+          "game-changing",
+          "game-changer",
+          "cutting-edge",
+          "state-of-the-art",
+          "one-of-a-kind",
+          "best-in-class",
+          "top-notch",
+          "user-friendly",
+          "out-of-the-box",
+          "end-to-end",
+          "cost-effective",
+          "time-saving",
+          "high-quality",
+          "world-class",
+          "seamless-integration",
+          "future-proof",
+          "next-generation",
+        ];
+
+        // Build and compile cliché regex ONCE at startup
+        var CLICHE_REGEX = new RegExp(
+          "\\b(" +
+            CLICHE_COMPOUNDS.map(function (w) {
+              return w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            }).join("|") +
+            ")\\b",
+          "gi",
+        );
+
+        var DASHES_REGEX = /\s*[\u2014\u2013]\s*/g;
+        var EXCLAMATION_REGEX = /!/g;
+        var SEMICOLON_REGEX = /;/g;
+        var DOUBLE_QUOTES_REGEX = /["“”]/g;
+        var SINGLE_QUOTES_REGEX = /['‘’]/g;
+
+        var LIST_MARKER_REGEX = /^(\s*)([-*+])(\s+)/gm;
+        var CLI_FLAG_REGEX = /(^|[\s(])(--?[A-Za-z][\w-]*)/g;
+        var UNMASK_LIST_REGEX = /\u0000LISTMARK\u0000/g;
+        var UNMASK_CLI_REGEX = /\u0000CLIFLAG:([^\u0000]+)\u0000/g;
+        var RESTORE_TOKENS_REGEX = /\u0000TOK(\d+)\u0000/g;
+
+        // =========================================================================
+        // 2. TABLE-DRIVEN EXTRACTION RULES (Extensible)
+        // =========================================================================
+        var EXTRACTION_RULES = [
+          { id: "code_blocks", pattern: /(```[\s\S]*?```|~~~[\s\S]*?~~~)/g },
+          { id: "inline_code", pattern: /(`[^`\n]+`)/g },
+          { id: "images", pattern: /(!\[[^\]]*\]\([^)]+\))/g },
+          { id: "links", pattern: /(\[[^\]]*\]\([^)]+\))/g },
+          {
+            id: "hr",
+            pattern:
+              /^[ \t]{0,3}((?:-[ \t]*){3,}|(?:\*[ \t]*){3,}|(?:_[ \t]*){3,})$/gm,
+          },
+          {
+            id: "tables",
+            pattern:
+              /^[ \t]*\|?[ \t]*:?-{2,}:?[ \t]*(\|[ \t]*:?-{2,}:?[ \t]*)+\|?[ \t]*$/gm,
+          },
+        ];
+
+        // =========================================================================
+        // 3. TABLE-DRIVEN SANITIZATION RULES
+        // =========================================================================
+        var SANITIZATION_RULES = [
+          {
+            id: "dashes",
+            label: "Em/en dashes",
+            transform: function (text, stats) {
+              return text.replace(DASHES_REGEX, function () {
+                stats.dashes++;
+                return ", ";
+              });
+            },
+          },
+          {
+            id: "cliches",
+            label: "Hyphenated cliches",
+            transform: function (text, stats) {
+              return text.replace(CLICHE_REGEX, function (m) {
+                stats.cliches++;
+                return m.replace(/-/g, " ");
+              });
+            },
+          },
+          {
+            id: "exclamations",
+            label: "Exclamation marks",
+            transform: function (text, stats) {
+              return text.replace(EXCLAMATION_REGEX, function () {
+                stats.exclamations++;
+                return ".";
+              });
+            },
+          },
+          {
+            id: "semicolons",
+            label: "Semicolons (;)",
+            transform: function (text, stats) {
+              return text.replace(SEMICOLON_REGEX, function () {
+                stats.semicolons++;
+                return "";
+              });
+            },
+          },
+          {
+            id: "double_quotes",
+            label: 'Double quotes (")',
+            transform: function (text, stats) {
+              return text.replace(DOUBLE_QUOTES_REGEX, function () {
+                stats.double_quotes++;
+                return "";
+              });
+            },
+          },
+          {
+            id: "single_quotes",
+            label: "Single quotes (')",
+            transform: function (text, stats) {
+              return text.replace(SINGLE_QUOTES_REGEX, function () {
+                stats.single_quotes++;
+                return "";
+              });
+            },
+          },
+        ];
+
+        // Cache object to hold DOM reference to counter <b> tags
+        var statValueElements = {};
+
+        function initStatsUI() {
+          statsContainer.innerHTML = "";
+          SANITIZATION_RULES.forEach(function (rule) {
+            var span = document.createElement("span");
+            span.appendChild(document.createTextNode(rule.label + ": "));
+            var b = document.createElement("b");
+            b.textContent = "0";
+            span.appendChild(b);
+            statsContainer.appendChild(span);
+            statValueElements[rule.id] = b;
+          });
+        }
+
+        // =========================================================================
+        // 4. CORE ENGINE
+        // =========================================================================
+        function sanitize(raw) {
+          var stats = {};
+          SANITIZATION_RULES.forEach(function (r) {
+            stats[r.id] = 0;
+          });
+
+          var vault = [];
+          function stash(match) {
+            vault.push(match);
+            return "\u0000TOK" + (vault.length - 1) + "\u0000";
+          }
+
+          var text = raw;
+
+          // PASS 1: Table-driven Extraction (Protect Markdown Structure)
+          EXTRACTION_RULES.forEach(function (rule) {
+            text = text.replace(rule.pattern, stash);
+          });
+
+          // MASKING
+          text = text.replace(
+            LIST_MARKER_REGEX,
+            function (m, lead, marker, gap) {
+              return lead + "\u0000LISTMARK\u0000" + gap;
+            },
+          );
+
+          text = text.replace(CLI_FLAG_REGEX, function (m, pre, flag) {
+            return (
+              pre + "\u0000CLIFLAG:" + flag.replace(/-/g, "\u0001") + "\u0000"
+            );
+          });
+
+          // PASS 2: Apply Sanitization Rules
+          SANITIZATION_RULES.forEach(function (rule) {
+            text = rule.transform(text, stats);
+          });
+
+          // UNMASKING
+          text = text.replace(UNMASK_LIST_REGEX, "-");
+          text = text.replace(UNMASK_CLI_REGEX, function (m, flag) {
+            return flag.replace(/\u0001/g, "-");
+          });
+
+          // PASS 3: Restoration
+          text = text.replace(RESTORE_TOKENS_REGEX, function (m, idx) {
+            return vault[parseInt(idx, 10)];
+          });
+
+          return { text: text, stats: stats };
+        }
+
+        // =========================================================================
+        // 5. RENDER & UTILITIES
+        // =========================================================================
+        function render() {
+          var raw = input.value;
+          inChars.textContent = raw.length;
+
+          var result = sanitize(raw);
+          output.textContent = result.text;
+
+          // Fast DOM update without thrashing
+          SANITIZATION_RULES.forEach(function (rule) {
+            if (statValueElements[rule.id]) {
+              statValueElements[rule.id].textContent =
+                result.stats[rule.id] || 0;
+            }
+          });
+        }
+
+        function copyToClipboard(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+          }
+          // Fallback for older browsers / non-HTTPS
+          return new Promise(function (resolve, reject) {
+            try {
+              var textarea = document.createElement("textarea");
+              textarea.value = text;
+              textarea.style.position = "fixed";
+              textarea.style.opacity = "0";
+              document.body.appendChild(textarea);
+              textarea.select();
+              var successful = document.execCommand("copy");
+              document.body.removeChild(textarea);
+              if (successful) resolve();
+              else reject(new Error("ExecCommand failed"));
+            } catch (err) {
+              reject(err);
+            }
+          });
+        }
+
+        // Event Listeners
+        input.addEventListener("input", render);
+
+        clearBtn.addEventListener("click", function () {
+          input.value = "";
+          render();
+          input.focus();
+        });
+
+        copyBtn.addEventListener("click", function () {
+          var text = output.textContent;
+          if (!text) return;
+          copyToClipboard(text)
+            .then(function () {
+              copyBtn.textContent = "Copied";
+              setTimeout(function () {
+                copyBtn.textContent = "Copy";
+              }, 1200);
+            })
+            .catch(function (err) {
+              console.error("Clipboard copy failed:", err);
+            });
+        });
+
+        // Startup Initialization
+        initStatsUI();
+        input.value =
+          '# Sample Document\n\nThis is a "quoted text"; with \'single quotes\' and an exclamation mark!\n\n`const x = "hello"; // code quotes are safe`';
+        render();
+      })();
+    </script>
+  </body>
+</html>
