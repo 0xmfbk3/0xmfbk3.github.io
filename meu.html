@@ -1673,51 +1673,63 @@ creao-metric > p {
 </div><aside data-block-id="notes" class="notes">هذه الصفحة هي «الواجب»  لا تنهِ الورشة قبل أن يكتبوا شيئاً. اطلب منهم فتح ملاحظات الهاتف وكتابة: المسار، اسم المشروع، أول خطوة الليلة. أعطهم ٦٠ ثانية صمت فعلي للكتابة، ثم اسأل ثلاثة أشخاص عمّا كتبوه بصوت عالٍ. هذا يحوّل الورشة إلى التزام.</aside></section>
 <section class="slide" data-layout="blank" data-slide-id="close"><div class="deck-chrome flex flex-col h-full">
 <div class="deck-layout-body flex flex-col h-full min-h-0" data-slot="content"><div class="deck-layout blank flex flex-col h-full" data-extends="base">
-  <div class="deck-layout-body flex-1 min-h-0" data-slot="default"><div class="flex flex-col justify-center h-full gap-8">
+  <div class="deck-layout-body flex-1 min-h-0" data-slot="default"><div class="flex flex-col justify-center h-full gap-8 p-6">
     
     <!-- العنوان الرئيسي للختام -->
     <creao-text data-animate="fade-up" data-block-id="cl-t">
-      <p class="itw-kicker">الختام</p>
-      <h1 style="font-size:52px;line-height:1.2;margin:0 0 12px">شكراً لوقتكم واهتمامكم</h1>
-      <p class="itw-sub" style="font-size:22px">المجال مفتوح الآن للأسئلة والنقاش.</p>
+      <p class="itw-kicker" style="font-size: 20px; font-weight: 600; margin-bottom: 6px;">الختام</p>
+      <h1 style="font-size: 54px; line-height: 1.2; font-weight: 800; margin: 0 0 10px 0;">شكراً لوقتكم واهتمامكم</h1>
+      <p class="itw-sub" style="font-size: 24px; opacity: 0.9;">المجال مفتوح الآن للأسئلة والنقاش.</p>
     </creao-text>
 
-    <!-- كروت وسائل التواصل الشخصية مع QR Codes مكبرة -->
-    <div class="grid grid-cols-3 gap-4">
+    <!-- كروت وسائل التواصل ومعلومات الأكاديمية -->
+    <div class="grid grid-cols-3 gap-6 items-stretch">
       
-      <!-- LinkedIn -->
-      <div class="itw-card flex flex-col items-center text-center p-4" data-animate="fade-up" data-animate-delay="200" data-block-id="cl-1" data-include-root="includes/card.html">
-        <div data-slot="title">
+      <!-- الموقع الإلكتروني (Website) -->
+      <div class="itw-card flex flex-col items-center justify-between text-center p-6" data-animate="fade-up" data-animate-delay="200" data-block-id="cl-1" data-include-root="includes/card.html">
+        <div data-slot="title" class="w-full">
           <creao-text data-block-id="auto-b1">
-            <h3 class="mb-2"><span class="itw-num" style="font-size:24px; color:#0a66c2;">in</span> LinkedIn</h3>
+            <h3 class="mb-3" style="font-size: 22px; font-weight: 700;"><span class="itw-num" style="font-size: 22px; color: #3b82f6;">🌐</span> موقع الأكاديمية</h3>
           </creao-text>
         </div>
-        <div data-slot="body" data-slot-optional="" class="flex flex-col items-center gap-2">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://linkedin.com/in/mustafabanikhalaf" alt="LinkedIn QR" class="w-44 h-44 rounded-lg border border-gray-700 p-1 bg-white" />
+        <div data-slot="body" data-slot-optional="" class="flex flex-col items-center gap-3 w-full my-auto">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://allaith-academy.com" alt="Website QR" class="w-40 h-40 rounded-lg border border-gray-700 p-1.5 bg-white shadow-md" />
+          <creao-text data-block-id="auto-b2">
+            <p style="font-size: 16px; font-weight: 600; opacity: 0.95;" class="mt-1">allaith-academy.com</p>
+          </creao-text>
         </div>
       </div>
 
-      <!-- WhatsApp -->
-      <div class="itw-card flex flex-col items-center text-center p-4" data-animate="fade-up" data-animate-delay="350" data-block-id="cl-2" data-include-root="includes/card.html">
-        <div data-slot="title">
+      <!-- تواصل واتساب (WhatsApp) -->
+      <div class="itw-card flex flex-col items-center justify-between text-center p-6" data-animate="fade-up" data-animate-delay="350" data-block-id="cl-2" data-include-root="includes/card.html">
+        <div data-slot="title" class="w-full">
           <creao-text data-block-id="auto-b3">
-            <h3 class="mb-2"><span class="itw-num" style="font-size:24px; color:#25d366;">WA</span> WhatsApp</h3>
+            <h3 class="mb-3" style="font-size: 22px; font-weight: 700;"><span class="itw-num" style="font-size: 22px; color: #25d366;">WA</span> واتساب الأكاديمية</h3>
           </creao-text>
         </div>
-        <div data-slot="body" data-slot-optional="" class="flex flex-col items-center gap-2">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://wa.me/962777729401" alt="WhatsApp QR" class="w-44 h-44 rounded-lg border border-gray-700 p-1 bg-white" />
+        <div data-slot="body" data-slot-optional="" class="flex flex-col items-center gap-3 w-full my-auto">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://wa.me/962790570570" alt="WhatsApp QR" class="w-40 h-40 rounded-lg border border-gray-700 p-1.5 bg-white shadow-md" />
+          <creao-text data-block-id="auto-b4">
+            <p style="font-size: 16px; font-weight: 600; opacity: 0.95;" class="mt-1" dir="ltr">079 057 0570</p>
+          </creao-text>
         </div>
       </div>
 
-      <!-- Discord -->
-      <div class="itw-card flex flex-col items-center text-center p-4" data-animate="fade-up" data-animate-delay="500" data-block-id="cl-3" data-include-root="includes/card.html">
-        <div data-slot="title">
+      <!-- العنوان والموقع الجغرافي (Location) - تم تعديل الستايل على مستوى اللاين -->
+      <div class="itw-card flex flex-col items-center justify-between text-center p-6" data-animate="fade-up" data-animate-delay="500" data-block-id="cl-3" data-include-root="includes/card.html">
+        <div data-slot="title" class="w-full">
           <creao-text data-block-id="auto-b5">
-            <h3 class="mb-2"><span class="itw-num" style="font-size:24px; color:#5865f2;">DC</span> Discord</h3>
+            <h3 class="mb-3" style="font-size: 22px; font-weight: 700;"><span class="itw-num" style="font-size: 22px; color: #f59e0b;">📍</span> عنوان المقر</h3>
           </creao-text>
         </div>
-        <div data-slot="body" data-slot-optional="" class="flex flex-col items-center gap-2">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://discord.com/users/1042522233035296830" alt="Discord QR" class="w-44 h-44 rounded-lg border border-gray-700 p-1 bg-white" />
+        <div data-slot="body" data-slot-optional="" class="flex flex-col items-center justify-center w-full my-auto">
+          <creao-text data-block-id="auto-b6">
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <p style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.4;">عمان - أبو نصير</p>
+              <p style="font-size: 16px; font-weight: 500; color: #e5e7eb; margin: 0; line-height: 1.4;">إشارات أبو عرابي العدوان</p>
+              <p style="font-size: 16px; font-weight: 500; color: #e5e7eb; margin: 0; line-height: 1.4;">مجمع عمر الفقيه - الطابق الرابع</p>
+            </div>
+          </creao-text>
         </div>
       </div>
 
