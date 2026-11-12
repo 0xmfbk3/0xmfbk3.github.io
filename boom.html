@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تم اختراقك!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f14;--panel:#121923;--text:#eaf0f6;--muted:#93a1b2;--alert:#ff5a4d;--ok:#2ee6a6;--line:#233044}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:Tajawal,"Segoe UI",Tahoma,sans-serif;line-height:1.7;padding:32px 20px 56px}
+main{max-width:640px;margin:0 auto}
+.term{direction:ltr;text-align:left;font-family:"Courier New",monospace;font-size:14px;color:var(--ok);margin:0 0 28px;min-height:4.8em}
+.term span{display:block;opacity:0;animation:show .01s forwards}
+.term span:nth-child(1){animation-delay:.2s}.term span:nth-child(2){animation-delay:.9s}.term span:nth-child(3){animation-delay:1.6s}
+@keyframes show{to{opacity:1}}
+h1{font-size:clamp(48px,14vw,84px);font-weight:800;line-height:1.1;margin:0 0 12px;color:var(--alert);opacity:0;animation:show .01s 2.3s forwards}
+.lead{font-size:20px;margin:0 0 8px}
+.safe{display:inline-block;margin:12px 0 36px;padding:8px 16px;border:1px solid var(--ok);border-radius:999px;color:var(--ok);font-weight:500}
+h2{font-size:24px;font-weight:800;margin:36px 0 12px}
+ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+li{background:var(--panel);border-inline-start:4px solid var(--line);border-radius:8px;padding:14px 16px}
+.risks li{border-inline-start-color:var(--alert)}
+.tips li{border-inline-start-color:var(--ok)}
+footer{margin-top:44px;color:var(--muted);font-size:15px}
+@media (prefers-reduced-motion:reduce){.term span,h1{opacity:1;animation:none}}
+</style>
+</head>
+<body>
+<main>
+  <p class="term" aria-hidden="true"><span>&gt; connecting...</span><span>&gt; access granted</span><span>&gt; downloading your data...</span></p>
+  <h1>تم اختراقك!</h1>
+  <p class="lead">لو كان هذا رابطاً حقيقياً، كان ممكن حسابك وصورك ومعلوماتك تنسرق الآن.</p>
+  <p class="safe">اطمئن: هذه صفحة الورشة، ولم يُجمع منك أي شيء.</p>
+
+  <h2>ماذا كان ممكن يحصل؟</h2>
+  <ul class="risks">
+    <li>فتح صفحة مزيفة تسرق كلمة مرورك</li>
+    <li>تحميل برنامج خبيث على موبايلك</li>
+    <li>تتبّع جهازك ونشاطك</li>
+  </ul>
+
+  <h2>كيف تحمي نفسك؟</h2>
+  <ul class="tips">
+    <li>اعرض الرابط كاملاً قبل أن تفتحه، وتأكد أنه الموقع الرسمي</li>
+    <li>لا تمسح رموز QR من أماكن مجهولة أو ملصقات فوق ملصقات</li>
+    <li>لا تُدخل كلمة مرور بعد فتح رابط وصلك من غير طلبك</li>
+    <li>فعّل التحقق بخطوتين في حساباتك المهمة</li>
+  </ul>
+
+  <footer>ورشة الأمن السيبراني · مركز القسطاس الوطني للتدريب والاستشارات · إربد</footer>
+</main>
+</body>
+</html>
